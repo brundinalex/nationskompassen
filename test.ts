@@ -159,3 +159,4 @@ async function main() {
  * vissa nationer går inte att boka
  * välja om man vill göra en bokningsbar pubrunda eller inte?
  */
+console.log("Hello world! This is a test file for Nationskompassen.");
