@@ -1,15 +1,19 @@
-import * as cheerio from "cheerio";
 import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "./lib/graphs";
+import { type Pair } from "./lib/list";
+import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from './lib/hashtables';
+
 // import { lg_shortest_path } from "./homework10/shortest_path";
 // import { toHashtable, descendants } from "./homework9/person_table";
 
 // type Nation = {name: string, lat: number, lng: number}
+type NationTable = ProbingHashtable<string, Nation>
+
 type Nation = { orginization: string,
                 pub: string,
                 schedule: string,
                 contact: Array<[string, string]>,
-                coordinates: coordinates,
-                sorted_nation_distance: Array<[Pair<[string, boolean]>]>
+                coordinate: coordinates,
+                sorted_nation_distance: Array<number>
             }
 type coordinates = {name: string, lat: number, lng: number }
 
@@ -110,7 +114,28 @@ function open_nation_pubs(json_parsed: any): hashtable {
         }
     } 
 
-    function converty_to_hash(Array<Nation>)
+    function converty_to_hash(arr: Array<Nation>): any {
+        return null
+    }
+}
+
+export function convert_to_hash_table(nations: Array<Nation>): NationTable {
+
+    // Another hash function if needed.
+
+    const hash_func = (key: number): number => {
+        let hash = 0
+        for (let i = 0; i < key.toString().length; i++) {
+            hash = hash * 31 + key.toString().charCodeAt(i);
+        }
+        return hash;
+    };
+
+    if (nations.length === 0) {
+        const new_empty_ht: NationTable = ph_empty(1, hash_func);
+        return new_empty_ht;
+    }
+
 }
 
 
