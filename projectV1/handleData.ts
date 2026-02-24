@@ -1,10 +1,11 @@
 import {type NationTable, type Nation, type coordinates, nations } from "../lib/nation"
 import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "../lib/graphs";
-import { type Pair } from "../lib/list";
+import { type Pair, pair} from "../lib/list";
 import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from '../lib/hashtables';
+import { getEvents } from "./collectData";
 
 
-export function open_nation_pubs(json_parsed: any): hashtable {
+export function open_nation_pubs(json_parsed: any): NationTable {
 
     //Sparar alla nationers namn vars pub är öppen 
     function get_open_pubs(json_parsed: any): Array<any> {
@@ -17,7 +18,7 @@ export function open_nation_pubs(json_parsed: any): hashtable {
                 }
             }
         }
-    return open_pubs;
+        return open_pubs;
     }
 
     // Plockar ut organization.title, pub.title & schedule
@@ -35,9 +36,9 @@ export function open_nation_pubs(json_parsed: any): hashtable {
             const nation: Nation = { orginization: result.organiser.title,
                         pub: result.title,
                         schedule: result.schedule,
-                        contact: "hej", //fixa array med konakt info,
+                        contact: [["hej", "hej"]], //fixa array med konakt info,
                         coordinate: get_cor(result)!,
-                        sorted_nation_distance: undefined
+                        sorted_nation_distance: get_shortest_distance(result, nations)
 };
 
             nationer.push(nation);
@@ -71,36 +72,41 @@ export function open_nation_pubs(json_parsed: any): hashtable {
         }
         
     }
+    return convert_to_hash_table(extract_essentials(get_open_pubs(getEvents()))!)
 }
 
-function get_distance(n1: Nation, n2: Nation): number {
-    const dx: number = Math.abs(n1.lat - n2.lat);
-    const dy: number = Math.abs(n1.lng - n2.lng);
-    const distance: number = Math.sqrt((dx * dx) + (dy * dy));
-    return distance;
-}
-
-function get_shortest_distance(n1: Nation, nations: Array<Nation>): Nation {
-    let distances: Array<number> = [];
-    let current_smallest: number = 1;
-    let current_closest: Nation = n1;
+function get_distance(n1: any, n2: coordinates): number {
     for (const nation of nations) {
-        if (nation.name === n1.name) {
-            distances.push(1);
+        if (n1.organiser.title === nation.name) {
+            const dx: number = Math.abs(n1.lat - n2.lat);
+            const dy: number = Math.abs(n1.lng - n2.lng);
+            const distance: number = Math.sqrt((dx * dx) + (dy * dy));
+            return distance;
+        }
+    }
+    return 0;
+}
+
+function get_shortest_distance(n1: any, nations: Array<coordinates>): Array<Pair<string, boolean>> {
+    let distances: Array<Pair<string, boolean>> = [];
+    let current_smallest: number = 1;
+    let current_closest: any = n1;
+    for (const nation of nations) {
+        if (nation.name === n1.orginization) {
+            // distances.push(1);
+            distances.push([nation.name, false]);
         } else {
             const distance = get_distance(n1, nation)
-            distances.push(distance);
+            //distances.push(distance);
+            distances.push([nation.name, false]);
             if (distance < current_smallest) {
                 current_smallest = distance;
                 current_closest = nation;
             }
         }
     }
-    console.log(distances);
-    console.log(current_smallest);
-    console.log(current_closest);
 
-    return current_closest;
+    return distances;
 }
 
 export function userInput(nationHT: NationTable): Pair<Nation, number> {
@@ -123,7 +129,7 @@ export function make_runda(nationHT: NationTable,userInfo: Pair<Nation, number>)
         while(currentPub.sorted_nation_distance[tempCounter][0][1]){
             tempCounter = tempCounter + 1;
         }
-        currentPub.sorted_nation_distance[tempCounter][0][1] = true;
+        currentPub.sorted_nation_distance[tempCounter][1] = true;
         let nextPub = currentPub.sorted_nation_distance[tempCounter][0][0];
         pubrunda.push(nextPub);
         let newCurrent = ph_lookup(nationHT, nextPub)!;

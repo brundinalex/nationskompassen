@@ -1,6 +1,10 @@
-import * as collectData from "./collectData";
-import * as handleData from "./handleData";
-import {type NationTable, type Nation, type coordinates, nations } from "../lib/nation"
+import * as collectData from "./collectData.js";
+import * as handleData from "./handleData.js";
+import {type NationTable, type Nation, type coordinates, nations } from "../lib/nation.js"
+import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "../lib/graphs.js";
+import { type Pair, pair} from "../lib/list.js";
+import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from '../lib/hashtables.js';
+
 
 
 
