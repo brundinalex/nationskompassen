@@ -103,17 +103,17 @@ function get_shortest_distance(n1: Nation, nations: Array<Nation>): Nation {
     return current_closest;
 }
 
-function userInput(): Pair<Nation, number> {
+export function userInput(nationHT: NationTable): Pair<Nation, number> {
     let startPub = prompt("Vilken nation vill du börja på?");
-    while(startPub !== nation_table) {
+    while(!ph_lookup(nationHT, startPub!)) {
         startPub = prompt("Felstavat, Kom ihåg stor bokstav och mellanslag!!")
     }
     let nrOfNations = parseInt(prompt("Hur lång ska pubrundan vara? (Max 13)")!)
-    const result: Pair<Nation, number> = [stringToNation(startPub!), nrOfNations]
+    const result: Pair<Nation, number> = [ph_lookup(nationHT, startPub!)!, nrOfNations]
     return result;
 }
 
-function make_runda(initial: Nation, userInfo: Pair<Nation, number>, nations: Array<Nation>): Array<string> {
+export function make_runda(nationHT: NationTable,userInfo: Pair<Nation, number>): Array<string> {
     let currentPub: Nation = userInfo[0];
     const nrOfPubs: number = userInfo[1];
     let addedPubs: number = 0;
@@ -126,7 +126,7 @@ function make_runda(initial: Nation, userInfo: Pair<Nation, number>, nations: Ar
         currentPub.sorted_nation_distance[tempCounter][0][1] = true;
         let nextPub = currentPub.sorted_nation_distance[tempCounter][0][0];
         pubrunda.push(nextPub);
-        let newCurrent = stringToNation(nextPub);
+        let newCurrent = ph_lookup(nationHT, nextPub)!;
         currentPub = newCurrent;
         tempCounter = 0;
     }
