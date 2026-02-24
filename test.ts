@@ -1,5 +1,5 @@
-import * as cheerio from "cheerio";
 import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "./lib/graphs";
+import { Pair } from "./lib/list";
 // import { lg_shortest_path } from "./homework10/shortest_path";
 // import { toHashtable, descendants } from "./homework9/person_table";
 
@@ -9,7 +9,7 @@ type Nation = { orginization: string,
                 schedule: string,
                 contact: Array<[string, string]>,
                 coordinates: coordinates,
-                sorted_nation_distance: Array<[Pair<[string, boolean]>]>
+                sorted_nation_distance: Array<[Pair<string, boolean>]>
             }
 type coordinates = {name: string, lat: number, lng: number }
 
@@ -89,7 +89,7 @@ async function getEvents() {
 function open_nation_pubs(json_parsed: any): hashtable {
 
     //Sparar alla nationers namn vars pub är öppen 
-    function get_open_pubs(json_parsed: any): Array<Nation> {
+    function get_open_pubs(json_parsed: any): Array<any> {
         const open_pubs = [];
         for (const event of json_parsed) {
             if (event.title === "Pub") {
@@ -103,16 +103,41 @@ function open_nation_pubs(json_parsed: any): hashtable {
     }
 
     // Plockar ut organization.title, pub.title & schedule
-    function extract_essentials(nationarray: Array<object>): Array<Nation> {
+    function extract_essentials(nationarray: Array<any>): Array<Nation> | null {
+        function get_cor(nation: any): coordinates | undefined {
+            for (const nation_cor of nations) {
+                if (nation_cor.name === nation.organiser.title) {
+                    return nation_cor;
+                }
+            }
+        }
+        const nationer: Array<Nation> = [];
 
         for(const result of nationarray) {
+            const nation: Nation = { orginization: result.organiser.title,
+                                    pub: result.title,
+                                    schedule: result.schedule,
+                                    contact: "hej", //fixa array med konakt info,
+                                    coordinate: get_cor(result)!,
+                                    sorted_nation_distance: undefined
+            };
 
+            nationer.push(nation);
         }
-    } 
 
-    function converty_to_hash(Array<Nation>)
+        return nationer;
+    } 
 }
 
+function userInput(): Pair<Nation, number> {
+    let startPub = prompt("Vilken nation vill du börja på?");
+    while(startPub !== nation_table) {
+        startPub = prompt("Felstavat, Kom ihåg stor bokstav och mellanslag!!")
+    }
+    let nrOfNations = parseInt(prompt("Hur lång ska pubrundan vara? (Max 13)")!)
+    const result: Pair<Nation, number> = [stringToNation(startPub!), nrOfNations]
+    return result;
+}
 
 function get_pubs(json_parsed: any): any {
         //let events = [];
@@ -169,19 +194,32 @@ function get_shortest_distance(n1: Nation, nations: Array<Nation>): Nation {
 // get_shortest_distance(stockholms_nation, nations);
 // console.log(get_distance(stockholms_nation, värmlands_nation));
 
-function make_runda(initial: Nation, nations: Array<Nation>): Array<string> {
-    let pubrunda: Array<string> = [initial.name];
-    let current = initial;
-    //nations = remove_element(nations, current);
-    for (let i: number = 0; i < nations.length; i++) {
-        const closest = get_shortest_distance(current, nations)
-        pubrunda.push(closest.name);
-        //nations = remove_element(nations, current);
-        current = closest;
-        
+function stringToNation(name: string): Nation {
+    return nation_table.name;
+}
+
+function make_runda(initial: Nation, userInfo: Pair<Nation, number>, nations: Array<Nation>): Array<string> {
+    let currentPub: Nation = userInfo[0];
+    const nrOfPubs: number = userInfo[1];
+    let addedPubs: number = 0;
+    let tempCounter: number = 0;
+    let pubrunda: Array<string> = [currentPub.pub];
+    while(addedPubs < nrOfPubs) {
+        while(currentPub.sorted_nation_distance[tempCounter][0][1]){
+            tempCounter = tempCounter + 1;
+        }
+        currentPub.sorted_nation_distance[tempCounter][0][1] = true;
+        let nextPub = currentPub.sorted_nation_distance[tempCounter][0][0];
+        pubrunda.push(nextPub);
+        let newCurrent = stringToNation(nextPub);
+        currentPub = newCurrent;
+        tempCounter = 0;
     }
     return pubrunda;
 }
+
+
+
 
 async function main() {
   try {
