@@ -1,4 +1,7 @@
-
+import {type NationTable, type Nation, type coordinates, nations } from "../lib/nation"
+import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "../lib/graphs";
+import { type Pair } from "../lib/list";
+import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from '../lib/hashtables';
 
 
 export function open_nation_pubs(json_parsed: any): hashtable {
@@ -43,26 +46,30 @@ export function open_nation_pubs(json_parsed: any): hashtable {
         return nationer;
     } 
 
-    function converty_to_hash(arr: Array<Nation>): any {
-        return null
-    }
-}
+    function convert_to_hash_table(nations: Array<Nation>): NationTable {
 
-export function convert_to_hash_table(nations: Array<Nation>): NationTable {
+        // Another hash function if needed.
 
-    // Another hash function if needed.
+        const hash_func = (key: string): number => {
+            let hash = 0
+            for (let i = 0; i < key.length; i++) {
+                hash = hash * 31 + key.charCodeAt(i);
+            }
+            return hash;
+        };
 
-    const hash_func = (key: number): number => {
-        let hash = 0
-        for (let i = 0; i < key.toString().length; i++) {
-            hash = hash * 31 + key.toString().charCodeAt(i);
+        if (nations.length === 0) {
+            const new_empty_ht: NationTable = ph_empty<string, Nation>(1, hash_func);        
+            return new_empty_ht;
+        } else {
+            let new_ht: NationTable = ph_empty(nations.length, hash_func)
+
+            for (const nation of nations) {
+                ph_insert(new_ht, nation.orginization, nation)
+            }
+            return new_ht;
         }
-        return hash;
-    };
-
-    if (nations.length === 0) {
-        const new_empty_ht: NationTable = ph_empty(1, hash_func);
-        return new_empty_ht;
+        
     }
 }
 

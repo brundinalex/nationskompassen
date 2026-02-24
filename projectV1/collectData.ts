@@ -1,4 +1,4 @@
-async function getEvents() {
+export async function getEvents() {
     const res = await fetch(
         "https://www.nationsguiden.se/wp-admin/admin-ajax.php",
     {
@@ -20,5 +20,3 @@ async function getEvents() {
     const categories = JSON.parse(data.event_categories);
     return categories;
 }
-
-export const categories = getEvents();

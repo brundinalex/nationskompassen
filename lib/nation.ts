@@ -13,7 +13,6 @@ export type Nation = { orginization: string,
                 schedule: string,
                 contact: Array<[string, string]>,
                 coordinate: coordinates,
-                coordinates: coordinates,
                 sorted_nation_distance: Array<[Pair<string, boolean>]>
             }
 export type coordinates = {name: string, lat: number, lng: number }
