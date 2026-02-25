@@ -16,6 +16,7 @@ async function main() {
         //const answer: Pair<Nation, number> = handleData.userInput(nationHT);
         const answer: Pair<Nation, number> = pair(ph_lookup(nationHT, "Norrlands nation")!, 4)
         console.log(handleData.make_runda(nationHT, answer));
+        //console.log(ph_lookup(nationHT, "Norrlands nation"))
     } catch (err) {
         console.error(err);
     }

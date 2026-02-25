@@ -33,6 +33,15 @@ function open_nation_pubs(json_parsed) {
             return undefined;
         }
         var nations_of_selected_date = [];
+        function find_objet_coordinates(object) {
+            for (var _i = 0, coordinates_of_nations_2 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_2.length; _i++) {
+                var nation = coordinates_of_nations_2[_i];
+                if (object.organiser.title === nation.name) {
+                    return nation;
+                }
+            }
+            return { name: "fel", lat: 1000000, lng: 1000000 };
+        }
         for (var _i = 0, nation_arr_1 = nation_arr; _i < nation_arr_1.length; _i++) {
             var object = nation_arr_1[_i];
             var valid_nation = { orginization: object.organiser.title,
@@ -40,7 +49,7 @@ function open_nation_pubs(json_parsed) {
                 schedule: object.schedule,
                 contact: [["hej", "hej"]], //fixa array med konakt info,
                 coordinate: get_cor(object),
-                sorted_nation_distance: get_shortest_distance(object, nation_1.coordinates_of_nations) };
+                sorted_nation_distance: get_shortest_distance(find_objet_coordinates(object), nation_1.coordinates_of_nations) };
             nations_of_selected_date.push(valid_nation);
         }
         return nations_of_selected_date;
@@ -70,9 +79,9 @@ function open_nation_pubs(json_parsed) {
     return convert_to_hash_table(extract_essentials(get_open_pubs(json_parsed)));
 }
 function get_distance(n1, n2) {
-    for (var _i = 0, coordinates_of_nations_2 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_2.length; _i++) {
-        var nation = coordinates_of_nations_2[_i];
-        if (n1.organiser.title === nation.name) {
+    for (var _i = 0, coordinates_of_nations_3 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_3.length; _i++) {
+        var nation = coordinates_of_nations_3[_i];
+        if (n1.name === nation.name) {
             var dx = Math.abs(n1.lat - n2.lat);
             var dy = Math.abs(n1.lng - n2.lng);
             var distance = Math.sqrt((dx * dx) + (dy * dy));
@@ -86,9 +95,9 @@ function get_shortest_distance(n1, coordinates_of_nations) {
     var distances = [];
     var current_smallest = 1;
     var current_closest = n1;
-    for (var _i = 0, coordinates_of_nations_3 = coordinates_of_nations; _i < coordinates_of_nations_3.length; _i++) {
-        var nation = coordinates_of_nations_3[_i];
-        if (nation.name === n1.organiser.title) {
+    for (var _i = 0, coordinates_of_nations_4 = coordinates_of_nations; _i < coordinates_of_nations_4.length; _i++) {
+        var nation = coordinates_of_nations_4[_i];
+        if (nation.name === n1.name) {
             // distances.push(distance)
             distances.push([nation.name, 0, false]);
         }
@@ -120,16 +129,18 @@ function make_runda(nationHT, userInfo) {
     var addedPubs = 0;
     var tempCounter = 0;
     var pubrunda = [currentPub.pub];
+    currentPub.sorted_nation_distance[tempCounter][2] = true;
     while (addedPubs < nrOfPubs) {
         while (currentPub.sorted_nation_distance[tempCounter][2]) {
             tempCounter = tempCounter + 1;
         }
         currentPub.sorted_nation_distance[tempCounter][2] = true;
         var nextPub = currentPub.sorted_nation_distance[tempCounter][0];
-        pubrunda.push(nextPub);
         var newCurrent = (0, hashtables_1.ph_lookup)(nationHT, nextPub);
+        pubrunda.push(newCurrent.pub);
         currentPub = newCurrent;
         tempCounter = 0;
+        addedPubs += 1;
     }
     return pubrunda;
 }

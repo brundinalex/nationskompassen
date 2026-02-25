@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEvents = getEvents;
+// KOM IHÅG SÄG AI!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function getEvents() {
     return __awaiter(this, void 0, void 0, function () {
         var res, data, categories;
@@ -49,7 +50,7 @@ function getEvents() {
                         },
                         body: new URLSearchParams({
                             action: "di_filter_events",
-                            nonce: "80b93a5453",
+                            nonce: "010493c440",
                             selected_date: "2026-02-24",
                             only_load_dates: "false"
                         })
@@ -65,3 +66,4 @@ function getEvents() {
         });
     });
 }
+// make as statement to another type on return categories.

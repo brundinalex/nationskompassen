@@ -1,3 +1,4 @@
+// KOM IHÅG SÄG AI!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export async function getEvents() {
     const res = await fetch(
         "https://www.nationsguiden.se/wp-admin/admin-ajax.php",
@@ -8,7 +9,7 @@ export async function getEvents() {
         },
         body: new URLSearchParams({
             action: "di_filter_events",
-            nonce: "80b93a5453",
+            nonce: "010493c440",
             selected_date: "2026-02-24",
             only_load_dates: "false"
         })
@@ -20,3 +21,4 @@ export async function getEvents() {
     const categories = JSON.parse(data.event_categories);
     return categories;
 }
+// make as statement to another type on return categories.

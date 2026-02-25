@@ -32,6 +32,14 @@ export function open_nation_pubs(json_parsed: any): NationTable {
             return undefined;
         }
         const nations_of_selected_date: Array<Nation> = [];
+        function find_objet_coordinates(object: any): coordinates {
+            for (const nation of coordinates_of_nations) {
+                if (object.organiser.title === nation.name) {
+                    return nation;
+                }
+            }
+            return { name: "fel", lat: 1000000, lng: 1000000 };
+        }
 
         for (const object of nation_arr) {
             const valid_nation: Nation = { orginization: object.organiser.title,
@@ -39,8 +47,8 @@ export function open_nation_pubs(json_parsed: any): NationTable {
                                            schedule: object.schedule,
                                            contact: [["hej", "hej"]], //fixa array med konakt info,
                                            coordinate: get_cor(object)!,
-                                           sorted_nation_distance: get_shortest_distance(object, coordinates_of_nations)
-};
+                                           sorted_nation_distance: get_shortest_distance(find_objet_coordinates(object), coordinates_of_nations)
+                                            };
 
             nations_of_selected_date.push(valid_nation);
         }
@@ -76,9 +84,9 @@ export function open_nation_pubs(json_parsed: any): NationTable {
     return convert_to_hash_table(extract_essentials(get_open_pubs(json_parsed))!)
 }
 
-function get_distance(n1: any, n2: coordinates): number {
+function get_distance(n1: coordinates, n2: coordinates): number {
     for (const nation of coordinates_of_nations) {
-        if (n1.organiser.title === nation.name) {
+        if (n1.name === nation.name) {
             const dx: number = Math.abs(n1.lat - n2.lat);
             const dy: number = Math.abs(n1.lng - n2.lng);
             const distance: number = Math.sqrt((dx * dx) + (dy * dy));
@@ -89,12 +97,12 @@ function get_distance(n1: any, n2: coordinates): number {
     return 0;
 }
 
-function get_shortest_distance(n1: any, coordinates_of_nations: Array<coordinates>): Array<VisitedNation> {
+function get_shortest_distance(n1: coordinates, coordinates_of_nations: Array<coordinates>): Array<VisitedNation> {
     let distances: Array<VisitedNation> = [];
     let current_smallest: number = 1;
-    let current_closest: any = n1;
+    let current_closest: coordinates = n1;
     for (const nation of coordinates_of_nations) {
-        if (nation.name === n1.organiser.title) {
+        if (nation.name === n1.name) {
             // distances.push(distance)
             distances.push([nation.name, 0, false]);
         } else {
@@ -121,22 +129,24 @@ export function userInput(nationHT: NationTable): Pair<Nation, number> {
     return result;
 }
 
-export function make_runda(nationHT: NationTable,userInfo: Pair<Nation, number>): Array<string> {
+export function make_runda(nationHT: NationTable, userInfo: Pair<Nation, number>): Array<string> {
     let currentPub: Nation = userInfo[0];
     const nrOfPubs: number = userInfo[1];
     let addedPubs: number = 0;
     let tempCounter: number = 0;
     let pubrunda: Array<string> = [currentPub.pub];
+    currentPub.sorted_nation_distance[tempCounter][2] = true;        
     while(addedPubs < nrOfPubs) {
         while(currentPub.sorted_nation_distance[tempCounter][2]){
             tempCounter = tempCounter + 1;
         }
         currentPub.sorted_nation_distance[tempCounter][2] = true;
         let nextPub = currentPub.sorted_nation_distance[tempCounter][0];
-        pubrunda.push(nextPub);
-        let newCurrent = ph_lookup(nationHT, nextPub)!;
+        let newCurrent = ph_lookup(nationHT, nextPub)!;//funkar inte atm
+        pubrunda.push(newCurrent.pub);
         currentPub = newCurrent;
         tempCounter = 0;
+        addedPubs += 1;
     }
     return pubrunda;
 }
