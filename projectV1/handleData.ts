@@ -1,4 +1,4 @@
-import {type NationTable, type Nation, type coordinates, nations } from "../lib/nation"
+import {type NationTable, type Nation, type VisitedNation, type coordinates, coordinates_of_nations } from "../lib/nation"
 import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "../lib/graphs";
 import { type Pair, pair} from "../lib/list";
 import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from '../lib/hashtables';
@@ -13,8 +13,8 @@ export function open_nation_pubs(json_parsed: any): NationTable {
         for (const event of json_parsed) {
             if (event.title === "Pub") {
                 const pub = event;
-                for (const nation of pub.events) {
-                open_pubs.push(nation)
+                for (const nation_of_pub of pub.events) {
+                open_pubs.push(nation_of_pub)
                 }
             }
         }
@@ -22,32 +22,33 @@ export function open_nation_pubs(json_parsed: any): NationTable {
     }
 
     // Plockar ut organization.title, pub.title & schedule
-    function extract_essentials(nationarray: Array<any>): Array<Nation> | null {
-        function get_cor(nation: any): coordinates | undefined {
-            for (const nation_cor of nations) {
-                if (nation_cor.name === nation.organiser.title) {
+    function extract_essentials(nation_arr: Array<any>): Array<Nation> | null {
+        function get_cor(nation_to_compare: any): coordinates | undefined {
+            for (const nation_cor of coordinates_of_nations) {
+                if (nation_cor.name === nation_to_compare.organiser.title) {
                     return nation_cor;
                 }
             }
+            return undefined;
         }
-        const nationer: Array<Nation> = [];
+        const nations_of_selected_date: Array<Nation> = [];
 
-        for(const result of nationarray) {
-            const nation: Nation = { orginization: result.organiser.title,
-                        pub: result.title,
-                        schedule: result.schedule,
-                        contact: [["hej", "hej"]], //fixa array med konakt info,
-                        coordinate: get_cor(result)!,
-                        sorted_nation_distance: get_shortest_distance(result, nations)
+        for (const object of nation_arr) {
+            const valid_nation: Nation = { orginization: object.organiser.title,
+                                           pub: object.title,
+                                           schedule: object.schedule,
+                                           contact: [["hej", "hej"]], //fixa array med konakt info,
+                                           coordinate: get_cor(object)!,
+                                           sorted_nation_distance: get_shortest_distance(object, coordinates_of_nations)
 };
 
-            nationer.push(nation);
+            nations_of_selected_date.push(valid_nation);
         }
 
-        return nationer;
+        return nations_of_selected_date;
     } 
 
-    function convert_to_hash_table(nations: Array<Nation>): NationTable {
+    function convert_to_hash_table(nations_of_selected_date: Array<Nation>): NationTable {
 
         // Another hash function if needed.
 
@@ -59,24 +60,24 @@ export function open_nation_pubs(json_parsed: any): NationTable {
             return hash;
         };
 
-        if (nations.length === 0) {
+        if (nations_of_selected_date.length === 0) {
             const new_empty_ht: NationTable = ph_empty<string, Nation>(1, hash_func);        
             return new_empty_ht;
         } else {
-            let new_ht: NationTable = ph_empty(nations.length, hash_func)
+            let new_ht: NationTable = ph_empty(nations_of_selected_date.length, hash_func)
 
-            for (const nation of nations) {
+            for (const nation of nations_of_selected_date) {
                 ph_insert(new_ht, nation.orginization, nation)
             }
             return new_ht;
         }
         
     }
-    return convert_to_hash_table(extract_essentials(get_open_pubs(getEvents()))!)
+    return convert_to_hash_table(extract_essentials(get_open_pubs(json_parsed))!)
 }
 
 function get_distance(n1: any, n2: coordinates): number {
-    for (const nation of nations) {
+    for (const nation of coordinates_of_nations) {
         if (n1.organiser.title === nation.name) {
             const dx: number = Math.abs(n1.lat - n2.lat);
             const dy: number = Math.abs(n1.lng - n2.lng);
@@ -84,29 +85,30 @@ function get_distance(n1: any, n2: coordinates): number {
             return distance;
         }
     }
+    //should return undefined otherwise, and avoid using promises (!).
     return 0;
 }
 
-function get_shortest_distance(n1: any, nations: Array<coordinates>): Array<Pair<string, boolean>> {
-    let distances: Array<Pair<string, boolean>> = [];
+function get_shortest_distance(n1: any, coordinates_of_nations: Array<coordinates>): Array<VisitedNation> {
+    let distances: Array<VisitedNation> = [];
     let current_smallest: number = 1;
     let current_closest: any = n1;
-    for (const nation of nations) {
-        if (nation.name === n1.orginization) {
-            // distances.push(1);
-            distances.push([nation.name, false]);
+    for (const nation of coordinates_of_nations) {
+        if (nation.name === n1.organiser.title) {
+            // distances.push(distance)
+            distances.push([nation.name, 0, false]);
         } else {
             const distance = get_distance(n1, nation)
             //distances.push(distance);
-            distances.push([nation.name, false]);
+            distances.push([nation.name, distance, false]);
             if (distance < current_smallest) {
                 current_smallest = distance;
                 current_closest = nation;
             }
         }
     }
-
-    return distances;
+    const sorted_distances = distances.sort((a: VisitedNation, b: VisitedNation) => a[1] - b[1])
+    return sorted_distances;
 }
 
 export function userInput(nationHT: NationTable): Pair<Nation, number> {
@@ -126,11 +128,11 @@ export function make_runda(nationHT: NationTable,userInfo: Pair<Nation, number>)
     let tempCounter: number = 0;
     let pubrunda: Array<string> = [currentPub.pub];
     while(addedPubs < nrOfPubs) {
-        while(currentPub.sorted_nation_distance[tempCounter][0][1]){
+        while(currentPub.sorted_nation_distance[tempCounter][2]){
             tempCounter = tempCounter + 1;
         }
-        currentPub.sorted_nation_distance[tempCounter][1] = true;
-        let nextPub = currentPub.sorted_nation_distance[tempCounter][0][0];
+        currentPub.sorted_nation_distance[tempCounter][2] = true;
+        let nextPub = currentPub.sorted_nation_distance[tempCounter][0];
         pubrunda.push(nextPub);
         let newCurrent = ph_lookup(nationHT, nextPub)!;
         currentPub = newCurrent;

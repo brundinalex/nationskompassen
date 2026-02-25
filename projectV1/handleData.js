@@ -5,7 +5,6 @@ exports.userInput = userInput;
 exports.make_runda = make_runda;
 var nation_1 = require("../lib/nation");
 var hashtables_1 = require("../lib/hashtables");
-var collectData_1 = require("./collectData");
 function open_nation_pubs(json_parsed) {
     //Sparar alla nationers namn vars pub är öppen 
     function get_open_pubs(json_parsed) {
@@ -15,37 +14,38 @@ function open_nation_pubs(json_parsed) {
             if (event_1.title === "Pub") {
                 var pub = event_1;
                 for (var _a = 0, _b = pub.events; _a < _b.length; _a++) {
-                    var nation = _b[_a];
-                    open_pubs.push(nation);
+                    var nation_of_pub = _b[_a];
+                    open_pubs.push(nation_of_pub);
                 }
             }
         }
         return open_pubs;
     }
     // Plockar ut organization.title, pub.title & schedule
-    function extract_essentials(nationarray) {
-        function get_cor(nation) {
-            for (var _i = 0, nations_1 = nation_1.nations; _i < nations_1.length; _i++) {
-                var nation_cor = nations_1[_i];
-                if (nation_cor.name === nation.organiser.title) {
+    function extract_essentials(nation_arr) {
+        function get_cor(nation_to_compare) {
+            for (var _i = 0, coordinates_of_nations_1 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_1.length; _i++) {
+                var nation_cor = coordinates_of_nations_1[_i];
+                if (nation_cor.name === nation_to_compare.organiser.title) {
                     return nation_cor;
                 }
             }
+            return undefined;
         }
-        var nationer = [];
-        for (var _i = 0, nationarray_1 = nationarray; _i < nationarray_1.length; _i++) {
-            var result = nationarray_1[_i];
-            var nation = { orginization: result.organiser.title,
-                pub: result.title,
-                schedule: result.schedule,
+        var nations_of_selected_date = [];
+        for (var _i = 0, nation_arr_1 = nation_arr; _i < nation_arr_1.length; _i++) {
+            var object = nation_arr_1[_i];
+            var valid_nation = { orginization: object.organiser.title,
+                pub: object.title,
+                schedule: object.schedule,
                 contact: [["hej", "hej"]], //fixa array med konakt info,
-                coordinate: get_cor(result),
-                sorted_nation_distance: get_shortest_distance(result, nation_1.nations) };
-            nationer.push(nation);
+                coordinate: get_cor(object),
+                sorted_nation_distance: get_shortest_distance(object, nation_1.coordinates_of_nations) };
+            nations_of_selected_date.push(valid_nation);
         }
-        return nationer;
+        return nations_of_selected_date;
     }
-    function convert_to_hash_table(nations) {
+    function convert_to_hash_table(nations_of_selected_date) {
         // Another hash function if needed.
         var hash_func = function (key) {
             var hash = 0;
@@ -54,24 +54,24 @@ function open_nation_pubs(json_parsed) {
             }
             return hash;
         };
-        if (nations.length === 0) {
+        if (nations_of_selected_date.length === 0) {
             var new_empty_ht = (0, hashtables_1.ph_empty)(1, hash_func);
             return new_empty_ht;
         }
         else {
-            var new_ht = (0, hashtables_1.ph_empty)(nations.length, hash_func);
-            for (var _i = 0, nations_2 = nations; _i < nations_2.length; _i++) {
-                var nation = nations_2[_i];
+            var new_ht = (0, hashtables_1.ph_empty)(nations_of_selected_date.length, hash_func);
+            for (var _i = 0, nations_of_selected_date_1 = nations_of_selected_date; _i < nations_of_selected_date_1.length; _i++) {
+                var nation = nations_of_selected_date_1[_i];
                 (0, hashtables_1.ph_insert)(new_ht, nation.orginization, nation);
             }
             return new_ht;
         }
     }
-    return convert_to_hash_table(extract_essentials(get_open_pubs((0, collectData_1.getEvents)())));
+    return convert_to_hash_table(extract_essentials(get_open_pubs(json_parsed)));
 }
 function get_distance(n1, n2) {
-    for (var _i = 0, nations_3 = nation_1.nations; _i < nations_3.length; _i++) {
-        var nation = nations_3[_i];
+    for (var _i = 0, coordinates_of_nations_2 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_2.length; _i++) {
+        var nation = coordinates_of_nations_2[_i];
         if (n1.organiser.title === nation.name) {
             var dx = Math.abs(n1.lat - n2.lat);
             var dy = Math.abs(n1.lng - n2.lng);
@@ -79,29 +79,31 @@ function get_distance(n1, n2) {
             return distance;
         }
     }
+    //should return undefined otherwise, and avoid using promises (!).
     return 0;
 }
-function get_shortest_distance(n1, nations) {
+function get_shortest_distance(n1, coordinates_of_nations) {
     var distances = [];
     var current_smallest = 1;
     var current_closest = n1;
-    for (var _i = 0, nations_4 = nations; _i < nations_4.length; _i++) {
-        var nation = nations_4[_i];
-        if (nation.name === n1.orginization) {
-            // distances.push(1);
-            distances.push([nation.name, false]);
+    for (var _i = 0, coordinates_of_nations_3 = coordinates_of_nations; _i < coordinates_of_nations_3.length; _i++) {
+        var nation = coordinates_of_nations_3[_i];
+        if (nation.name === n1.organiser.title) {
+            // distances.push(distance)
+            distances.push([nation.name, 0, false]);
         }
         else {
             var distance = get_distance(n1, nation);
             //distances.push(distance);
-            distances.push([nation.name, false]);
+            distances.push([nation.name, distance, false]);
             if (distance < current_smallest) {
                 current_smallest = distance;
                 current_closest = nation;
             }
         }
     }
-    return distances;
+    var sorted_distances = distances.sort(function (a, b) { return a[1] - b[1]; });
+    return sorted_distances;
 }
 function userInput(nationHT) {
     var startPub = prompt("Vilken nation vill du börja på?");
@@ -119,11 +121,11 @@ function make_runda(nationHT, userInfo) {
     var tempCounter = 0;
     var pubrunda = [currentPub.pub];
     while (addedPubs < nrOfPubs) {
-        while (currentPub.sorted_nation_distance[tempCounter][0][1]) {
+        while (currentPub.sorted_nation_distance[tempCounter][2]) {
             tempCounter = tempCounter + 1;
         }
-        currentPub.sorted_nation_distance[tempCounter][1] = true;
-        var nextPub = currentPub.sorted_nation_distance[tempCounter][0][0];
+        currentPub.sorted_nation_distance[tempCounter][2] = true;
+        var nextPub = currentPub.sorted_nation_distance[tempCounter][0];
         pubrunda.push(nextPub);
         var newCurrent = (0, hashtables_1.ph_lookup)(nationHT, nextPub);
         currentPub = newCurrent;

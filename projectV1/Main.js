@@ -36,8 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var collectData = require("./collectData.js");
-var handleData = require("./handleData.js");
+var collectData = require("./collectData");
+var handleData = require("./handleData");
+var list_1 = require("../lib/list");
+var hashtables_1 = require("../lib/hashtables");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var categories, nationHT, answer, err_1;
@@ -49,7 +51,7 @@ function main() {
                 case 1:
                     categories = _a.sent();
                     nationHT = handleData.open_nation_pubs(categories);
-                    answer = handleData.userInput(nationHT);
+                    answer = (0, list_1.pair)((0, hashtables_1.ph_lookup)(nationHT, "Norrlands nation"), 4);
                     console.log(handleData.make_runda(nationHT, answer));
                     return [3 /*break*/, 3];
                 case 2:
