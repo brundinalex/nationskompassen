@@ -50,7 +50,7 @@ function getEvents() {
                         },
                         body: new URLSearchParams({
                             action: "di_filter_events",
-                            nonce: "010493c440",
+                            nonce: "c9b1206c74",
                             selected_date: "2026-02-24",
                             only_load_dates: "false"
                         })

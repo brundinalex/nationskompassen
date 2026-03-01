@@ -123,24 +123,70 @@ function userInput(nationHT) {
     var result = [(0, hashtables_1.ph_lookup)(nationHT, startPub), nrOfNations];
     return result;
 }
-function make_runda(nationHT, userInfo) {
-    var currentPub = userInfo[0];
-    var nrOfPubs = userInfo[1];
-    var addedPubs = 0;
-    var tempCounter = 0;
-    var pubrunda = [currentPub.pub];
-    currentPub.sorted_nation_distance[tempCounter][0][1] = true;
-    while (addedPubs < nrOfPubs) {
-        while (currentPub.sorted_nation_distance[tempCounter][0][1]) {
+/*
+export function make_runda(nationHT: NationTable, userInfo: Pair<Nation, number>): Array<string> {
+    let currentPub: Nation = userInfo[0];
+    const nrOfPubs: number = userInfo[1];
+    let addedPubs: number = 0;
+    let tempCounter: number = 1;
+    let pubrunda: Array<string> = [currentPub.pub];
+    currentPub.sorted_nation_distance[0][2] = true;
+    while(addedPubs < nrOfPubs) {
+        while(currentPub.sorted_nation_distance[tempCounter][2]
+            || checkIfVisited(currentPub.sorted_nation_distance[tempCounter][0], pubrunda))
+            {
             tempCounter = tempCounter + 1;
         }
-        currentPub.sorted_nation_distance[tempCounter][0][1] = true;
-        var nextPub = currentPub.sorted_nation_distance[tempCounter][0];
-        var newCurrent = (0, hashtables_1.ph_lookup)(nationHT, nextPub[0]); //funkar inte atm
+
+        let nextPub = currentPub.sorted_nation_distance[tempCounter][0];
+        let newCurrent = ph_lookup(nationHT, nextPub)!;
+        newCurrent.sorted_nation_distance[tempCounter][2] = true;
+        console.log("Looking up:", nextPub, "Found:", newCurrent ? "open" : "closed");
         pubrunda.push(newCurrent.pub);
         currentPub = newCurrent;
         tempCounter = 0;
         addedPubs += 1;
     }
     return pubrunda;
+}
+*/
+function make_runda(nationHT, userInfo) {
+    var currentPub = userInfo[0];
+    var nrOfPubs = userInfo[1];
+    var addedPubs = 0;
+    var pubrunda = [currentPub.pub];
+    var visitedNations = [currentPub.orginization];
+    while (addedPubs < nrOfPubs) {
+        var tempCounter = 0;
+        var newCurrent = undefined;
+        while (tempCounter < currentPub.sorted_nation_distance.length) {
+            var nextPubName = currentPub.sorted_nation_distance[tempCounter][0];
+            if (!checkIfVisited(nextPubName, visitedNations)) {
+                var lookup = (0, hashtables_1.ph_lookup)(nationHT, nextPubName);
+                if (lookup) {
+                    newCurrent = lookup;
+                    visitedNations.push(nextPubName);
+                    break;
+                }
+            }
+            tempCounter++;
+        }
+        if (!newCurrent) {
+            console.log("No more open unvisited nations!");
+            break;
+        }
+        pubrunda.push(newCurrent.pub);
+        currentPub = newCurrent;
+        addedPubs++;
+    }
+    return pubrunda;
+}
+function checkIfVisited(s, l) {
+    for (var _i = 0, l_1 = l; _i < l_1.length; _i++) {
+        var v = l_1[_i];
+        if (v === s) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -1,5 +1,7 @@
 // KOM IHÅG SÄG AI!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export async function getEvents() {
+
+
     const res = await fetch(
         "https://www.nationsguiden.se/wp-admin/admin-ajax.php",
     {
@@ -9,12 +11,13 @@ export async function getEvents() {
         },
         body: new URLSearchParams({
             action: "di_filter_events",
-            nonce: "010493c440",
+            nonce: "c9b1206c74",
             selected_date: "2026-02-24",
             only_load_dates: "false"
         })
     }
     );
+    
 
     const data = await res.json();
     // event_categories is a STRING
