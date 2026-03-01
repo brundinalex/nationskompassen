@@ -8,12 +8,14 @@ import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable
 // type Nation = {name: string, lat: number, lng: number}
 export type NationTable = ProbingHashtable<string, Nation>
 
+export type VisitedNation = [string, number, boolean]
+
 export type Nation = { orginization: string,
                 pub: string,
                 schedule: string,
                 contact: Array<[string, string]>,
                 coordinate: coordinates,
-                sorted_nation_distance: Array<[Pair<string, boolean>]>
+                sorted_nation_distance: Array<VisitedNation>
             }
 export type coordinates = {name: string, lat: number, lng: number }
 
@@ -34,7 +36,7 @@ const norrlands_nation_cor: coordinates =             { name: "Norrlands nation"
 const gotlands_nation_cor: coordinates =              { name: "Gotlands nation", lat: 59.859837, lng: 17.634898 }
 
 
-export const nations: Array<coordinates> = [
+export const coordinates_of_nations: Array<coordinates> = [
     stockholms_nation_cor,
     upplands_nation_cor,
     gästrike_hälsingland_nation_cor,
