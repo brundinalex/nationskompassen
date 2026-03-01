@@ -135,14 +135,14 @@ export function make_runda(nationHT: NationTable, userInfo: Pair<Nation, number>
     let addedPubs: number = 0;
     let tempCounter: number = 0;
     let pubrunda: Array<string> = [currentPub.pub];
-    currentPub.sorted_nation_distance[tempCounter][2] = true;        
+    currentPub.sorted_nation_distance[tempCounter][0][1] = true;     
     while(addedPubs < nrOfPubs) {
-        while(currentPub.sorted_nation_distance[tempCounter][2]){
+        while(currentPub.sorted_nation_distance[tempCounter][0][1]){
             tempCounter = tempCounter + 1;
         }
-        currentPub.sorted_nation_distance[tempCounter][2] = true;
+        currentPub.sorted_nation_distance[tempCounter][0][1] = true;
         let nextPub = currentPub.sorted_nation_distance[tempCounter][0];
-        let newCurrent = ph_lookup(nationHT, nextPub)!;//funkar inte atm
+        let newCurrent = ph_lookup(nationHT, nextPub[0])!;//funkar inte atm
         pubrunda.push(newCurrent.pub);
         currentPub = newCurrent;
         tempCounter = 0;

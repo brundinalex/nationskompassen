@@ -129,14 +129,14 @@ function make_runda(nationHT, userInfo) {
     var addedPubs = 0;
     var tempCounter = 0;
     var pubrunda = [currentPub.pub];
-    currentPub.sorted_nation_distance[tempCounter][2] = true;
+    currentPub.sorted_nation_distance[tempCounter][0][1] = true;
     while (addedPubs < nrOfPubs) {
-        while (currentPub.sorted_nation_distance[tempCounter][2]) {
+        while (currentPub.sorted_nation_distance[tempCounter][0][1]) {
             tempCounter = tempCounter + 1;
         }
-        currentPub.sorted_nation_distance[tempCounter][2] = true;
+        currentPub.sorted_nation_distance[tempCounter][0][1] = true;
         var nextPub = currentPub.sorted_nation_distance[tempCounter][0];
-        var newCurrent = (0, hashtables_1.ph_lookup)(nationHT, nextPub);
+        var newCurrent = (0, hashtables_1.ph_lookup)(nationHT, nextPub[0]); //funkar inte atm
         pubrunda.push(newCurrent.pub);
         currentPub = newCurrent;
         tempCounter = 0;
