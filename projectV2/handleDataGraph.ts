@@ -93,9 +93,9 @@ function nearestNation(m: NationMatrix, index: number, alreadyVisisted: Set<numb
 
     for(let i = 0; i < m[index].length; i++) {
         if(alreadyVisisted.has(i)) continue;
-        else if (m[index][i] === 0) continue;
-        else if(m[index][i] < shortestDistance) {
-            shortestDistance = m[index][i];
+        else if (m[index][i].weight === 0) continue;
+        else if(m[index][i].weight < shortestDistance) {
+            shortestDistance = m[index][i].weight;
             closestIndex = i;
         }
     }
