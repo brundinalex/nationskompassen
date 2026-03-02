@@ -50,8 +50,8 @@ function getEvents() {
                         },
                         body: new URLSearchParams({
                             action: "di_filter_events",
-                            nonce: "c9b1206c74",
-                            selected_date: "2026-02-24",
+                            nonce: "2fbfbafd32",
+                            selected_date: "2026-03-03",
                             only_load_dates: "false"
                         })
                     })];

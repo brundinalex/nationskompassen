@@ -8,6 +8,9 @@ import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable
 // type Nation = {name: string, lat: number, lng: number}
 export type NationTable = ProbingHashtable<string, Nation>
 
+export type NationMatrix = Array<Array<number>>
+export type NationIndex = Map<string, number>;
+
 export type VisitedNation = [string, number, boolean]
 
 export type Nation = { orginization: string,

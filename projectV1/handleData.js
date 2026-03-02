@@ -123,33 +123,6 @@ function userInput(nationHT) {
     var result = [(0, hashtables_1.ph_lookup)(nationHT, startPub), nrOfNations];
     return result;
 }
-/*
-export function make_runda(nationHT: NationTable, userInfo: Pair<Nation, number>): Array<string> {
-    let currentPub: Nation = userInfo[0];
-    const nrOfPubs: number = userInfo[1];
-    let addedPubs: number = 0;
-    let tempCounter: number = 1;
-    let pubrunda: Array<string> = [currentPub.pub];
-    currentPub.sorted_nation_distance[0][2] = true;
-    while(addedPubs < nrOfPubs) {
-        while(currentPub.sorted_nation_distance[tempCounter][2]
-            || checkIfVisited(currentPub.sorted_nation_distance[tempCounter][0], pubrunda))
-            {
-            tempCounter = tempCounter + 1;
-        }
-
-        let nextPub = currentPub.sorted_nation_distance[tempCounter][0];
-        let newCurrent = ph_lookup(nationHT, nextPub)!;
-        newCurrent.sorted_nation_distance[tempCounter][2] = true;
-        console.log("Looking up:", nextPub, "Found:", newCurrent ? "open" : "closed");
-        pubrunda.push(newCurrent.pub);
-        currentPub = newCurrent;
-        tempCounter = 0;
-        addedPubs += 1;
-    }
-    return pubrunda;
-}
-*/
 function make_runda(nationHT, userInfo) {
     var currentPub = userInfo[0];
     var nrOfPubs = userInfo[1];

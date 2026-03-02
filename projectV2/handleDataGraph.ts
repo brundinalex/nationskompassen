@@ -1,6 +1,8 @@
-import {type NationTable, type Nation, type VisitedNation, type coordinates, coordinates_of_nations } from "../lib/nation"
+import {type NationTable, type Nation, type VisitedNation, type coordinates, coordinates_of_nations, type NationIndex, type NationMatrix } from "../lib/nation"
+import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "../lib/graphs";
 import { type Pair, pair} from "../lib/list";
 import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from '../lib/hashtables';
+import { getEvents } from "../projectV1/collectData";
 
 
 export function open_nation_pubs(json_parsed: any): NationTable {
@@ -81,6 +83,68 @@ export function open_nation_pubs(json_parsed: any): NationTable {
     }
     return convert_to_hash_table(extract_essentials(get_open_pubs(json_parsed))!)
 }
+
+//Matrix Graph testing
+function build_nation_index(nation: Array<coordinates>): NationIndex {
+    const index: NationIndex = new Map()
+        for(let i = 0; i < nation.length; i++) {
+            index.set(nation[i].name, i);
+        }
+    return index;
+}
+
+function build_nationDistance_matrix(nation: Array<coordinates>): NationMatrix {
+    const matrix: NationMatrix = [];
+    for(let i = 0; i < nation.length; i++) {
+        matrix[i] = [];
+        for(let j = 0; j < nation.length; j++) {
+            if(i === j) {
+                matrix[i][j] = 0
+            } else {
+                matrix[i][j] = get_distance(nation[i], nation[j]);
+            }
+        }
+    }
+    return matrix;
+}
+
+
+function nearestNation(m: NationMatrix, index: number, alreadyVisisted: Set<number>): number | undefined {
+    let shortestDistance = Infinity;
+    let closestIndex: number | undefined = undefined;
+
+    for(let i = 0; i < m[index].length; i++) {
+        if(alreadyVisisted.has(i)) continue;
+        else if (m[index][i] === 0) continue;
+        else if(m[index][i] < shortestDistance) {
+            shortestDistance = m[index][i];
+            closestIndex = i;
+        }
+    }
+    return closestIndex;
+}
+
+export function createRoute(userInfo: Pair<string, number>, c: Array<coordinates>): Array<String> {
+    const availableNations = build_nationDistance_matrix(c);
+    const indexDecode = build_nation_index(c);
+    const firstNation = userInfo[0];
+    const nr = userInfo[1];
+    let route: Set<number> = new Set();
+    let startIndex = indexDecode.get(firstNation)
+    let pubrunda: Array<string> = [];
+
+    while(route.size < nr) {
+        const nextPubIndex = nearestNation(availableNations, startIndex!, route)
+        route.add(nextPubIndex!)
+        startIndex = nextPubIndex;
+    }
+
+    route.forEach((value) => {
+        pubrunda.push(c[value].name)
+    })
+    return pubrunda;
+}   
+//hashtable code under
 
 function get_distance(n1: coordinates, n2: coordinates): number {
     for (const nation of coordinates_of_nations) {

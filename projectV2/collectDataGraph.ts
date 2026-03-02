@@ -12,7 +12,7 @@ export async function getEvents() {
         body: new URLSearchParams({
             action: "di_filter_events",
             nonce: "2fbfbafd32",
-            selected_date: "2026-03-03",
+            selected_date: new Date().toISOString().split('T')[0],
             only_load_dates: "false"
         })
     }
@@ -24,4 +24,6 @@ export async function getEvents() {
     const categories = JSON.parse(data.event_categories);
     return categories;
 }
+
+
 // make as statement to another type on return categories.
