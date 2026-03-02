@@ -6,7 +6,7 @@ import { getEvents } from "../projectV1/collectData";
 
 
 //Sparar alla nationers namn vars pub är öppen 
-function get_open_pubs(json_parsed: any): Array<any> {
+export function get_open_pubs(json_parsed: any): Array<any> {
     const open_pubs = [];
     for (const event of json_parsed) {
         if (event.title === "Pub") {
@@ -20,7 +20,7 @@ function get_open_pubs(json_parsed: any): Array<any> {
 }
 
 // Plockar ut organization.title, pub.title & schedule
-function extract_essentials(nation_arr: Array<any>): Array<NationNode> | null {
+export function extract_essentials(nation_arr: Array<any>): Array<NationNode> | null {
     function get_cor(nation_to_compare: any): coordinates | undefined {
         for (const nation_cor of coordinates_of_nations) {
             if (nation_cor.name === nation_to_compare.organiser.title) {
@@ -30,14 +30,6 @@ function extract_essentials(nation_arr: Array<any>): Array<NationNode> | null {
         return undefined;
     }
     const nations_of_selected_date: Array<NationNode> = [];
-    function find_objet_coordinates(object: any): coordinates {
-        for (const nation of coordinates_of_nations) {
-            if (object.organiser.title === nation.name) {
-                return nation;
-            }
-        }
-        return { name: "fel", lat: 1000000, lng: 1000000 };
-    }
 
     for (const object of nation_arr) {
         const valid_nation: NationNode = { orginization: object.organiser.title,
@@ -55,14 +47,7 @@ function extract_essentials(nation_arr: Array<any>): Array<NationNode> | null {
 } 
 
 //Matrix Graph testing
-function build_nation_index(nation: Array<coordinates>): NationIndex {
-    const index: NationIndex = new Map()
-        for(let i = 0; i < nation.length; i++) {
-            index.set(nation[i].name, i);
-        }
-    return index;
-}
-function build_nation_index2(nations_of_selected_date: Array<NationNode>): NationIndex {
+export function build_nation_index(nations_of_selected_date: Array<NationNode>): NationIndex {
     const index: NationIndex = new Map()
         for (let i = 0; i < nations_of_selected_date.length; i++) {
             index.set(nations_of_selected_date[i].orginization, i);
@@ -70,22 +55,34 @@ function build_nation_index2(nations_of_selected_date: Array<NationNode>): Natio
     return index;
 }
 
-
-function build_nationDistance_matrix(nation: Array<coordinates>): NationMatrix {
+export function build_nationDistance_matrix(nations: Array<NationNode>): NationMatrix {
     const matrix: NationMatrix = [];
-    for(let i = 0; i < nation.length; i++) {
+
+    for (let i = 0; i < nations.length; i++) {
         matrix[i] = [];
-        for(let j = 0; j < nation.length; j++) {
-            if(i === j) {
-                matrix[i][j] = 0
-            } else {
-                matrix[i][j] = get_distance(nation[i], nation[j]);
-            }
+
+        for (let j = 0; j < nations.length; j++) {
+
+            const weight =
+                i === j
+                    ? 0
+                    : get_distance(
+                        nations[i].coordinate,
+                        nations[j].coordinate
+                    );
+
+            // Create a fresh copy for this matrix cell
+            matrix[i][j] = {
+                ...nations[j],
+                coordinate: { ...nations[j].coordinate },
+                contact: [...nations[j].contact],
+                weight: weight
+            };
         }
     }
+
     return matrix;
 }
-
 
 function nearestNation(m: NationMatrix, index: number, alreadyVisisted: Set<number>): number | undefined {
     let shortestDistance = Infinity;
@@ -102,7 +99,7 @@ function nearestNation(m: NationMatrix, index: number, alreadyVisisted: Set<numb
     return closestIndex;
 }
 
-export function createRoute(userInfo: Pair<string, number>, c: Array<coordinates>): Array<String> {
+export function createRoute(userInfo: Pair<string, number>, c: Array<NationNode>): Array<String> {
     const availableNations = build_nationDistance_matrix(c);
     const indexDecode = build_nation_index(c);
     const firstNation = userInfo[0];
@@ -110,6 +107,7 @@ export function createRoute(userInfo: Pair<string, number>, c: Array<coordinates
     let route: Set<number> = new Set();
     let startIndex = indexDecode.get(firstNation)
     let pubrunda: Array<string> = [];
+    route.add(startIndex!)
 
     while(route.size < nr) {
         const nextPubIndex = nearestNation(availableNations, startIndex!, route)
@@ -118,7 +116,7 @@ export function createRoute(userInfo: Pair<string, number>, c: Array<coordinates
     }
 
     route.forEach((value) => {
-        pubrunda.push(c[value].name)
+        pubrunda.push(c[value].pub)
     })
     return pubrunda;
 }   

@@ -32,7 +32,7 @@ export type coordinates = {name: string, lat: number, lng: number }
 // , relative_distance: Array<number>
 
 const stockholms_nation_cor: coordinates =            { name: "Stockholms nation", lat: 59.856661, lng: 17.634163 }
-const upplands_nation_cor: coordinates=               { name: "Upplands nation", lat: 59.859728, lng: 17.629315 }
+const uplands_nation_cor: coordinates=               { name: "Uplands nation", lat: 59.859728, lng: 17.629315 }
 const gästrike_hälsingland_nation_cor: coordinates =  { name: "Gästrike-Hälsinge nation", lat: 59.856263, lng: 17.636763 }
 const östgöra_nation_cor: coordinates =               { name: "Östgöta nation", lat: 59.855211, lng: 17.638281 }
 const västgöta_nation_cor: coordinates =              { name: "Västgöta nation", lat: 59.856710, lng: 17.638541 }
@@ -48,7 +48,7 @@ const gotlands_nation_cor: coordinates =              { name: "Gotlands nation",
 
 export const coordinates_of_nations: Array<coordinates> = [
     stockholms_nation_cor,
-    upplands_nation_cor,
+    uplands_nation_cor,
     gästrike_hälsingland_nation_cor,
     östgöra_nation_cor,
     västgöta_nation_cor,
