@@ -6,6 +6,27 @@ import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable
 // import { toHashtable, descendants } from "./homework9/person_table";
 
 // type Nation = {name: string, lat: number, lng: number}
+
+// TYPES FOR THE JSON-RESPONSE SO WE CAN AVOID TYPE ANY !!!
+export type AXAJresponse = {
+    dates: string
+    event_categories: string
+}
+export type NationGuideCategory = {
+    title: string,
+    icon: string,
+    open: boolean,
+    events: NationGuideEvent[];
+}
+export type NationGuideEvent = {
+    title: string,
+    permalink: string,
+    image: string,
+    schedule: string,
+    organiser: { title: string, permalink: string }
+}
+
+
 export type NationTable = ProbingHashtable<string, Nation>
 
 export type NationMatrix = Array<Array<NationNode>>
