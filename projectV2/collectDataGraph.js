@@ -52,6 +52,7 @@ function getEvents() {
                             action: "di_filter_events",
                             nonce: "2fbfbafd32",
                             selected_date: new Date().toISOString().split('T')[0],
+                            //selected_date: "YYYY-MM-DD",
                             only_load_dates: "false"
                         })
                     })];

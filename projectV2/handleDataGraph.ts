@@ -1,4 +1,8 @@
-import {type NationTable, type Nation, type VisitedNation, type coordinates, coordinates_of_nations, type NationIndex, type NationMatrix, type NationNode } from "../lib/nation"
+import {type NationTable, type Nation, type VisitedNation, 
+        type coordinates, coordinates_of_nations, type NationIndex, 
+        type NationMatrix, type NationNode, type AXAJresponse,
+        type NationGuideCategory, type NationGuideEvent
+    } from "../lib/nation"
 import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "../lib/graphs";
 import { type Pair, pair} from "../lib/list";
 import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from '../lib/hashtables';
@@ -6,8 +10,8 @@ import { getEvents } from "../projectV1/collectData";
 
 
 //Sparar alla nationers namn vars pub är öppen 
-export function get_open_pubs(json_parsed: any): Array<any> {
-    const open_pubs = [];
+export function get_open_pubs(json_parsed: NationGuideCategory[]): NationGuideEvent[] {
+    const open_pubs: NationGuideEvent[] = [];
     for (const event of json_parsed) {
         if (event.title === "Pub") {
             const pub = event;
@@ -20,8 +24,8 @@ export function get_open_pubs(json_parsed: any): Array<any> {
 }
 
 // Plockar ut organization.title, pub.title & schedule
-export function extract_essentials(nation_arr: Array<any>): Array<NationNode> | null {
-    function get_cor(nation_to_compare: any): coordinates | undefined {
+export function extract_essentials(nation_arr: Array<NationGuideEvent>): Array<NationNode> {
+    function get_cor(nation_to_compare: NationGuideEvent): coordinates | undefined {
         for (const nation_cor of coordinates_of_nations) {
             if (nation_cor.name === nation_to_compare.organiser.title) {
                 return nation_cor;
@@ -132,7 +136,7 @@ function get_distance(n1: coordinates, n2: coordinates): number {
         }
     }
     //should return undefined otherwise, and avoid using promises (!).
-    return 0;
+    return NaN;
 }
 
 export function userInput(nationHT: NationTable): Pair<Nation, number> {

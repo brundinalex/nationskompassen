@@ -22,8 +22,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_open_pubs = get_open_pubs;
 exports.extract_essentials = extract_essentials;
-exports.build_nation_index2 = build_nation_index2;
-exports.build_nationDistance_matrix2 = build_nationDistance_matrix2;
+exports.build_nation_index = build_nation_index;
+exports.build_nationDistance_matrix = build_nationDistance_matrix;
 exports.createRoute = createRoute;
 exports.userInput = userInput;
 var nation_1 = require("../lib/nation");
@@ -55,15 +55,6 @@ function extract_essentials(nation_arr) {
         return undefined;
     }
     var nations_of_selected_date = [];
-    function find_objet_coordinates(object) {
-        for (var _i = 0, coordinates_of_nations_2 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_2.length; _i++) {
-            var nation = coordinates_of_nations_2[_i];
-            if (object.organiser.title === nation.name) {
-                return nation;
-            }
-        }
-        return { name: "fel", lat: 1000000, lng: 1000000 };
-    }
     for (var _i = 0, nation_arr_1 = nation_arr; _i < nation_arr_1.length; _i++) {
         var object = nation_arr_1[_i];
         var valid_nation = { orginization: object.organiser.title,
@@ -77,35 +68,14 @@ function extract_essentials(nation_arr) {
     return nations_of_selected_date;
 }
 //Matrix Graph testing
-function build_nation_index(nation) {
-    var index = new Map();
-    for (var i = 0; i < nation.length; i++) {
-        index.set(nation[i].name, i);
-    }
-    return index;
-}
-function build_nation_index2(nations_of_selected_date) {
+function build_nation_index(nations_of_selected_date) {
     var index = new Map();
     for (var i = 0; i < nations_of_selected_date.length; i++) {
         index.set(nations_of_selected_date[i].orginization, i);
     }
     return index;
 }
-// function build_nationDistance_matrix(nation: Array<coordinates>): NationMatrix {
-//     const matrix: NationMatrix = [];
-//     for(let i = 0; i < nation.length; i++) {
-//         matrix[i] = [];
-//         for(let j = 0; j < nation.length; j++) {
-//             if(i === j) {
-//                 matrix[i][j] = 0
-//             } else {
-//                 matrix[i][j] = get_distance(nation[i], nation[j]);
-//             }
-//         }
-//     }
-//     return matrix;
-// }
-function build_nationDistance_matrix2(nations) {
+function build_nationDistance_matrix(nations) {
     var matrix = [];
     for (var i = 0; i < nations.length; i++) {
         matrix[i] = [];
@@ -135,8 +105,8 @@ function nearestNation(m, index, alreadyVisisted) {
     return closestIndex;
 }
 function createRoute(userInfo, c) {
-    var availableNations = build_nationDistance_matrix2(c);
-    var indexDecode = build_nation_index2(c);
+    var availableNations = build_nationDistance_matrix(c);
+    var indexDecode = build_nation_index(c);
     var firstNation = userInfo[0];
     var nr = userInfo[1];
     var route = new Set();
@@ -155,8 +125,8 @@ function createRoute(userInfo, c) {
 }
 //hashtable code under
 function get_distance(n1, n2) {
-    for (var _i = 0, coordinates_of_nations_3 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_3.length; _i++) {
-        var nation = coordinates_of_nations_3[_i];
+    for (var _i = 0, coordinates_of_nations_2 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_2.length; _i++) {
+        var nation = coordinates_of_nations_2[_i];
         if (n1.name === nation.name) {
             var dx = Math.abs(n1.lat - n2.lat);
             var dy = Math.abs(n1.lng - n2.lng);
@@ -165,7 +135,7 @@ function get_distance(n1, n2) {
         }
     }
     //should return undefined otherwise, and avoid using promises (!).
-    return 0;
+    return NaN;
 }
 function userInput(nationHT) {
     var startPub = prompt("Vilken nation vill du börja på?");

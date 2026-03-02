@@ -11,9 +11,9 @@ async function main() {
     try {
         const categories = await collectData.getEvents();
         //const answer: Pair<Nation, number> = handleData.userInput(nationHT);
-        const answer: Pair<string, number> = pair("Norrlands nation", 4)
+        const answer: Pair<string, number> = pair("Norrlands nation", 3)
         console.log(createRoute(answer, extract_essentials(get_open_pubs(categories))!))
-            
+        //console.log(build_nationDistance_matrix(extract_essentials(get_open_pubs(categories))!))
     } catch (err) {
         console.error(err);
     }
