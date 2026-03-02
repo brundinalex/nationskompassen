@@ -45,7 +45,7 @@ function extract_essentials(nation_arr: Array<any>): Array<NationNode> | null {
                                         schedule: object.schedule,
                                         contact: [["hej", "hej"]], //fixa array med konakt info,
                                         coordinate: get_cor(object)!,
-                                        weight: 0
+                                        weight: NaN
                                         };
 
         nations_of_selected_date.push(valid_nation);
@@ -62,6 +62,14 @@ function build_nation_index(nation: Array<coordinates>): NationIndex {
         }
     return index;
 }
+function build_nation_index2(nations_of_selected_date: Array<NationNode>): NationIndex {
+    const index: NationIndex = new Map()
+        for (let i = 0; i < nations_of_selected_date.length; i++) {
+            index.set(nations_of_selected_date[i].orginization, i);
+        }
+    return index;
+}
+
 
 function build_nationDistance_matrix(nation: Array<coordinates>): NationMatrix {
     const matrix: NationMatrix = [];
