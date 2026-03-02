@@ -8,7 +8,7 @@ import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable
 // type Nation = {name: string, lat: number, lng: number}
 export type NationTable = ProbingHashtable<string, Nation>
 
-export type NationMatrix = Array<Array<number>>
+export type NationMatrix = Array<Array<NationNode>>
 export type NationIndex = Map<string, number>;
 
 export type VisitedNation = [string, number, boolean]
@@ -19,6 +19,13 @@ export type Nation = { orginization: string,
                 contact: Array<[string, string]>,
                 coordinate: coordinates,
                 sorted_nation_distance: Array<VisitedNation>
+            }
+export type NationNode = { orginization: string,
+                pub: string,
+                schedule: string,
+                contact: Array<[string, string]>,
+                coordinate: coordinates,
+                weight: number
             }
 export type coordinates = {name: string, lat: number, lng: number }
 
