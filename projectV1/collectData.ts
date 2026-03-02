@@ -11,8 +11,8 @@ export async function getEvents() {
         },
         body: new URLSearchParams({
             action: "di_filter_events",
-            nonce: "2fbfbafd32",
-            selected_date: "2026-03-03",
+            nonce: "f349d62d47",
+            selected_date: "2026-03-02",
             only_load_dates: "false"
         })
     }

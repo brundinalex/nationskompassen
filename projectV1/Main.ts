@@ -14,7 +14,7 @@ async function main() {
         const categories = await collectData.getEvents();
         const nationHT = handleData.open_nation_pubs(categories);
         //const answer: Pair<Nation, number> = handleData.userInput(nationHT);
-        const answer: Pair<Nation, number> = pair(ph_lookup(nationHT, "Norrlands nation")!, 4)
+        const answer: Pair<Nation, number> = pair(ph_lookup(nationHT, "Östgöta nation")!, 4)
         console.log(handleData.make_runda(nationHT, answer));
         //console.log(ph_lookup(nationHT, "Norrlands nation"))
     } catch (err) {

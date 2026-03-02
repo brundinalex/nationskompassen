@@ -51,7 +51,7 @@ function main() {
                 case 1:
                     categories = _a.sent();
                     nationHT = handleData.open_nation_pubs(categories);
-                    answer = (0, list_1.pair)((0, hashtables_1.ph_lookup)(nationHT, "Norrlands nation"), 4);
+                    answer = (0, list_1.pair)((0, hashtables_1.ph_lookup)(nationHT, "Östgöta nation"), 4);
                     console.log(handleData.make_runda(nationHT, answer));
                     return [3 /*break*/, 3];
                 case 2:
