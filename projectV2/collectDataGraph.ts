@@ -1,5 +1,6 @@
+import { AXAJresponse, NationGuideCategory, NationGuideEvent } from "../lib/nation";
 // KOM IHÅG SÄG AI!!!!!!!!!!!!!!!!!!!!!!!!!!!
-export async function getEvents() {
+export async function getEvents(): Promise<NationGuideCategory[]> {
 
 
     const res = await fetch(
@@ -13,15 +14,16 @@ export async function getEvents() {
             action: "di_filter_events",
             nonce: "2fbfbafd32",
             selected_date: new Date().toISOString().split('T')[0],
+            //selected_date: "YYYY-MM-DD",
             only_load_dates: "false"
         })
     }
     );
     
 
-    const data = await res.json();
+    const data = await res.json() as AXAJresponse;
     // event_categories is a STRING
-    const categories = JSON.parse(data.event_categories);
+    const categories = JSON.parse(data.event_categories) as NationGuideCategory[];
     return categories;
 }
 

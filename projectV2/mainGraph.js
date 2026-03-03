@@ -36,34 +36,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEvents = getEvents;
-// KOM IHÅG SÄG AI!!!!!!!!!!!!!!!!!!!!!!!!!!!
-function getEvents() {
+var collectData = require("./collectDataGraph");
+var handleDataGraph_1 = require("./handleDataGraph");
+var list_1 = require("../lib/list");
+function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var res, data, categories;
+        var categories, answer, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch("https://www.nationsguiden.se/wp-admin/admin-ajax.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        },
-                        body: new URLSearchParams({
-                            action: "di_filter_events",
-                            nonce: "f349d62d47",
-                            selected_date: "2026-03-02",
-                            only_load_dates: "false"
-                        })
-                    })];
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, collectData.getEvents()];
                 case 1:
-                    res = _a.sent();
-                    return [4 /*yield*/, res.json()];
+                    categories = _a.sent();
+                    answer = (0, list_1.pair)("Norrlands nation", 3);
+                    console.log((0, handleDataGraph_1.createRoute)(answer, (0, handleDataGraph_1.extract_essentials)((0, handleDataGraph_1.get_open_pubs)(categories))));
+                    return [3 /*break*/, 3];
                 case 2:
-                    data = _a.sent();
-                    categories = JSON.parse(data.event_categories);
-                    return [2 /*return*/, categories];
+                    err_1 = _a.sent();
+                    console.error(err_1);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
     });
 }
-// make as statement to another type on return categories.
+main();
