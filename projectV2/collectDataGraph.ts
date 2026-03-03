@@ -12,7 +12,7 @@ export async function getEvents(): Promise<NationGuideCategory[]> {
         },
         body: new URLSearchParams({
             action: "di_filter_events",
-            nonce: "2fbfbafd32",
+            nonce: "bd3ce3b5a5",
             selected_date: new Date().toISOString().split('T')[0],
             //selected_date: "YYYY-MM-DD",
             only_load_dates: "false"

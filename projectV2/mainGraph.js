@@ -49,7 +49,7 @@ function main() {
                     return [4 /*yield*/, collectData.getEvents()];
                 case 1:
                     categories = _a.sent();
-                    answer = (0, list_1.pair)("Norrlands nation", 3);
+                    answer = (0, list_1.pair)("Norrlands nation", 5);
                     console.log((0, handleDataGraph_1.createRoute)(answer, (0, handleDataGraph_1.extract_essentials)((0, handleDataGraph_1.get_open_pubs)(categories))));
                     return [3 /*break*/, 3];
                 case 2:

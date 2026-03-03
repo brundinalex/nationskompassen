@@ -78,8 +78,8 @@ export function build_nationDistance_matrix(nations: Array<NationNode>): NationM
             // Create a fresh copy for this matrix cell
             matrix[i][j] = {
                 ...nations[j],
-                coordinate: { ...nations[j].coordinate },
-                contact: [...nations[j].contact],
+                // coordinate: { ...nations[j].coordinate },
+                // contact: [...nations[j].contact],
                 weight: weight
             };
         }

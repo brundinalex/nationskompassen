@@ -10,15 +10,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_open_pubs = get_open_pubs;
 exports.extract_essentials = extract_essentials;
@@ -84,7 +75,10 @@ function build_nationDistance_matrix(nations) {
                 ? 0
                 : get_distance(nations[i].coordinate, nations[j].coordinate);
             // Create a fresh copy for this matrix cell
-            matrix[i][j] = __assign(__assign({}, nations[j]), { coordinate: __assign({}, nations[j].coordinate), contact: __spreadArray([], nations[j].contact, true), weight: weight });
+            matrix[i][j] = __assign(__assign({}, nations[j]), { 
+                // coordinate: { ...nations[j].coordinate },
+                // contact: [...nations[j].contact],
+                weight: weight });
         }
     }
     return matrix;
