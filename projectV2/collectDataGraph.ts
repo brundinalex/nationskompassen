@@ -1,5 +1,11 @@
 import { AXAJresponse, NationGuideCategory, NationGuideEvent } from "../lib/nation";
-// KOM IHÅG SÄG AI!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+/**
+ * Sends an AJAX-call and tries to get an AJAX-response from nationsguiden.se.
+ * NOTE: This function is AI generated with openAI ChatGPT-5.
+ * @returns a parsed version of the JSON formated AJAX-response.
+ * @precondition - the used URL for nationsguiden is online and all headers and payload for nationsguiden are valid.
+ */
 export async function getEvents(): Promise<NationGuideCategory[]> {
 
 
@@ -13,19 +19,14 @@ export async function getEvents(): Promise<NationGuideCategory[]> {
         body: new URLSearchParams({
             action: "di_filter_events",
             nonce: "2fbfbafd32",
-            selected_date: new Date().toISOString().split('T')[0],
-            //selected_date: "YYYY-MM-DD",
+            selected_date: new Date().toISOString().split('T')[0],  //Gets the current date.
             only_load_dates: "false"
         })
     }
     );
     
-
+    // Parses the JSON formated data from strings to JavaScript objects.
     const data = await res.json() as AXAJresponse;
-    // event_categories is a STRING
     const categories = JSON.parse(data.event_categories) as NationGuideCategory[];
     return categories;
-}
-
-
-// make as statement to another type on return categories.
+};
