@@ -39,6 +39,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var collectData = require("./collectDataGraph");
 var handleDataGraph_1 = require("./handleDataGraph");
 var list_1 = require("../lib/list");
+/**
+ Creates a route based on user input.
+ */
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var categories, answer, err_1;
@@ -49,8 +52,8 @@ function main() {
                     return [4 /*yield*/, collectData.getEvents()];
                 case 1:
                     categories = _a.sent();
-                    answer = (0, list_1.pair)("Norrlands nation", 5);
-                    console.log((0, handleDataGraph_1.createRoute)(answer, (0, handleDataGraph_1.extract_essentials)((0, handleDataGraph_1.get_open_pubs)(categories))));
+                    answer = (0, list_1.pair)("Stockholms nation", 3);
+                    console.log((0, handleDataGraph_1.create_route)(answer, (0, handleDataGraph_1.extract_essentials)((0, handleDataGraph_1.get_open_pubs)(categories))));
                     return [3 /*break*/, 3];
                 case 2:
                     err_1 = _a.sent();
@@ -62,3 +65,5 @@ function main() {
     });
 }
 main();
+//mer info ska console.loggas, tider, nation, alla öppna osv.
+//fixa med user input

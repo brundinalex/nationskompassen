@@ -37,7 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEvents = getEvents;
-// KOM IHÅG SÄG AI!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/**
+ * Sends an AJAX-call and tries to get an AJAX-response from nationsguiden.se.
+ * NOTE: This function is AI generated with openAI ChatGPT-5.
+ * @returns a parsed version of the JSON formated AJAX-response.
+ * @precondition - the used URL for nationsguiden is online and all headers and payload for nationsguiden are valid.
+ */
 function getEvents() {
     return __awaiter(this, void 0, void 0, function () {
         var res, data, categories;
@@ -50,9 +55,8 @@ function getEvents() {
                         },
                         body: new URLSearchParams({
                             action: "di_filter_events",
-                            nonce: "bd3ce3b5a5",
-                            selected_date: new Date().toISOString().split('T')[0],
-                            //selected_date: "YYYY-MM-DD",
+                            nonce: "e33032b11e",
+                            selected_date: new Date().toISOString().split('T')[0], //Gets the current date.
                             only_load_dates: "false"
                         })
                     })];
@@ -67,4 +71,4 @@ function getEvents() {
         });
     });
 }
-// make as statement to another type on return categories.
+;
