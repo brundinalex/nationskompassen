@@ -1,0 +1,17 @@
+\babel@toc {swedish}{}\relax 
+\contentsline {section}{\numberline {1}Introduktion}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Bakgrund}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}motivering till projekt}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Guide till nationskompassen}{3}{section.2}%
+\contentsline {section}{\numberline {3}Program dokumentation}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Allmän design på programet, stora drag, hur hänger saker ihop}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}viktiga data strukturer och algoritmer}{3}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Moduler och bibliotek}{3}{subsubsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.3}Triviala funktioner}{3}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Describe the control flow (i.e., how functions call each other), and the use of helper functions.}{3}{subsubsection.3.3.1}%
+\contentsline {section}{\numberline {4}Jest/resultat/testning}{3}{section.4}%
+\contentsline {section}{\numberline {5}Diskusion}{3}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Val under projektets gång}{3}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}svagheter}{3}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Framtida projekt}{3}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Avslutning}{3}{section.6}%
