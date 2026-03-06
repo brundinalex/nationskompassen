@@ -8,7 +8,7 @@ import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable
 // type Nation = {name: string, lat: number, lng: number}
 
 // TYPES FOR THE JSON-RESPONSE SO WE CAN AVOID TYPE ANY !!!
-export type AXAJresponse = {
+export type AJAXresponse = {
     dates: string
     event_categories: string
 }
