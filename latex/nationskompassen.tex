@@ -1,4 +1,4 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 12pt]{article}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[swedish]{babel}
 \usepackage[T1]{fontenc}
@@ -11,22 +11,66 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{csquotes}
 \usepackage{cite}
+\usepackage{tikz}
 
+\title{\textbf{Nationskompassen \\ \small underrubrik}}
 
-
-\title{Nationskompassen \\ \small underrubrik}
-\author{Projektmedlemmar: Anton Äng, Alexander Brundin, Emil Reimegård \\ Handledare: Matilda Blomqvist}
+\author{
+    \textbf{Projektgrupp 50} \\[0.3cm]
+    Anton Äng \\
+    Alexander Brundin \\
+    Emil Reimegård \\[0.5cm]
+    Handledare: Matilda Blomqvist
+    }
 \date{\today}
 
 \begin{document}
-\maketitle
+
+\begin{titlepage}
+    % Uppsala logotyp
+    \begin{tikzpicture}[remember picture, overlay]
+        \node [anchor=north west, inner sep=30pt]  at (current page.north west)
+            {\includegraphics[height=4cm]{logo_uu_se.png}};
+    \end{tikzpicture}
+
+    \begin{center}
+        % Rubrik
+        {\LARGE \textbf{Nationskompassen} \\ \large Pubrundor för studenter i Uppsala} \\[2cm]
+
+        % Nationskompassen logotyp
+        \includegraphics[height=10cm]{logo_nationskompassen3.png} \\[1cm]
+
+        % Författare och handledare
+        \textbf{Projektgrupp 50} \\
+        Anton Äng \\
+        Alexander Brundin \\
+        Emil Reimegård \\[0.5cm]
+        Handledare: Matilda Blomqvist \\
+
+        % Datum
+        \today
+
+        % Kursinfomration
+        \vfill
+        Projektrapport för kursen Programkonstruktion och datastrukturer \\
+        Uppsala Universitet \\
+        VT 26
+    \end{center}
+\end{titlepage}
+
 \newpage
+
 \tableofcontents
+
 \newpage
 
 \section{Introduktion}
+Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihop om att öka användarvänligheten för studenter på Uppsala Universitet.
+
+Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppet, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationser evenemang och planera sin pubrunda. 
 \subsection{Bakgrund}
 \subsection{motivering till projekt}
+- Tänker att denhär rubriken och Bakgrund kanske ska slås ihop till ett enda avsnitt (det som jag skrivit i introduktionen)
 
 \section{Guide till nationskompassen}
 
@@ -44,8 +88,9 @@
 \subsection{Val under projektets gång}
 \subsection{svagheter}
 \subsection{Framtida projekt}
+\small (fler valmöjligheter, en slutdestination, mer information om evenemang, möjlighet att spara sina rutter - inloggning eller .txt eller .pdf - grafiskt gränssnitt, mobilanpassning, förslag på slutdestinationer utifrån klubbar, etc.)
 
-\section{Avslutning}
+\section{Sammanfattning, kan slås ihop med diskussionen, eller subsection}
 
 
 \end{document}
