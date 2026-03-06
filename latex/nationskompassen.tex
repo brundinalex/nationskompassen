@@ -38,7 +38,7 @@
         {\LARGE \textbf{Nationskompassen} \\ \large Pubrundor för studenter i Uppsala} \\[2cm]
 
         % Nationskompassen logotyp
-        \includegraphics[height=10cm]{logo_nationskompassen3.png} \\[1cm]
+        \includegraphics[height=10cm]{logo_nationskompassen_utantext.png} \\[1cm]
 
         % Författare och handledare
         \textbf{Projektgrupp 50} \\
@@ -72,14 +72,156 @@ Nationskompassen är ett program som utnyttjar den information som Nationsguiden
 \subsection{motivering till projekt}
 - Tänker att denhär rubriken och Bakgrund kanske ska slås ihop till ett enda avsnitt (det som jag skrivit i introduktionen)
 
-\section{Guide till nationskompassen}
+\section{Programdokumentation}
 
-\section{Program dokumentation}
-\subsection{Allmän design på programet, stora drag, hur hänger saker ihop}
-\subsection{viktiga data strukturer och algoritmer}
-\subsubsection{Moduler och bibliotek}
-\subsection{Triviala funktioner}
-\subsubsection{Describe the control flow (i.e., how functions call each other), and the use of helper functions.}
+    \subsection{Allmän design på programmet}
+Nationskompassen är en pubrundsplanerare för Uppsalas studentnationer.
+Den låter användaren välja startpub och längden på rutten. Därefter
+hämtar den data från hemsidan nationsguiden.se och genererar den
+geografiskt sett kortaste pubrundan baserat på användarens val.
+
+Programmet Nationskompassen är uppdelat i tre moduler med olika
+ansvarsområden:
+\begin{itemize}
+    \item \textbf{CollectDataGraph:} Hämtar relevant information från nationsguiden.se.
+    \item \textbf{HandleDataGraph:} Hanterar och bearbetar datan från CollectDataGraph
+samt skapar pubrundan.
+
+    \item \textbf{MainGraph:} Den drivande modulen som koordinerar de andra modulerna.
+\end{itemize}
+Strukturen i programmet är sekventiell. MainGraph anropar CollectDataGraph
+som hämtar rådatan. Den datan skickar MainGraph vidare till HandleDataGraph
+som bearbetar och beräknar den pubrunda som har kortast avstånd. Slutligen
+skriver MainGraph ut den genererade pubrundan till konsolen så att
+användaren kan se den.
+
+\subsection{Viktiga datastrukturer och algoritmer}
+\subsubsection*{Datastrukturer}
+
+\textbf{NationNode} är den centrala datastrukturen i programmet. Varje
+nationspub representeras som en NationNode. Den innehåller
+organisationsnamn, pubnamn, öppetider, kontaktinformation, geografiska
+koordinater samt nationens vikt som används vid avståndsberäkningar.
+
+\textbf{NationMatrix} är en tvådimensionell array av NationNodes som fungerar
+som en viktad matris. Raden $i$ och kolumnen $j$ håller en kopia av
+NationNode$(j)$ där vikten är satt till avståndet mellan nation$(i)$ och
+nation$(j)$. Diagonalelementen, det vill säga en nations avstånd till sig
+själv, är alltid 0.
+
+\textbf{NationIndex} är en Map av typ \texttt{\{string, number\}} som kopplar
+nationsnamnet till ett index $(i)$ i NationMatrix för att snabbt kunna slå
+upp ett nationsindex.
+
+\textbf{Set$\langle$number$\rangle$} är ett set som håller redan besökta
+nationer för att säkerställa att samma nation inte besöks två gånger.
+
+\textbf{Pair$\langle$string, number$\rangle$} används för att ta emot
+användarens val: startpub och antal nationer.
+
+\subsubsection*{Algoritmer}
+
+Programmet använder två viktiga algoritmer som återfinns i
+\texttt{get\_distance} och \texttt{nearest\_nation}.
+
+\texttt{get\_distance} utnyttjar Pythagoras sats för att beräkna avståndet
+mellan två nationer med hjälp av deras latitud- och longitudkoordinater.
+
+\texttt{nearest\_nation} är en så kallad girig närmaste-granne-algoritm.
+Det innebär att den vid varje nytt steg under sökningen gör valet enbart
+baserat på vad som är bäst i stunden. I \texttt{nearest\_nation} innebär
+det att den alltid väljer den nation som ligger närmast den nation den
+befinner sig på just nu.
+
+\subsection{Moduler och bibliotek}
+
+Nationskompassen importerar fyra bibliotek: \texttt{nation}, \texttt{list},
+\texttt{hashtables} och \texttt{graphs}.
+
+Från \texttt{list}-biblioteket hämtas typen \texttt{Pair} och
+konstruktorfunktionen \texttt{pair}, som används för att representera
+användarens val som ett par av startnation och antal stopp.
+
+\texttt{nation}-biblioteket innehåller alla relevanta typer för programmet,
+beskrivna i avsnitt 3.2, samt en statisk array som håller koordinaterna
+till alla nationer.
+
+\subsection{Viktiga funktioner}
+
+\textbf{main()} är startpunkten för hela programmet. Anropar relevanta
+funktioner för datainsamling och bearbetning samt hanterar eventuella
+fel med try/catch.
+
+\textbf{getEvents()} skickar ett anrop till nationsguiden.se och returnerar
+en array av typen \texttt{NationGuideCategory}.
+
+\textbf{get\_open\_pubs(json\_parsed)} filtrerar en array av typen
+\texttt{Array\textless{}NationGuideCategory\textgreater{}} baserat på
+event som tillhör kategorin ''pub'' och returnerar en array med
+\texttt{NationGuideEvent}.
+
+\textbf{extract\_essentials()} omvandlar en array av typen
+\texttt{Array\textless{}NationGuideEvent\textgreater{}} till en array av
+\texttt{NationNode} genom att extrahera relevant information från varje
+instans av \texttt{NationGuideEvent}. Använder hjälpfunktionen
+\texttt{get\_organiser\_coordinates()} för att hämta nationens koordinater
+från koordinatarrayen i nationsbiblioteket. Returnerar en array av
+\texttt{NationNode}.
+
+\textbf{build\_nation\_distance\_matrix()} bygger en viktad tvådimensionell
+matris av typen \texttt{NationMatrix} baserat på en array av \texttt{NationNode}.
+Bestämmer vikten med hjälp av \texttt{get\_distance()} som beräknar
+avståndet mellan två nationer med hjälp av Pythagoras sats.
+
+\textbf{build\_nation\_index()} kopplar varje nationnamn till ett index med
+den inbyggda Map-funktionen. Används för att snabbt slå upp ett nationsindex.
+
+\textbf{nearest\_nation()} hittar den närmaste, ej besökta nationen som inte
+är den nuvarande. Returnerar den närmast tillgängliga nationen.
+
+\textbf{create\_route()} tar emot användarens val av startnation samt antal
+pubar som önskas besökas. Skapar pubrundan med hjälp av repetitiva anrop
+till \texttt{nearest\_nation()} tills pubrundan uppfyller användarens krav
+eller tills det inte finns fler pubar att besöka.
+
+\subsection{Kontrollflöde och hjälpfunktioner}
+
+Programmet börjar i \texttt{main()}, som koordinerar samtliga anrop
+under programmets körning. Det första steget är att hämta data, vilket
+sker genom ett anrop till \texttt{getEvents()}. Den funktionen skickar
+gör anrop till nationsguiden.se och returnerar rådatan som
+en array av \texttt{NationGuideCategory}.
+
+Rådatan skickas vidare till \texttt{get\_open\_pubs()}, som filtrerar
+bort alla evenemang som inte tillhör kategorin ''pub'' och returnerar en
+renare array av \texttt{NationGuideEvent}. Denna array skickas i sin tur
+till \texttt{extract\_essentials()}, som omvandlar varje event till en
+\texttt{NationNode}. För att göra det anropar \texttt{extract\_essentials()}
+sin privata hjälpfunktion \texttt{get\_organiser\_coordinates()}, vilken
+slår upp nationens GPS-koordinater i den statiska koordinatarrayen från
+nationsbiblioteket. Koordinaterna läggs sedan in i \texttt{NationNode}-objektet.
+
+Den resulterande arrayen av \texttt{NationNode} skickas slutligen till
+\texttt{create\_route()} tillsammans med användarens val av startnation
+och antal stopp. Inuti \texttt{create\_route()} sker en intern kedja av
+anrop: först byggs distansmatrisen upp via
+\texttt{build\_nation\_distance\_matrix()}, som internt anropar sin
+hjälpfunktion \texttt{get\_distance()} för att beräknar
+avståndet mellan varje nationpar. Därefter anropas
+\texttt{build\_nation\_index()} för att kunna slå upp startnationers index
+i matrisen. Sedan itererar \texttt{create\_route()} och anropar
+\texttt{nearest\_nation()} upprepade gånger tills pubrundan uppfyller
+det antal stopp som användaren angett.
+
+Hjälpfunktionerna \texttt{get\_organiser\_coordinates()} och
+\texttt{get\_distance()} är båda privata, det vill säga de är definierade
+inuti sina respektive föräldrafunktioner och anropas aldrig direkt
+utifrån. De används enbart för att hålla föräldrafunktionernas logik
+läsbar och välstrukturerad.
+
+Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som
+en array av strängar, vilken \texttt{main()} skriver ut till konsolen.
+
 
 \section{Jest/resultat/testning}
 
