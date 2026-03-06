@@ -154,8 +154,8 @@ function create_route(user_info, nations_of_selected_date) {
 }
 /**
  * Computes the distance between two nations, using Pythagorean theorem.
- * @param {coordinates} n1 - First nations coordinates.
- * @param {coordinates} n2 - Second nations coordinates.
+ * @param {Coordinates} n1 - First nations coordinates.
+ * @param {Coordinates} n2 - Second nations coordinates.
  * @returns {number} - Distance between the two nations.
  */
 function get_distance(n1, n2) {

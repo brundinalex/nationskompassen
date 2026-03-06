@@ -59,25 +59,15 @@ export type NationGuideEvent = {
  * A {NationMatrix} is a graph represented as a 2D-matrix where each 'node' is a NationNode.
  */
 export type NationMatrix = Array<Array<NationNode>>
+
 /**
  * A {NationIndex} is a map Map<string, number>.
- * The key of the map is a string 
+ * The key of the map is a string representing the title (name) of a nation. The number associated with each key represents an
+ * index of that nation (in this program an index of that nation in a NationMatrix).
+ * Invariant:
+ *  The number associated with each key is non-negative.
  */
 export type NationIndex = Map<string, number>;
-
-
-// These are for the hashtable, maybe remove? mabye save?
-export type NationTable = ProbingHashtable<string, Nation>
-
-export type VisitedNation = [string, number, boolean]
-
-export type Nation = { orginization: string,
-                pub: string,
-                schedule: string,
-                contact: Array<[string, string]>,
-                coordinate: Coordinates,
-                sorted_nation_distance: Array<VisitedNation>
-            }
 /**
  * A {NationNode} is a record {orginization: string, pub: string, schedule: string, contact: Array<[string, string]>,
  *                             coordinate: coordinates, weight: number}.
@@ -86,7 +76,6 @@ export type Nation = { orginization: string,
  * The value of the key {schedule} is a string representing the schedule of the nation.
  * The value of the key {contact} ..........
  * The value of the key {coordinate} is a Coordinates.
- * 
  */
 export type NationNode = { orginization: string,
                 pub: string,
@@ -136,3 +125,17 @@ export const coordinates_of_nations: Array<Coordinates> = [
     norrlands_nation_cor,
     gotlands_nation_cor
 ];
+
+
+// These are for the hashtable, maybe remove? mabye save?
+export type NationTable = ProbingHashtable<string, Nation>
+
+export type VisitedNation = [string, number, boolean]
+
+export type Nation = { orginization: string,
+                pub: string,
+                schedule: string,
+                contact: Array<[string, string]>,
+                coordinate: Coordinates,
+                sorted_nation_distance: Array<VisitedNation>
+                }

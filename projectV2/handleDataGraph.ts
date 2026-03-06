@@ -1,6 +1,6 @@
 import {type NationTable, type Nation, type VisitedNation, 
-        type coordinates, coordinates_of_nations, type NationIndex, 
-        type NationMatrix, type NationNode, type AXAJresponse,
+        type Coordinates, coordinates_of_nations, type NationIndex, 
+        type NationMatrix, type NationNode, type AJAXresponse,
         type NationGuideCategory, type NationGuideEvent
     } from "../lib/nation"
 import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "../lib/graphs";
@@ -38,7 +38,7 @@ export function extract_essentials(nation_events: Array<NationGuideEvent>): Arra
 
     // Compares the name of a NationGuideEvent and the names in coordinates_of_nations and tries to find
     // the coordinates of a give NationGuideEvent. If no coordinates are found, return undefined.
-    function get_organiser_coordinates(nation_of_interest: NationGuideEvent): coordinates | undefined {
+    function get_organiser_coordinates(nation_of_interest: NationGuideEvent): Coordinates | undefined {
         for (const nation_coordinates of coordinates_of_nations) {
             if (nation_coordinates.name === nation_of_interest.organiser.title) {
                 return nation_coordinates;
@@ -162,11 +162,11 @@ export function create_route(user_info: Pair<string, number>, nations_of_selecte
 
 /**
  * Computes the distance between two nations, using Pythagorean theorem.
- * @param {coordinates} n1 - First nations coordinates. 
- * @param {coordinates} n2 - Second nations coordinates.
+ * @param {Coordinates} n1 - First nations coordinates. 
+ * @param {Coordinates} n2 - Second nations coordinates.
  * @returns {number} - Distance between the two nations.
  */
-function get_distance(n1: coordinates, n2: coordinates): number {
+function get_distance(n1: Coordinates, n2: Coordinates): number {
 
     for (const nation of coordinates_of_nations) {
         if (n1.name === nation.name) {

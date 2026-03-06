@@ -55,7 +55,7 @@ function getEvents() {
                         },
                         body: new URLSearchParams({
                             action: "di_filter_events",
-                            nonce: "e33032b11e",
+                            nonce: "87a912e791",
                             selected_date: new Date().toISOString().split('T')[0], //Gets the current date.
                             only_load_dates: "false"
                         })

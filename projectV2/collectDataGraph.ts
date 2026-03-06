@@ -1,4 +1,4 @@
-import { AXAJresponse, NationGuideCategory, NationGuideEvent } from "../lib/nation";
+import { AJAXresponse, NationGuideCategory, NationGuideEvent } from "../lib/nation";
 
 /**
  * Sends an AJAX-call and tries to get an AJAX-response from nationsguiden.se.
@@ -18,7 +18,7 @@ export async function getEvents(): Promise<NationGuideCategory[]> {
         },
         body: new URLSearchParams({
             action: "di_filter_events",
-            nonce: "e33032b11e",
+            nonce: "87a912e791",
             selected_date: new Date().toISOString().split('T')[0],  //Gets the current date.
             only_load_dates: "false"
         })
@@ -26,7 +26,7 @@ export async function getEvents(): Promise<NationGuideCategory[]> {
     );
     
     // Parses the JSON formated data from strings to JavaScript objects.
-    const data = await res.json() as AXAJresponse;
+    const data = await res.json() as AJAXresponse;
     const categories = JSON.parse(data.event_categories) as NationGuideCategory[];
     return categories;
 };
