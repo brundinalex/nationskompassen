@@ -37,38 +37,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var collectDataGraph_1 = require("./collectDataGraph");
-// import * as handleData from "./handleDataGraph";
-// import { get_open_pubs, extract_essentials, build_nation_index, build_nation_distance_matrix, create_route } from "./handleDataGraph";
-// import {type NationTable, type Nation, type Coordinates, coordinates_of_nations } from "../lib/nation"
-// import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "../lib/graphs";
-var list_1 = require("../lib/list");
 var create_route_1 = require("./create_route");
 var extract_essential_data_1 = require("./extract_essential_data");
+var userInput_1 = require("./userInput");
 // import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from '../lib/hashtables';
 /**
  Creates a route based on user input.
  */
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var categories, answer, err_1;
+        var runningLoop, categories, openPubs, answer, route, nationInfo, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, (0, collectDataGraph_1.getEvents)()];
+                    runningLoop = true;
+                    _a.label = 1;
                 case 1:
-                    categories = _a.sent();
-                    answer = (0, list_1.pair)("Norrlands nation", 4);
-                    console.log((0, create_route_1.create_route)(answer, (0, extract_essential_data_1.extract_essentials)((0, extract_essential_data_1.get_open_pubs)(categories))));
-                    return [3 /*break*/, 3];
+                    if (!runningLoop) return [3 /*break*/, 9];
+                    _a.label = 2;
                 case 2:
+                    _a.trys.push([2, 6, , 7]);
+                    return [4 /*yield*/, (0, collectDataGraph_1.getEvents)()];
+                case 3:
+                    categories = _a.sent();
+                    openPubs = (0, extract_essential_data_1.extract_essentials)((0, extract_essential_data_1.get_open_pubs)(categories));
+                    return [4 /*yield*/, (0, userInput_1.choice)(openPubs)];
+                case 4:
+                    answer = _a.sent();
+                    route = (0, create_route_1.create_route)(answer, openPubs);
+                    GUI(route, "Här är din färdiga pubrunda");
+                    return [4 /*yield*/, (0, userInput_1.nationInformation)()];
+                case 5:
+                    nationInfo = _a.sent();
+                    if (nationInfo) {
+                        openPubs.forEach(function (value) {
+                            console.log("".concat(value.orginization, " - ").concat(value.contact));
+                        });
+                    }
+                    return [3 /*break*/, 7];
+                case 6:
                     err_1 = _a.sent();
                     console.error(err_1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 7];
+                case 7: return [4 /*yield*/, (0, userInput_1.newRoute)()];
+                case 8:
+                    runningLoop = _a.sent();
+                    return [3 /*break*/, 1];
+                case 9:
+                    userInput_1.rl.close();
+                    return [2 /*return*/];
             }
         });
     });
+}
+function GUI(r, text) {
+    console.log("─".repeat(50));
+    console.log(text);
+    r.forEach(function (value) {
+        console.log(value);
+    });
+    console.log("─".repeat(50));
 }
 main();
 //mer info ska console.loggas, tider, nation, alla öppna osv.

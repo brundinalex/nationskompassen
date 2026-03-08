@@ -46,8 +46,13 @@ export function create_route(user_info: Pair<string, number>, nations_of_selecte
 
     while(route.size < number_of_stops) {
         const next_pub_index = nearest_nation(available_nations, start_index!, route)
-        route.add(next_pub_index!)
-        start_index = next_pub_index;
+        if(next_pub_index === undefined) {
+            console.log("Det finns inte fler öppna pubbar")
+            break;
+        } else {
+            route.add(next_pub_index)
+            start_index = next_pub_index;
+        }
     }
 
     route.forEach((value) => {

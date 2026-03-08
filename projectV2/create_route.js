@@ -44,8 +44,14 @@ function create_route(user_info, nations_of_selected_date) {
     route.add(start_index);
     while (route.size < number_of_stops) {
         var next_pub_index = nearest_nation(available_nations, start_index, route);
-        route.add(next_pub_index);
-        start_index = next_pub_index;
+        if (next_pub_index === undefined) {
+            console.log("Det finns inte fler öppna pubbar");
+            break;
+        }
+        else {
+            route.add(next_pub_index);
+            start_index = next_pub_index;
+        }
     }
     route.forEach(function (value) {
         pubrunda.push(nations_of_selected_date[value].pub);
