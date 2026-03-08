@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.nearest_nation = nearest_nation;
 exports.create_route = create_route;
+var list_1 = require("../lib/list");
 var build_nationGraph_1 = require("./build_nationGraph");
 /**
  * Traverses all adjacent nodes to a given node in a NationMatrix and finds
@@ -34,10 +36,13 @@ function nearest_nation(nation_matrix, index, already_visisted) {
  * @returns {Array<String>} - Array with pubs to visit.
  */
 function create_route(user_info, nations_of_selected_date) {
+    if (nations_of_selected_date.length === 0) {
+        return [];
+    }
     var available_nations = (0, build_nationGraph_1.build_nation_distance_matrix)(nations_of_selected_date);
     var index_decode = (0, build_nationGraph_1.build_nation_index)(nations_of_selected_date);
-    var first_nation = user_info[0];
-    var number_of_stops = user_info[1];
+    var first_nation = (0, list_1.head)(user_info);
+    var number_of_stops = (0, list_1.tail)(user_info);
     var route = new Set();
     var start_index = index_decode.get(first_nation);
     var pubrunda = [];

@@ -38,14 +38,21 @@ export function extract_essentials(nation_events: Array<NationGuideEvent>): Arra
         }
         return undefined;
     }
+
     const nations_of_selected_date: Array<NationNode> = [];
 
     for (const object of nation_events) {
+        const coordinate: Coordinates | undefined = get_organiser_coordinates(object);
+
+        if (!coordinate) {
+            continue;
+        }
+        
         const valid_nation_node: NationNode = { orginization: object.organiser.title,
                                                 pub: object.title,
                                                 schedule: object.schedule,
                                                 contact: [["N/A", "N/A"]],
-                                                coordinate: get_organiser_coordinates(object)!,
+                                                coordinate: coordinate,
                                                 weight: NaN
                                               };
 

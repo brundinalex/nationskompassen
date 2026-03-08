@@ -9,7 +9,7 @@ import { build_nation_index, build_nation_distance_matrix } from "./build_nation
  * @param {Set<number>} already_visisted - A set of numbers storing all adjacent nodes that has been visited.
  * @returns {number | undefined} - An index corresponding to the closest nation, if no such exists then undefined.
  */
-function nearest_nation(nation_matrix: NationMatrix, index: number, already_visisted: Set<number>): number | undefined {
+export function nearest_nation(nation_matrix: NationMatrix, index: number, already_visisted: Set<number>): number | undefined {
     let shortest_distance: number = Infinity;
     let closest_index: number | undefined = undefined;
 

@@ -44,12 +44,17 @@ function extract_essentials(nation_events) {
     var nations_of_selected_date = [];
     for (var _i = 0, nation_events_1 = nation_events; _i < nation_events_1.length; _i++) {
         var object = nation_events_1[_i];
+        var coordinate = get_organiser_coordinates(object);
+        if (!coordinate) {
+            continue;
+        }
         var valid_nation_node = { orginization: object.organiser.title,
             pub: object.title,
             schedule: object.schedule,
             contact: [["N/A", "N/A"]],
-            coordinate: get_organiser_coordinates(object),
-            weight: NaN };
+            coordinate: coordinate,
+            weight: NaN
+        };
         nations_of_selected_date.push(valid_nation_node);
     }
     return nations_of_selected_date;
