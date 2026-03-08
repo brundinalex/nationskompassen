@@ -223,8 +223,17 @@ Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som
 en array av strängar, vilken \texttt{main()} skriver ut till konsolen.
 
 
-\section{Jest/resultat/testning}
+\section{Testning}
+Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en för varje modul i programmet.
+\subsection{\texttt{extract\_essential\_data}}
+Här testades funktionerna \texttt{get\_open\_pubs()} och \texttt{extract\_essentials()}, se Fig.X och Fig.X för överblick på tester. Testerna täcker olika scenarion, inklusive fall där det inte finns några öppna pubar, fall där det finns flera öppna pubar och fall där datan innehåller oväntade format eller saknade fält. Testerna verifierar att \texttt{get\_open\_pubs()} korrekt filtrerar ut endast de evenemang som tillhör kategorin "Pub", se Fig.X för exempel, och att \texttt{extract\_essentials()} korrekt extraherar och omvandlar informationen till \texttt{NationNode}-objekt, se Fig.X för exempel. Därefter utfördes även tester på särskilda/få förekommande scenarion, såsom de fall där datan innehåller oväntade format eller där viss data förekommer i dubbletter, se Fig.X för exempel. \\[1cm]
+\includegraphics[height=7cm]{./jest_bilder/get_open_pubs.test.png} \\
+\includegraphics[height=7cm]{./jest_bilder/extract_essentials.test.png} \\
+\includegraphics[height=7cm]{./jest_bilder/extract_essential_data_edge.test.png} \\
 
+
+\subsection{\texttt{build\_nationGraph}}
+\subsection{\texttt{create\_route}}
 
 \section{Diskusion}
 \subsection{Val under projektets gång}

@@ -128,7 +128,7 @@ test("get_open_pubs returns an empty array if json_parsed is an empty array", ()
     expect(open_pubs).toEqual([]);
 });
 
-test("get_open_pubs filters only categories strictly equal to 'Pub'", () => {
+test("get_open_pubs filters only categories which title strictly equals 'Pub'", () => {
     const pub: NationGuideEvent[] = [
         {
             title: "pub A", 
@@ -315,7 +315,7 @@ test("extract_essentials returns an empty array when input is empty", () => {
 // Edge-case tests
 // --------------------------------------------------
 
-test("extract_essentials returns an empty NationGuideEvent[] if organiser is not found", () => {
+test("extract_essentials returns an empty NationGuideEvent[] if no valid organiser is found", () => {
 
     const events: NationGuideEvent[] = [
         {
