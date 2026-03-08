@@ -116,7 +116,7 @@ describe("create_route", () => {
             schedule: "18:00",
             contact: [["N/A","N/A"]],
             coordinate: { name:"Norrlands nation", lat:0, lng:0 },
-            weight: 0
+            weight: NaN
         },
         {
             orginization: "Uplands nation",
@@ -124,7 +124,7 @@ describe("create_route", () => {
             schedule: "19:00",
             contact: [["N/A","N/A"]],
             coordinate: { name:"Uplands nation", lat:0, lng:1 },
-            weight: 0
+            weight: NaN
         },
         {
             orginization: "Värmlands nation",
@@ -132,7 +132,7 @@ describe("create_route", () => {
             schedule: "20:00",
             contact: [["N/A","N/A"]],
             coordinate: { name:"Värmlands nation", lat:1, lng:1 },
-            weight: 0
+            weight: NaN
         }
     ]
 
@@ -209,7 +209,7 @@ describe("integration tests (route generation)", () => {
             schedule: "18:00",
             contact: [["N/A","N/A"]],
             coordinate: { name:"Norrlands nation", lat:0, lng:0 },
-            weight: 0
+            weight: NaN
         },
         {
             orginization: "Uplands nation",
@@ -217,7 +217,7 @@ describe("integration tests (route generation)", () => {
             schedule: "19:00",
             contact: [["N/A","N/A"]],
             coordinate: { name:"Uplands nation", lat:0, lng:2 },
-            weight: 0
+            weight: NaN
         },
         {
             orginization: "Värmlands nation",
@@ -225,7 +225,7 @@ describe("integration tests (route generation)", () => {
             schedule: "20:00",
             contact: [["N/A","N/A"]],
             coordinate: { name:"Värmlands nation", lat:1, lng:1 },
-            weight: 0
+            weight: NaN
         }
     ]
         const user = pair("Norrlands nation", 3)
@@ -245,7 +245,7 @@ describe("integration tests (route generation)", () => {
                 schedule: "18:00",
                 contact: [["N/A","N/A"]],
                 coordinate: { name:"NationX", lat:1, lng:1 },
-                weight: 0
+                weight: NaN
             }
         ]
 

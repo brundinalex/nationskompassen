@@ -315,7 +315,7 @@ test("extract_essentials returns an empty array when input is empty", () => {
 // Edge-case tests
 // --------------------------------------------------
 
-test("extract_essentials returns undefined coordinate if organiser is not found", () => {
+test("extract_essentials returns an empty NationGuideEvent[] if organiser is not found", () => {
 
     const events: NationGuideEvent[] = [
         {
