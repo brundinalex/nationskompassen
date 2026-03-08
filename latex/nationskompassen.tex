@@ -228,16 +228,27 @@ en array av strängar, vilken \texttt{main()} skriver ut till konsolen.
 
 \section{Diskusion}
 \subsection{Val under projektets gång}
-Projeketet inledes med en vision där användaren skulle använda programmet i ett grafiskt användargränssnitt. Flera olika programmeringsspråk diskuterades och det fastställdes att HTML skulle användas för att respresentera datan grafiskt. Denna vision ändrades dock tidigt under projektets gång och istället för ett grafiskt användargränssnitt så exekveras programmet i terminalen. Anledning till detta var att det inte fanns tillräckligt med tid för att implementera detta och att detta inte hade varit en del av kursens lärandemål. 
-\newline
+Projeket inleddes med en vision där användaren skulle använda programmet i ett grafiskt användargränssnitt. Flera olika tekniker diskuterades innan det fastställdes att HTML skulle användas för att representera datan grafiskt. Denna vision ändrades dock tidigt under projektets gång och istället för ett grafiskt användargränssnitt så exekveras programmet direkt i terminalen. Anledningen till detta var främst tidsbrist, men även att den grafiska delen inte var en del av kursens lärandemål.
+
+
 Ett annat val som gjordes tidigt in i projektet var hurvida datan som skulle användas var riktig data eller om den skulle ha varit syntetisk data. Det beslutades om att använda riktig data som hämtades från Nationsguiden, detta för att det skulle vara mer realistiskt och för att det skulle vara mer intressant att arbeta med riktig data. Detta ledde fram till nästa problem, hur skulle datan hämtas? 
-\newline
-Där tog beslutet att huvudfokuset med projektet är inte att implementera en form av web scraper, utan mer att hantera den inhämtade datan. Så därav blev det att låta en ai-assisten skriva funktionen som hämtar datan ifrån Nationsguiden och parsar den till ett format som lättare kan hanteras.
-\newline
-LÄGG TILL OM ÖVERGÅNGEN FRÅN HASHTABELLER TILL GRAFER.
+
+
+Där togs beslutet att huvudfokuset med projektet är inte att implementera en form of web scraper, utan mer att hantera den inhämtade datan. Därför valdes att använda en AI-assistet för att generera funktionen som hämtar datan från nationsguiden.se och parsar den till ett format som enklare kan hanteras.
+
+
+Det sista stora beslutet som togs var att övergå från den ursprungliga visionen av att programmet skulle spara datan för varje nation i hashtabeller, till att istället representera nationerna som noder i en viktad graf. För att sedan med hjälp av en grafalgoritm hitta den kortaste vägen mellan norderna. Detta beslut togs eftersom relationerna mellan nationerna bättre kan beskrivas som ett nätverk. En graf gör det möjligt att representera nationerna som noder och avstånden mellan dem som vikter på kanterna. 
 
 \subsection{svagheter}
+Programmets främsta svaghet finns redan innan inhämtningen av datan, för att hämta datan så måste funktionen uppdateras med en nonce värde, en sträng med nummer som uppdateras 2 gånger under dagen som hämtas från nationsguiden.se. 
+
 \subsection{Framtida projekt}
+Hade det funnits mer tid så hade det varit intreesant att få implemetera det grafiska användargränssnittet som nämndes under. Det hade bidragit till användaupplevelsen och gjort det mer tillgängligt för användare som inte är bekväma med att använda terminalen.
+
+
+Det hade också varit bra att hitta en metod så nonce värdet inte behöver uppdateras manuellt varje gång datan ska hämtas. Det diskuterades olika ideer för att lösa detta. Bland annat genom att använda TypeScript kompatibla playwright, som hade kunnat användas för att spela in stegen som behövs för att hämta nonce värdet. För att därefter köra den delen av programmet innan datan hämtas.
+
+
 \small (fler valmöjligheter, en slutdestination, mer information om evenemang, möjlighet att spara sina rutter - inloggning eller .txt eller .pdf - grafiskt gränssnitt, mobilanpassning, förslag på slutdestinationer utifrån klubbar, etc.)
 
 \section{Sammanfattning, kan slås ihop med diskussionen, eller subsection}
