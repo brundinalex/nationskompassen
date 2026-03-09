@@ -67,7 +67,7 @@
 \section{Introduktion}
 Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihop om att öka användarvänligheten för studenter på Uppsala Universitet.
 
-Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppet, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationser evenemang och planera pubrundor.
+Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppna, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationser evenemang och planera pubrundor.
 \subsection{Bakgrund}
 \subsection{motivering till projekt}
 - Tänker att denhär rubriken och Bakgrund kanske ska slås ihop till ett enda avsnitt (det som jag skrivit i introduktionen)
@@ -224,16 +224,19 @@ en array av strängar, vilken \texttt{main()} skriver ut till konsolen.
 
 
 \section{Testning}
-Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en för varje modul i programmet.
+Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en för varje modul av programmet. (skriv också --coverage grejer)
+
 \subsection{\texttt{extract\_essential\_data}}
 Här testades funktionerna \texttt{get\_open\_pubs()} och \texttt{extract\_essentials()}, se Fig.X och Fig.X för överblick på tester. Testerna täcker olika scenarion, inklusive fall där det inte finns några öppna pubar, fall där det finns flera öppna pubar och fall där datan innehåller oväntade format eller saknade fält. Testerna verifierar att \texttt{get\_open\_pubs()} korrekt filtrerar ut endast de evenemang som tillhör kategorin "Pub", se Fig.X för exempel, och att \texttt{extract\_essentials()} korrekt extraherar och omvandlar informationen till \texttt{NationNode}-objekt, se Fig.X för exempel. Därefter utfördes även tester på särskilda/få förekommande scenarion, såsom de fall där datan innehåller oväntade format eller där viss data förekommer i dubbletter, se Fig.X för exempel. \\[1cm]
 \includegraphics[height=7cm]{./jest_bilder/get_open_pubs.test.png} \\
 \includegraphics[height=7cm]{./jest_bilder/extract_essentials.test.png} \\
-\includegraphics[height=7cm]{./jest_bilder/extract_essential_data_edge.test.png} \\
-
+\includegraphics[height=5cm]{./jest_bilder/extract_essential_data_edge.test.png} \\
 
 \subsection{\texttt{build\_nationGraph}}
+I denna del av testningen säkerställndes att steget mellan skapandet av en \texttt{NationNode} till en \texttt{NationMatrix} var korrek genom funktionerna \texttt{get\_distance()}, \texttt{build\_nation\_index()} samt \texttt{build\_nation\_distance\_matrix()}, se Fig.X, Fig.X samt Fix.X för överblick på testerna samt Fig.X för ett exempeltest. Därefter säkerställdes även att funktionerna fungerade som tänkt i ett integrationstest, se Fix.X.
+
 \subsection{\texttt{create\_route}}
+I sista steget av testningen säkerställdes att skapandet av pubrundan var pålitlig genom funktionerna \texttt{nearest\_nation()} samt \texttt{create\_route()}, se Fig.X för överblick på testerna. Testerna verifierade exempelvis att en pubrunda inte innehöll dubbletter av nationer och att pubrundans längd var anpassad både efter efterfrågan men också antalet tillgängliga nationspubar, se Fig.X för ett exempeltest.
 
 \section{Diskusion}
 \subsection{Val under projektets gång}
