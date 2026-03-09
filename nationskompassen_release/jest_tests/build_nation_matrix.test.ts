@@ -1,4 +1,4 @@
-import { type NationNode, type NationMatrix } from "../../lib/nation";
+import { type NationNode} from "../../lib/nation";
 import { get_distance, 
          build_nation_index, build_nation_distance_matrix 
        } from "../build_nation_matrix";
@@ -49,7 +49,9 @@ describe("get_distance", () => {
 
     test("distance for a nation not in coordinates_of_nations should return NaN", () => {
         const dist = get_distance(nodeInvalid.coordinate, node2.coordinate);
+        const dist2 = get_distance(node2.coordinate, nodeInvalid.coordinate)
         expect(dist).toBeNaN();
+        expect(dist2).toBeNaN();
     });
 
     test("distance symmetric: distance(a,b) === distance(b,a) for valid nations", () => {
@@ -87,6 +89,14 @@ describe("build_nation_index", () => {
 // build_nation_distance_matrix tests
 // --------------------
 describe("build_nation_distance_matrix", () => {
+
+    test("returns empty matrix when input is empty", () => {
+    
+        const matrix = build_nation_distance_matrix([]);
+    
+        expect(matrix.length).toBe(0);
+    });
+
     test("matrix diagonal weights are 0", () => {
         const nodes: NationNode[] = [node1, node2];
         const matrix = build_nation_distance_matrix(nodes);
