@@ -71,16 +71,16 @@
         \begin{itemize}
             \item \textbf{\texttt{collect\_data}} - Hämtar information från nationsguiden.se
             \item \textbf{\texttt{extract\_essential\_data}} - Extraherar relevant information från collect\_data
-            \item \textbf{\texttt{build\_nationgraph}} - Använder relevant information för att konstruera en viktad graf
+            \item \textbf{\texttt{build\_nation\_matrix}} - Använder relevant information för att konstruera en viktad graf
             \item \textbf{\texttt{create\_route}} - Skapar en pubrunda utifrån en viktad graf
             \item \textbf{\texttt{user\_input}} - Möjliggör för användaren att interagera med programet
             \item \textbf{\texttt{main}} - Den drivande modulen som kordinerar de andra modulerna
         \end{itemize}
-        Strukturen i programmet är sekventiell. MainGraph anropar CollectDataGraph som hämtar rådatan. Den datan skickar MainGraph vidare till HandleDataGraph som bearbetar och beräknar den pubrunda som har kortast avstånd. Slutligen skriver MainGraph ut den genererade pubrundan till konsolen så att användaren kan se den.
+        Strukturen i programmet är sekventiell.
 
         \begin{figure}[htbp]
             \centering
-            \includegraphics[width=\linewidth]{./jest_bilder/projekt_backend.jpg}
+            \includegraphics[width=\linewidth]{projekt_backend.jpg}
             \caption{Flödeschema för hur datan från nationsguiden flödar igenom nationskompassen.}
         \end{figure}
 
@@ -112,9 +112,9 @@
     \subsection{Viktiga funktioner}
         \begin{itemize}
             \item \texttt{main()} är startpunkten för hela programmet. Anropar relevanta funktioner för datainsamling och bearbetning samt hanterar eventuella fel med try/catch.
-            \item \texttt{getEvents()} skickar ett anrop till nationsguiden.se och returnerar en array av typen \texttt{NationGuideCategory}.
-            \item \texttt{get\_open\_pubs(json\_parsed)} filtrerar en array av typen \texttt{Array\textless{}NationGuideCategory\textgreater{}} baserat på event som tillhör kategorin ''pub'' och returnerar en array med \texttt{NationGuideEvent}.
-            \item \texttt{extract\_essentials()} omvandlar en array av typen \texttt{Array\textless{}NationGuideEvent\textgreater{}} till en array av \texttt{NationNode} genom att extrahera relevant information från varje instans av \texttt{NationGuideEvent}. Använder hjälpfunktionen \texttt{get\_organiser\_coordinates()} för att hämta nationens koordinater från koordinatarrayen i nationsbiblioteket. Returnerar en array av \texttt{NationNode}.
+            \item \texttt{get\_events()} skickar ett anrop till nationsguiden.se och returnerar en array av typen \texttt{NationGuideCategory}.
+            \item \texttt{get\_open\_pubs()} filtrerar en array av typen \texttt{NationGuideCategory[]} baserat på event som tillhör kategorin ''pub'' och returnerar en array med \texttt{NationGuideEvent}.
+            \item \texttt{extract\_essentials()} omvandlar en array av typen \texttt{{}NationGuideEvent[]} till en array av \texttt{NationNode} genom att extrahera relevant information från varje instans av \texttt{NationGuideEvent}. Använder hjälpfunktionen \texttt{get\_organiser\_coordinates()} för att hämta nationens koordinater från koordinatarrayen i nationsbiblioteket. Returnerar en array av \texttt{NationNode}.
             \item \texttt{build\_nation\_distance\_matrix()} bygger en viktad tvådimensionell matris av typen \texttt{NationMatrix} baserat på en array av \texttt{NationNode}. Bestämmer vikten med hjälp av \texttt{get\_distance()} som beräknar avståndet mellan två nationer med hjälp av Pythagoras sats.
             \item \texttt{build\_nation\_index()} kopplar varje nationnamn till ett index med den inbyggda Map-funktionen. Används för att snabbt slå upp ett nationsindex.
             \item \texttt{nearest\_nation()} hittar den närmaste, ej besökta nationen som inte är den nuvarande. Returnerar den närmast tillgängliga nationen.
@@ -144,7 +144,7 @@
     \subsection{\texttt{extract\_essential\_data}}
         Här testades funktionerna \texttt{get\_open\_pubs()} och \texttt{extract\_essentials()}. Testerna täcker olika scenarion, inklusive fall där det inte finns några öppna pubar, fall där det finns flera öppna pubar och fall där datan innehåller oväntade format eller saknade fält. Testerna verifierar att \texttt{get\_open\_pubs()} korrekt filtrerar ut endast de evenemang som tillhör kategorin 'Pub' och att \texttt{extract\_essentials()} korrekt extraherar och omvandlar informationen till \texttt{NationNode}-objekt. Därefter utfördes även tester på särskilda/få förekommande scenarion, såsom de fall där datan innehåller oväntade format eller där viss data förekommer i dubbletter. Samtliga testningar för Nationskompassen följer liknande struktur, därav agerar \hyperref[fig:overview_tests]{Fig.1} exempel för en överblick på en moduls tester och \hyperref[fig:example_tests]{Fig.2} exempel för hur ett tester kan se ut.
 
-    \subsection{\texttt{build\_nationGraph}}
+    \subsection{\texttt{build\_nation\_matrix}}
         I denna del av testningen säkerställndes att steget mellan skapandet av en \texttt{NationNode} till en \texttt{NationMatrix} var korrek genom funktionerna \texttt{get\_distance()}, \texttt{build\_nation\_index()} samt \texttt{build\_nation\_distance\_matrix()}. Testerna säkerställer bland annat att \texttt{get\_distance()} korrekt beräknar avstånd mellan två \texttt{NationNode}, att \texttt{build\_nation\_index()} korrekt tillger en \texttt{NationNode} ett index och att \texttt{build\_nation\_distance\_matrix()} returnerar en pålitlig struktur av en \texttt{NationMatrix}. Därefter säkerställdes även att funktionerna fungerade som tänkt i ett integrationstest, där en \texttt{NationMatrix} skapades och vardera \texttt{NationNode} tilldelades ett giltigt index.
 
     \subsection{\texttt{create\_route}}

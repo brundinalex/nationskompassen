@@ -1,10 +1,3 @@
-import { ListGraph, lg_bfs_visit_order, lg_dfs_visit_order } from "./graphs";
-import { type Pair } from "./list";
-import { hash_id, HashFunction, ph_empty, ph_insert, ph_lookup, ProbingHashtable } from './hashtables';
-
-// GLÖM INTE TYP-EXEMPEL
-
-// TYPES FOR THE JSON-RESPONSE SO WE CAN AVOID TYPE ANY !!!
 /**
  * A {AJAXresponse} is a record {dates: string, event_categories: string}.
  * The value of the key {dates} is a string containing a JSON-formated array of dates.
@@ -25,8 +18,8 @@ export type AJAXresponse = {
  * The value of the key {open} is a boolean indicating whether the event category is open or not.
  * The value of the key {events} is an array of {NationGuideEvent} objects representing the events in the category.
  * Invariant:
- *  The record follows the structure of the event_category objects in the JSON-response from nationsguiden.se, i.e following the
- *  structure found in AJAXresponse.event_categories.
+ *  The record follows the structure of the event_category objects in the JSON-response from nationsguiden.se, i.e
+ *  following the structure found in AJAXresponse.event_categories.
  */
 export type NationGuideCategory = {
     title: string,
@@ -41,8 +34,8 @@ export type NationGuideCategory = {
  * The value of the key {permalink} is a string representing the URL of the event's page on nationsguiden.se.
  * The value of the key {image} is a string representing the URL of the image for the event.
  * The value of the key {schedule} is a string representing the schedule of the event.
- * The value of the key {organiser} is a record with keys {title} and {permalink}, where {title} is a string representing the
- * title of the organiser and {permalink} is a string representing the URL of the organiser's page on nationsguiden.se.
+ * The value of the key {organiser} is a record with keys {title} and {permalink}, where {title} is a string representing
+ * the title of the organiser and {permalink} is a string representing the URL of the organiser's page on nationsguiden.se.
  * Invariant:
  *  The record follows the structure of the event objects in the
  *  JSON-response from nationsguiden.se, i.e following the
@@ -63,12 +56,13 @@ export type NationMatrix = Array<Array<NationNode>>
 
 /**
  * A {NationIndex} is a map Map<string, number>.
- * The key of the map is a string representing the title (name) of a nation. The number associated with each key represents an
- * index of that nation (in this program an index of that nation in a NationMatrix).
+ * The key of the map is a string representing the title (name) of a nation. The number associated with each key
+ * represents an index of that nation (in this program an index of that nation in a NationMatrix).
  * Invariant:
  *  The number associated with each key is non-negative.
  */
 export type NationIndex = Map<string, number>;
+
 /**
  * A {NationNode} is a record {orginization: string, pub: string, schedule: string, contact: Array<[string, string]>,
  *                             coordinate: coordinates, weight: number}.
@@ -86,6 +80,7 @@ export type NationNode = {
     coordinate: Coordinates,
     weight: number
 }
+
 /**
  * A {Coordinates} is a record {name: string, lat: number, lng: number}.
  * The value of the key {name} is a string representing the name of a nation.
@@ -127,17 +122,3 @@ export const coordinates_of_nations: Array<Coordinates> = [
     norrlands_nation_cor,
     gotlands_nation_cor
 ];
-
-
-// These are for the hashtable, maybe remove? mabye save?
-export type NationTable = ProbingHashtable<string, Nation>
-
-export type VisitedNation = [string, number, boolean]
-
-export type Nation = { orginization: string,
-                pub: string,
-                schedule: string,
-                contact: Array<[string, string]>,
-                coordinate: Coordinates,
-                sorted_nation_distance: Array<VisitedNation>
-                }
