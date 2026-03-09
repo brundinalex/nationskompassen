@@ -3,9 +3,8 @@ import { type Pair } from "../lib/list";
 import { create_route } from "./create_route";
 import { get_open_pubs, extract_essentials } from "./extract_essential_data";
 import { rl, ask } from "./user_input" 
-import { NationGuideCategory, NationNode } from "../lib/nation";
+import { NationNode } from "../lib/nation";
 import { build_nation_index } from "./build_nation_matrix";
-import { copyFile } from "fs";
 
 /**
  Creates a route based on user input.
@@ -14,13 +13,16 @@ async function main() {
     try {
         const categories = await getEvents();
         let openPubs = extract_essentials(get_open_pubs(categories))!
-        driverLoop(openPubs)
+        driver_loop(openPubs)
     } catch (err) {
         console.error(err);
     }
 }
-
-async function driverLoop(openPubs: Array<NationNode>) {
+/**
+ * This driver loop ensures that the program runs continuously until the user terminates it.
+ * @param {Array<NationNode>} openPubs - Array with all currenty open pubs. 
+ */
+async function driver_loop(openPubs: Array<NationNode>) {
     let runningLoop = true;
     console.log("Välkommen till nationskompassen!");
     console.log("─".repeat(50));
@@ -35,7 +37,7 @@ async function driverLoop(openPubs: Array<NationNode>) {
         if(answer === "1") {
             let answer = await choice(openPubs);
             let route = create_route(answer, openPubs);
-            GUI(route, "Här är din färdiga pubrunda");
+            CLI(route, "Här är din färdiga pubrunda");
         } else if (answer === "2") {
             openPubs.forEach((value) => {
                 console.log("=".repeat(50));
@@ -52,11 +54,15 @@ async function driverLoop(openPubs: Array<NationNode>) {
 }
 
 
-
-function GUI(r: Array<String>, text: string) {
+/**
+ * Creates a command line interface to act as user inteface.
+ * @param {Array<String>} route - Created route. 
+ * @param {string} text - Text to be displayed.
+ */
+function CLI(route: Array<String>, text: string): void {
     console.log("─".repeat(50));
     console.log(text)
-    r.forEach((value) => {
+    route.forEach((value) => {
     console.log(value);
     })
     console.log("─".repeat(50));
@@ -66,8 +72,8 @@ function GUI(r: Array<String>, text: string) {
  * Displays all open nations with their index and pub name, then prompts
  * the user to choose a starting pub and how many pubs to visit.
  * Reprompts if the chosen index is out of range.
- * @param openNations - Array of currently open NationNodes to choose from.
- * @returns A pair with starting pubname and nr of pubs to visit
+ * @param {Array<NationNode>} openNations - Array of currently open NationNodes to choose from.
+ * @returns {Promise<Pair<string, number>>} - A pair with starting pubname and nr of pubs to visit
  */
 export async function choice(openNations: Array<NationNode>): Promise<Pair<string, number>> {
     let currentNations = build_nation_index(openNations);
