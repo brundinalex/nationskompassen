@@ -18,7 +18,7 @@ export async function getEvents(): Promise<NationGuideCategory[]> {
         },
         body: new URLSearchParams({
             action: "di_filter_events",
-            nonce: "edf3de12ce",
+            nonce: "d59f3f40bf",
             selected_date: new Date().toISOString().split('T')[0],  //Gets the current date.
             only_load_dates: "false"
         })
