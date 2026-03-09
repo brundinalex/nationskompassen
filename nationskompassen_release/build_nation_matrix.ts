@@ -2,6 +2,12 @@ import { type Coordinates, coordinates_of_nations, type NationIndex,
          type NationMatrix, type NationNode
         } from "../lib/nation"
 
+/**
+ * Uses Pythagorian theorem to calculate the shortest distance between two  given nations.
+ * @param {Coordinates} n1 - First Nation's coordinates
+ * @param {Coordinates} n2 - The second Nation's coordinates
+ * @returns {number} - the shortest distance between two valid nations otherwise NaN.
+ */
 export function get_distance(n1: Coordinates, n2: Coordinates): number {
     const n1Valid: boolean = coordinates_of_nations.some(n => n.name === n1.name);
     const n2Valid: boolean = coordinates_of_nations.some(n => n.name === n2.name);

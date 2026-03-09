@@ -1,9 +1,9 @@
-import { AJAXresponse, NationGuideCategory, NationGuideEvent } from "../lib/nation";
+import { AJAXresponse, NationGuideCategory } from "../lib/nation";
 
 /**
  * Sends an AJAX-call and tries to get an AJAX-response from nationsguiden.se.
  * NOTE: This function is AI generated with openAI ChatGPT-5.
- * @returns a parsed version of the JSON formated AJAX-response.
+ * @returns {Primise<NationGuideCategory>} a parsed version of the JSON formated AJAX-response.
  * @precondition - the used URL for nationsguiden is online and all headers and payload for nationsguiden are valid.
  */
 export async function getEvents(): Promise<NationGuideCategory[]> {

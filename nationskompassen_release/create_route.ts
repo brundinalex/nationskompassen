@@ -1,4 +1,4 @@
-import { type Pair, pair, head, tail} from "../lib/list";
+import { type Pair, head, tail} from "../lib/list";
 import { type NationMatrix, type NationNode } from "../lib/nation"
 import { build_nation_index, build_nation_distance_matrix } from "./build_nation_matrix";
 /**
