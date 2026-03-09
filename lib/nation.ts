@@ -44,7 +44,8 @@ export type NationGuideCategory = {
  * The value of the key {organiser} is a record with keys {title} and {permalink}, where {title} is a string representing the
  * title of the organiser and {permalink} is a string representing the URL of the organiser's page on nationsguiden.se.
  * Invariant:
- *  The record follows the structure of the event objects in the JSON-response from nationsguiden.se, i.e following the
+ *  The record follows the structure of the event objects in the
+ *  JSON-response from nationsguiden.se, i.e following the
  *  structure found in AJAXresponse.event_categories.events.
  */
 export type NationGuideEvent = {
@@ -77,13 +78,14 @@ export type NationIndex = Map<string, number>;
  * The value of the key {contact} ..........
  * The value of the key {coordinate} is a Coordinates.
  */
-export type NationNode = { orginization: string,
-                pub: string,
-                schedule: string,
-                contact: Array<[string, string]>,
-                coordinate: Coordinates,
-                weight: number
-            }
+export type NationNode = { 
+    orginization: string,
+    pub: string,
+    schedule: string,
+    contact: Array<[string, string]>,
+    coordinate: Coordinates,
+    weight: number
+}
 /**
  * A {Coordinates} is a record {name: string, lat: number, lng: number}.
  * The value of the key {name} is a string representing the name of a nation.

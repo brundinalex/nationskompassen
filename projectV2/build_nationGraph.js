@@ -11,9 +11,20 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.get_distance2 = get_distance2;
+exports.get_distance = get_distance;
 exports.build_nation_index = build_nation_index;
 exports.build_nation_distance_matrix = build_nation_distance_matrix;
 var nation_1 = require("../lib/nation");
+function get_distance2(n1, n2) {
+    var n1Valid = nation_1.coordinates_of_nations.some(function (n) { return n.name === n1.name; });
+    var n2Valid = nation_1.coordinates_of_nations.some(function (n) { return n.name === n2.name; });
+    if (!n1Valid || !n2Valid)
+        return NaN;
+    var dx = Math.abs(n1.lat - n2.lat);
+    var dy = Math.abs(n1.lng - n2.lng);
+    return Math.sqrt(dx * dx + dy * dy);
+}
 function get_distance(n1, n2) {
     for (var _i = 0, coordinates_of_nations_1 = nation_1.coordinates_of_nations; _i < coordinates_of_nations_1.length; _i++) {
         var nation = coordinates_of_nations_1[_i];
@@ -51,7 +62,7 @@ function build_nation_distance_matrix(nation_nodes) {
         for (var j = 0; j < nation_nodes.length; j++) {
             var weight = i === j
                 ? 0
-                : get_distance(nation_nodes[i].coordinate, nation_nodes[j].coordinate);
+                : get_distance2(nation_nodes[i].coordinate, nation_nodes[j].coordinate);
             // Create a fresh copy for this matrix cell
             matrix[i][j] = __assign(__assign({}, nation_nodes[j]), { weight: weight });
         }

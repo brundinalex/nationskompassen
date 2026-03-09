@@ -1,4 +1,4 @@
-import { type Pair, pair } from "../lib/list";
+import { type Pair, pair, head, tail} from "../lib/list";
 import { type NationMatrix, type NationNode } from "../lib/nation"
 import { build_nation_index, build_nation_distance_matrix } from "./build_nationGraph";
 /**
@@ -9,7 +9,7 @@ import { build_nation_index, build_nation_distance_matrix } from "./build_nation
  * @param {Set<number>} already_visisted - A set of numbers storing all adjacent nodes that has been visited.
  * @returns {number | undefined} - An index corresponding to the closest nation, if no such exists then undefined.
  */
-function nearest_nation(nation_matrix: NationMatrix, index: number, already_visisted: Set<number>): number | undefined {
+export function nearest_nation(nation_matrix: NationMatrix, index: number, already_visisted: Set<number>): number | undefined {
     let shortest_distance: number = Infinity;
     let closest_index: number | undefined = undefined;
 
@@ -33,10 +33,13 @@ function nearest_nation(nation_matrix: NationMatrix, index: number, already_visi
  * @returns {Array<String>} - Array with pubs to visit.
  */
 export function create_route(user_info: Pair<string, number>, nations_of_selected_date: Array<NationNode>): Array<String> {
+    if (nations_of_selected_date.length === 0) {
+        return [];
+    }
     const available_nations = build_nation_distance_matrix(nations_of_selected_date);
     const index_decode = build_nation_index(nations_of_selected_date);
-    const first_nation = user_info[0];
-    const number_of_stops = user_info[1];
+    const first_nation = head(user_info);
+    const number_of_stops = tail(user_info);
 
     let route: Set<number> = new Set();
     let start_index = index_decode.get(first_nation)
