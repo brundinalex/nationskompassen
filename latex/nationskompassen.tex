@@ -55,6 +55,7 @@
 \newpage
 % Introduktion
 \section{Introduktion}
+\label{sec: intro}
     Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihop om att öka användarvänligheten för studenter på Uppsala Universitet.
 
 
@@ -62,11 +63,14 @@
 
 % Guide
 \section{Guide till Nationskompassen}
+\label{sec: guide}
 
 % Dokumentation
 \section{Programdokumentation}
+\label{sec: dokumentation}
 
     \subsection{Allmän design på programmet}
+    \label{subsec: design}
         Nationskompassen är en pubrundsplanerare för Uppsalas studentnationer. Den låter användaren välja startpub och längden på rutten Därefter hämtar den data från hemsidan nationsguiden.se och genererar den geografiskt sett kortaste pubrundan baserat på användarens val. Programmet Nationskompassen är uppdelat i sex moduler med olika ansvarsområden:
         \begin{itemize}
             \item \textbf{\texttt{collect\_data}} - Hämtar information från nationsguiden.se
@@ -76,12 +80,13 @@
             \item \textbf{\texttt{user\_input}} - Möjliggör för användaren att interagera med programet
             \item \textbf{\texttt{main}} - Den drivande modulen som kordinerar de andra modulerna
         \end{itemize}
-        Strukturen i programmet är sekventiell. Under \textit{3.5 Kontrollflöde och hjälpfunktioner} finns det en mer djupgående förklaring på hur programets olika moduler samspelar samt en grafisk visualisation. 
+        Strukturen i programmet är sekventiell. Under \hyperref[subsec: flöde]{\textit{3.5 Kontrollflöde och hjälpfunktioner}} finns det en mer djupgående förklaring på hur programets olika moduler samspelar samt en grafisk visualisation. 
 
     \subsection{Viktiga datastrukturer och algoritmer}
+    \label{subsec: DSAL}
 
         \subsubsection{Datastrukturer}
-
+        \label{subsubsec: DS}
             \paragraph{NationNode}
                 är den centrala datastrukturen i programmet. Varje nationspub representeras som en NationNode. Den innehåller organisationsnamn, pubnamn, öppetider, kontaktinformation, geografiska koordinater samt nationens vikt som används vid avståndsberäkningar.
 
@@ -98,12 +103,15 @@
                 används för att ta emot användarens val: startpub och antal nationer.
 
         \subsubsection{Algoritmer}
+        \label{subsubsec: AL}
             Programmet använder två viktiga algoritmer som återfinns i \texttt{get\_distance} och \texttt{nearest\_nation}. \texttt{get\_distance} utnyttjar Pythagoras sats för att beräkna avståndet mellan två nationer med hjälp av deras latitud- och longitudkoordinater. \texttt{nearest\_nation} är en så kallad girig närmaste-granne-algoritm. Det innebär att den vid varje nytt steg under sökningen gör valet enbart baserat på vad som är bäst i stunden. I \texttt{nearest\_nation} innebär det att den alltid väljer den nation som ligger närmast den nation den befinner sig på just nu.
 
     \subsection{Moduler och bibliotek}
-        Nationskompassen importerar två bibliotek: \texttt{nation.ts} samt \texttt{list.ts}. \texttt{list}-biblioteket är taget från det bibliotek kursen tillhandahåller och därifrån hämtas typen \texttt{Pair} och konstruktorfunktionen \texttt{pair}, som används för att representera användarens val som ett par av startnation och antal stopp. Dessutom hämtas välj-funktionerna \texttt{head()} samt \texttt{tail()}. \texttt{nation}-biblioteket innehåller alla relevanta typer för programmet, beskrivna i avsnitt \textit{3.2 Viktiga datastrukturer och algoritmer}, samt en statisk array som håller koordinaterna till alla nationer. Modulen \texttt{readline} har användes för att möjliggöra inläsning av indata från användaren i terminalen.
-        
+    \label{subsec: modul_och_bib}
+        Nationskompassen importerar två bibliotek: \texttt{nation.ts} samt \texttt{list.ts}. \texttt{list}-biblioteket är taget från det bibliotek kursen tillhandahåller och därifrån hämtas typen \texttt{Pair} och konstruktorfunktionen \texttt{pair}, som används för att representera användarens val som ett par av startnation och antal stopp. Dessutom hämtas välj-funktionerna \texttt{head()} samt \texttt{tail()}. \texttt{nation}-biblioteket innehåller alla relevanta typer för programmet, beskrivna i avsnitt \hyperref[subsec: DSAL]{\textit{3.2 Viktiga datastrukturer och algoritmer}}, samt en statisk array som håller koordinaterna till alla nationer. Modulen \texttt{readline} har användes för att möjliggöra inläsning av indata från användaren i terminalen.
+
     \subsection{Viktiga funktioner}
+    \label{subsec: viktiga_func}
         \begin{itemize}
             \item \texttt{main()} är startpunkten för hela programmet. Anropar relevanta funktioner för datainsamling och bearbetning samt hanterar eventuella fel med try/catch.
             \item \texttt{get\_events()} skickar ett anrop till nationsguiden.se och returnerar en array av typen \texttt{NationGuideCategory}.
@@ -116,6 +124,7 @@
         \end{itemize}
 
     \subsection{Kontrollflöde och hjälpfunktioner}
+    \label{subsec: flöde}
 
         Programmet börjar i \texttt{main()}, som koordinerar samtliga anrop under programmets körning. Det första steget är att hämta data, vilket sker genom ett anrop till \texttt{get\_events()}. Den funktionen utför ett anrop till nationsguiden.se och returnerar rådatan som en array av \texttt{NationGuideCategory}.
 
@@ -129,30 +138,28 @@
         Hjälpfunktionen \texttt{get\_organiser\_coordinates()} är privat, funktionen är definierad inuti sin föräldrarfunktion och anropas aldrig direkt utifrån. Den används enbart för att hålla föräldrarfunktionens logik läsbar och välstrukturerad. Hjälpfunktionen \texttt{get\_distance()} är global, men kallas enbart av \texttt{build\_nation\_distance\_matrix()}. Anledningen till detta är att kunna exportera funktionen enskilt, vilket möjliggör testning av avståndslogik.
 
 
-        Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som en array av strängar, vilket \texttt{main()} skriver ut i terminalen. För en grafisk representation av dataflödet, se \hyperref[fig:dataflöde]{Fig.1}, notera att det som presenteras i figuren endast innefattar datahantering. Kopplingen mellan användare och Nationskompassen enkapsuleras istället av modulerna \texttt{main} och \texttt{user\_input}.
-
-        \begin{figure}[htbp]
-            \centering
-            \includegraphics[width=\linewidth]{projekt_backend.jpg}
-            \caption{Flödeschema för hur datan från nationsguiden.se flödar igenom Nationskompassen.}
-            \phantomsection
-            \label{fig:dataflöde}
-        \end{figure}
+        Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som en array av strängar, vilket \texttt{main()} skriver ut i terminalen. För en grafisk representation av dataflödet, se \hyperref[fig:dataflöde]{Fig.1} under \hyperref[sec: bilagor]{\textit{Bilagor}}, notera att det som presenteras i figuren endast innefattar datahantering. Kopplingen mellan användare och Nationskompassen enkapsuleras istället av modulerna \texttt{main} och \texttt{user\_input}.
 
 \section{Testning}
-    Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en för varje modul av programmet. (skriv också --coverage grejer)
+\label{sec: test}
+    Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en del för modulen \texttt{extract\_essential\_data}, en för \texttt{build\_nation\_matrix} och en för \texttt{create\_route}. Se \hyperref[fig: jest_results]{Fig.2} under \hyperref[sec: bilagor]{\textit{Bilagor}} för överblick på resultat på testerna.
 
     \subsection{\texttt{extract\_essential\_data}}
-        Här testades funktionerna \texttt{get\_open\_pubs()} och \texttt{extract\_essentials()}. Testerna täcker olika scenarion, inklusive fall där det inte finns några öppna pubar, fall där det finns flera öppna pubar och fall där datan innehåller oväntade format eller saknade fält. Testerna verifierar att \texttt{get\_open\_pubs()} korrekt filtrerar ut endast de evenemang som tillhör kategorin ''Pub'' och att \texttt{extract\_essentials()} korrekt extraherar och omvandlar informationen till \texttt{NationNode}-objekt. Därefter utfördes även tester på särskilda/få förekommande scenarion, såsom de fall där datan innehåller oväntade format eller där viss data förekommer i dubbletter. Samtliga testningar för Nationskompassen följer liknande struktur, därav agerar \hyperref[fig:overview_tests]{Fig.1} exempel för en överblick på en moduls tester och \hyperref[fig:example_tests]{Fig.2} exempel för hur ett tester kan se ut.
+    \label{subsec: extract_essential_data}
+        Här testades funktionerna \texttt{get\_open\_pubs()} och \texttt{extract\_essentials()}. Testerna täcker olika scenarion, inklusive fall där det inte finns några öppna pubar, fall där det finns flera öppna pubar och fall där datan innehåller oväntade format eller saknade fält. Testerna verifierar att \texttt{get\_open\_pubs()} korrekt filtrerar ut endast de evenemang som tillhör kategorin ''Pub'' och att \texttt{extract\_essentials()} korrekt extraherar och omvandlar informationen till \texttt{NationNode}-objekt. Därefter utfördes även tester på särskilda/få förekommande scenarion, såsom de fall där datan innehåller oväntade format eller där viss data förekommer i dubbletter. Samtliga testningar för Nationskompassen följer liknande struktur, därav agerar \hyperref[fig: overview_tests]{Fig.3} exempel för en överblick på en moduls tester och \hyperref[fig: example_tests]{Fig.4} exempel för hur ett tester kan se ut, under \hyperref[sec: bilagor]{\textit{Bilagor}}.
 
     \subsection{\texttt{build\_nation\_matrix}}
+    \label{subsec: build_nation_matrix}
         I denna del av testningen säkerställndes att steget mellan skapandet av en \texttt{NationNode} till en \texttt{NationMatrix} var korrek genom funktionerna \texttt{get\_distance()}, \texttt{build\_nation\_index()} samt \texttt{build\_nation\_distance\_matrix()}. Testerna säkerställer bland annat att \texttt{get\_distance()} korrekt beräknar avstånd mellan två \texttt{NationNode}, att \texttt{build\_nation\_index()} korrekt tillger en \texttt{NationNode} ett index och att \texttt{build\_nation\_distance\_matrix()} returnerar en pålitlig struktur av en \texttt{NationMatrix}. Därefter säkerställdes även att funktionerna fungerade som tänkt i ett integrationstest, där en \texttt{NationMatrix} skapades och vardera \texttt{NationNode} tilldelades ett giltigt index.
 
     \subsection{\texttt{create\_route}}
+    \label{subsec: create_route}
         I sista steget av testningen säkerställdes att skapandet av pubrundan var pålitlig genom funktionerna \texttt{nearest\_nation()} samt \texttt{create\_route()}. Testerna verifierade exempelvis att en pubrunda inte innehöll dubbletter av nationer och att pubrundans längd var anpassad både efter efterfrågan men också antalet tillgängliga nationspubbar.
 
-\section{Diskusion}
+\section{Diskussion}
+\label{sec: diskussion}
     \subsection{Val under projektets gång}
+    \label{subsec: val}
         Projeket inleddes med en vision där användaren skulle använda programmet i ett grafiskt användargränssnitt. Flera olika tekniker diskuterades innan det fastställdes att HTML skulle användas för att representera datan grafiskt. Denna vision ändrades dock tidigt under projektets gång och istället för ett grafiskt användargränssnitt så exekveras programmet direkt i terminalen. Anledningen till detta var främst tidsbrist, men även att den grafiska delen inte var en del av kursens lärandemål.
 
 
@@ -165,9 +172,11 @@
         Det sista stora beslutet som togs var att övergå från den ursprungliga visionen av att programmet skulle spara datan för varje nation i hashtabeller, till att istället representera nationerna som noder i en viktad graf. För att sedan med hjälp av en grafalgoritm hitta den kortaste vägen mellan norderna. Detta beslut togs eftersom relationerna mellan nationerna bättre kan beskrivas som ett nätverk. En graf gör det möjligt att representera nationerna som noder och avstånden mellan dem som vikter på kanterna. 
 
     \subsection{svagheter}
+    \label{subsec: svagheter}
         Programmets främsta svaghet finns redan innan inhämtningen av datan, för att hämta datan så måste funktionen uppdateras med en nonce värde, en sträng med nummer som uppdateras 2 gånger under dagen som hämtas från nationsguiden.se. 
 
     \subsection{Framtida projekt}
+    \label{subsec: framtid}
         Hade det funnits mer tid så hade det varit intreesant att få implemetera det grafiska användargränssnittet som nämndes under. Det hade bidragit till användaupplevelsen och gjort det mer tillgängligt för användare som inte är bekväma med att använda terminalen.
 
 
@@ -177,11 +186,48 @@
         \small (fler valmöjligheter, en slutdestination, mer information om evenemang, möjlighet att spara sina rutter - inloggning eller .txt eller .pdf - grafiskt gränssnitt, mobilanpassning, förslag på slutdestinationer utifrån klubbar, etc.)
 
 \section{Sammanfattning, kan slås ihop med diskussionen, eller subsection}
+\label{sec: sammanfattning}
 
 \newpage
 \appendix
 \section*{Bilagor}
+\label{sec: bilagor}
 \addcontentsline{toc}{section}{Bilagor}
+\begin{figure}[htbp]
+    \centering
+        \includegraphics[width=\linewidth]{projekt_backend.jpg}
+        \caption{Flödeschema för hur datan från nationsguiden.se flödar igenom Nationskompassen.}
+        \phantomsection
+        \label{fig:dataflöde}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+
+        \begin{subfigure}{0.5\textwidth}
+            \includegraphics[width=\linewidth]{./jest_bilder/resultat_coverage.png}
+            \caption{Samtliga test och andelen testad kod från vardera fil.}
+        \end{subfigure}
+
+        \begin{subfigure}{0.5\textwidth}
+            \includegraphics[width=\linewidth]{./jest_bilder/resultat_extract_essential_data.png}
+            \caption{överblick på tester för \texttt{extract\_essential\_data}.}
+        \end{subfigure}
+
+        \begin{subfigure}{0.5\textwidth}
+            \includegraphics[width=\linewidth]{./jest_bilder/resultat_build_nation_matrix.png}
+            \caption{Överblick på tester för \texttt{build\_nation\_matrix}.}
+        \end{subfigure}
+
+        \begin{subfigure}{0.5\textwidth}
+            \includegraphics[width=\linewidth]{./jest_bilder/resultat_create_route.png}
+            \caption{Överblick på tester för \texttt{create\_route}.}
+        \end{subfigure}
+        
+        \caption{Överblick på resultaten från Jest-tester}
+        \phantomsection
+        \label{fig: jest_results}
+\end{figure}
 
 \begin{figure}[htbp]
     \centering
@@ -203,7 +249,7 @@
 
         \caption{Översikt av Jest-tester för modulen \texttt{extract\_essential\_data}.}
         \phantomsection
-        \label{fig:overview_tests}
+        \label{fig: overview_tests}
 \end{figure}
 \newpage
 \begin{figure}[htbp]
@@ -223,7 +269,7 @@
         
         \caption{Exempel på individuella Jest-tester för extraktionsfunktionerna.}
         \phantomsection
-        \label{fig:example_tests}
+        \label{fig: example_tests}
 \end{figure}
 
 \end{document}
