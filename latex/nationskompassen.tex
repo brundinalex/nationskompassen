@@ -76,13 +76,7 @@
             \item \textbf{\texttt{user\_input}} - Möjliggör för användaren att interagera med programet
             \item \textbf{\texttt{main}} - Den drivande modulen som kordinerar de andra modulerna
         \end{itemize}
-        Strukturen i programmet är sekventiell.
-
-        \begin{figure}[htbp]
-            \centering
-            \includegraphics[width=\linewidth]{projekt_backend.jpg}
-            \caption{Flödeschema för hur datan från nationsguiden flödar igenom nationskompassen.}
-        \end{figure}
+        Strukturen i programmet är sekventiell. Under \textit{3.5 Kontrollflöde och hjälpfunktioner} finns det en mer djupgående förklaring på hur programets olika moduler samspelar samt en grafisk visualisation. 
 
     \subsection{Viktiga datastrukturer och algoritmer}
 
@@ -113,7 +107,7 @@
         \begin{itemize}
             \item \texttt{main()} är startpunkten för hela programmet. Anropar relevanta funktioner för datainsamling och bearbetning samt hanterar eventuella fel med try/catch.
             \item \texttt{get\_events()} skickar ett anrop till nationsguiden.se och returnerar en array av typen \texttt{NationGuideCategory}.
-            \item \texttt{get\_open\_pubs()} filtrerar en array av typen \texttt{NationGuideCategory[]} baserat på event som tillhör kategorin ''pub'' och returnerar en array med \texttt{NationGuideEvent}.
+            \item \texttt{get\_open\_pubs()} filtrerar en array av typen \texttt{NationGuideCategory[]} baserat på event som tillhör kategorin ''Pub'' och returnerar en array med \texttt{NationGuideEvent}.
             \item \texttt{extract\_essentials()} omvandlar en array av typen \texttt{{}NationGuideEvent[]} till en array av \texttt{NationNode} genom att extrahera relevant information från varje instans av \texttt{NationGuideEvent}. Använder hjälpfunktionen \texttt{get\_organiser\_coordinates()} för att hämta nationens koordinater från koordinatarrayen i nationsbiblioteket. Returnerar en array av \texttt{NationNode}.
             \item \texttt{build\_nation\_distance\_matrix()} bygger en viktad tvådimensionell matris av typen \texttt{NationMatrix} baserat på en array av \texttt{NationNode}. Bestämmer vikten med hjälp av \texttt{get\_distance()} som beräknar avståndet mellan två nationer med hjälp av Pythagoras sats.
             \item \texttt{build\_nation\_index()} kopplar varje nationnamn till ett index med den inbyggda Map-funktionen. Används för att snabbt slå upp ett nationsindex.
@@ -123,26 +117,33 @@
 
     \subsection{Kontrollflöde och hjälpfunktioner}
 
-        Programmet börjar i \texttt{main()}, som koordinerar samtliga anrop under programmets körning. Det första steget är att hämta data, vilket sker genom ett anrop till \texttt{getEvents()}. Den funktionen skickar gör anrop till nationsguiden.se och returnerar rådatan som en array av \texttt{NationGuideCategory}.
+        Programmet börjar i \texttt{main()}, som koordinerar samtliga anrop under programmets körning. Det första steget är att hämta data, vilket sker genom ett anrop till \texttt{get\_events()}. Den funktionen utför ett anrop till nationsguiden.se och returnerar rådatan som en array av \texttt{NationGuideCategory}.
 
 
-        Rådatan skickas vidare till \texttt{get\_open\_pubs()}, som filtrerar bort alla evenemang som inte tillhör kategorin ''pub'' och returnerar en renare array av \texttt{NationGuideEvent}. Denna array skickas i sin tur till \texttt{extract\_essentials()}, som omvandlar varje event till en \texttt{NationNode}. För att göra det anropar \texttt{extract\_essentials()} sin privata hjälpfunktion \texttt{get\_organiser\_coordinates()}, vilken slår upp nationens GPS-koordinater i den statiska koordinatarrayen från nationsbiblioteket. Koordinaterna läggs sedan in i \texttt{NationNode}-objektet.
+        Rådatan skickas vidare till \texttt{get\_open\_pubs()}, som filtrerar bort alla evenemang som inte tillhör kategorin ''Pub'' och returnerar en array av typen \texttt{NationGuideEvent}. Denna array skickas i sin tur till \texttt{extract\_essentials()}, som omvandlar varje enskilda event till en \texttt{NationNode}. För att göra detta anropar \texttt{extract\_essentials()} sin privata hjälpfunktion \texttt{get\_organiser\_coordinates()}, vilken slår upp nationens GPS-koordinater i den statiska koordinatarrayen som återfinns i nationsbiblioteket. Koordinaterna läggs sedan in i \texttt{NationNode}-objektet.
 
 
-        Den resulterande arrayen av \texttt{NationNode} skickas slutligen till \texttt{create\_route()} tillsammans med användarens val av startnation och antal stopp. Inuti \texttt{create\_route()} sker en intern kedja av anrop: först byggs distansmatrisen upp via \texttt{build\_nation\_distance\_matrix()}, som internt anropar sin hjälpfunktion \texttt{get\_distance()} för att beräknar avståndet mellan varje nationpar. Därefter anropas \texttt{build\_nation\_index()} för att kunna slå upp startnationers index i matrisen. Sedan itererar \texttt{create\_route()} och anropar \texttt{nearest\_nation()} upprepade gånger tills pubrundan uppfyller det antal stopp som användaren angett.
+        Den resulterande arrayen av \texttt{NationNode} skickas slutligen till \texttt{create\_route()} tillsammans med användarens val av startnation och antal stopp. Inuti \texttt{create\_route()} sker en intern kedja av anrop: först byggs distansmatrisen upp via \texttt{build\_nation\_distance\_matrix()}, som internt anropar sin hjälpfunktion \texttt{get\_distance()} för att beräkna det relativa avståndet mellan varje nation och dess grannar. Därefter anropas \texttt{build\_nation\_index()} för att kunna slå upp startnationers index i matrisen. Sedan itererar \texttt{create\_route()} och anropar \texttt{nearest\_nation()} upprepade gånger tills pubrundan uppfyller det antal stopp som användaren angett eller tills dess att inga fler tillgängliga nationer finns.
 
 
-        Hjälpfunktionerna \texttt{get\_organiser\_coordinates()} och \texttt{get\_distance()} är båda privata, det vill säga de är definierade inuti sina respektive föräldrafunktioner och anropas aldrig direkt utifrån. De används enbart för att hålla föräldrafunktionernas logik läsbar och välstrukturerad.
+        Hjälpfunktionen \texttt{get\_organiser\_coordinates()} är privat, funktionen är definierad inuti sin föräldrarfunktion och anropas aldrig direkt utifrån. Den används enbart för att hålla föräldrarfunktionens logik läsbar och välstrukturerad. Hjälpfunktionen \texttt{get\_distance()} är global, men kallas enbart av \texttt{build\_nation\_distance\_matrix()}. Anledningen till detta är att kunna exportera funktionen enskilt, vilket möjliggör testning av avståndslogik.
 
 
-        Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som en array av strängar, vilken \texttt{main()} skriver ut till konsolen.
+        Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som en array av strängar, vilket \texttt{main()} skriver ut i terminalen. För en grafisk representation av dataflödet, se \hyperref[fig:dataflöde]{Fig.1}, notera att det som presenteras i figuren endast innefattar datahantering. Kopplingen mellan användare och Nationskompassen enkapsuleras istället av modulerna \texttt{main} och \texttt{user\_input}.
 
+        \begin{figure}[htbp]
+            \centering
+            \includegraphics[width=\linewidth]{projekt_backend.jpg}
+            \caption{Flödeschema för hur datan från nationsguiden.se flödar igenom Nationskompassen.}
+            \phantomsection
+            \label{fig:dataflöde}
+        \end{figure}
 
 \section{Testning}
     Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en för varje modul av programmet. (skriv också --coverage grejer)
 
     \subsection{\texttt{extract\_essential\_data}}
-        Här testades funktionerna \texttt{get\_open\_pubs()} och \texttt{extract\_essentials()}. Testerna täcker olika scenarion, inklusive fall där det inte finns några öppna pubar, fall där det finns flera öppna pubar och fall där datan innehåller oväntade format eller saknade fält. Testerna verifierar att \texttt{get\_open\_pubs()} korrekt filtrerar ut endast de evenemang som tillhör kategorin 'Pub' och att \texttt{extract\_essentials()} korrekt extraherar och omvandlar informationen till \texttt{NationNode}-objekt. Därefter utfördes även tester på särskilda/få förekommande scenarion, såsom de fall där datan innehåller oväntade format eller där viss data förekommer i dubbletter. Samtliga testningar för Nationskompassen följer liknande struktur, därav agerar \hyperref[fig:overview_tests]{Fig.1} exempel för en överblick på en moduls tester och \hyperref[fig:example_tests]{Fig.2} exempel för hur ett tester kan se ut.
+        Här testades funktionerna \texttt{get\_open\_pubs()} och \texttt{extract\_essentials()}. Testerna täcker olika scenarion, inklusive fall där det inte finns några öppna pubar, fall där det finns flera öppna pubar och fall där datan innehåller oväntade format eller saknade fält. Testerna verifierar att \texttt{get\_open\_pubs()} korrekt filtrerar ut endast de evenemang som tillhör kategorin ''Pub'' och att \texttt{extract\_essentials()} korrekt extraherar och omvandlar informationen till \texttt{NationNode}-objekt. Därefter utfördes även tester på särskilda/få förekommande scenarion, såsom de fall där datan innehåller oväntade format eller där viss data förekommer i dubbletter. Samtliga testningar för Nationskompassen följer liknande struktur, därav agerar \hyperref[fig:overview_tests]{Fig.1} exempel för en överblick på en moduls tester och \hyperref[fig:example_tests]{Fig.2} exempel för hur ett tester kan se ut.
 
     \subsection{\texttt{build\_nation\_matrix}}
         I denna del av testningen säkerställndes att steget mellan skapandet av en \texttt{NationNode} till en \texttt{NationMatrix} var korrek genom funktionerna \texttt{get\_distance()}, \texttt{build\_nation\_index()} samt \texttt{build\_nation\_distance\_matrix()}. Testerna säkerställer bland annat att \texttt{get\_distance()} korrekt beräknar avstånd mellan två \texttt{NationNode}, att \texttt{build\_nation\_index()} korrekt tillger en \texttt{NationNode} ett index och att \texttt{build\_nation\_distance\_matrix()} returnerar en pålitlig struktur av en \texttt{NationMatrix}. Därefter säkerställdes även att funktionerna fungerade som tänkt i ett integrationstest, där en \texttt{NationMatrix} skapades och vardera \texttt{NationNode} tilldelades ett giltigt index.
