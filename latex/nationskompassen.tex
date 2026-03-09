@@ -67,7 +67,7 @@
 \section{Introduktion}
 Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihop om att öka användarvänligheten för studenter på Uppsala Universitet.
 
-Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppet, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationser evenemang och planera pubrundor.
+Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppna, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationser evenemang och planera pubrundor.
 \subsection{Bakgrund}
 \subsection{motivering till projekt}
 - Tänker att denhär rubriken och Bakgrund kanske ska slås ihop till ett enda avsnitt (det som jag skrivit i introduktionen)
@@ -223,21 +223,44 @@ Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som
 en array av strängar, vilken \texttt{main()} skriver ut till konsolen.
 
 
-\section{Jest/resultat/testning}
+\section{Testning}
+Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en för varje modul av programmet. (skriv också --coverage grejer)
 
+\subsection{\texttt{extract\_essential\_data}}
+Här testades funktionerna \texttt{get\_open\_pubs()} och \texttt{extract\_essentials()}, se Fig.X och Fig.X för överblick på tester. Testerna täcker olika scenarion, inklusive fall där det inte finns några öppna pubar, fall där det finns flera öppna pubar och fall där datan innehåller oväntade format eller saknade fält. Testerna verifierar att \texttt{get\_open\_pubs()} korrekt filtrerar ut endast de evenemang som tillhör kategorin "Pub", se Fig.X för exempel, och att \texttt{extract\_essentials()} korrekt extraherar och omvandlar informationen till \texttt{NationNode}-objekt, se Fig.X för exempel. Därefter utfördes även tester på särskilda/få förekommande scenarion, såsom de fall där datan innehåller oväntade format eller där viss data förekommer i dubbletter, se Fig.X för exempel. \\[1cm]
+\includegraphics[height=7cm]{./jest_bilder/get_open_pubs.test.png} \\
+\includegraphics[height=7cm]{./jest_bilder/extract_essentials.test.png} \\
+\includegraphics[height=5cm]{./jest_bilder/extract_essential_data_edge.test.png} \\
+
+\subsection{\texttt{build\_nationGraph}}
+I denna del av testningen säkerställndes att steget mellan skapandet av en \texttt{NationNode} till en \texttt{NationMatrix} var korrek genom funktionerna \texttt{get\_distance()}, \texttt{build\_nation\_index()} samt \texttt{build\_nation\_distance\_matrix()}, se Fig.X, Fig.X samt Fix.X för överblick på testerna samt Fig.X för ett exempeltest. Därefter säkerställdes även att funktionerna fungerade som tänkt i ett integrationstest, se Fix.X.
+
+\subsection{\texttt{create\_route}}
+I sista steget av testningen säkerställdes att skapandet av pubrundan var pålitlig genom funktionerna \texttt{nearest\_nation()} samt \texttt{create\_route()}, se Fig.X för överblick på testerna. Testerna verifierade exempelvis att en pubrunda inte innehöll dubbletter av nationer och att pubrundans längd var anpassad både efter efterfrågan men också antalet tillgängliga nationspubar, se Fig.X för ett exempeltest.
 
 \section{Diskusion}
 \subsection{Val under projektets gång}
-Projeketet inledes med en vision där användaren skulle använda programmet i ett grafiskt användargränssnitt. Flera olika programmeringsspråk diskuterades och det fastställdes att HTML skulle användas för att respresentera datan grafiskt. Denna vision ändrades dock tidigt under projektets gång och istället för ett grafiskt användargränssnitt så exekveras programmet i terminalen. Anledning till detta var att det inte fanns tillräckligt med tid för att implementera detta och att detta inte hade varit en del av kursens lärandemål. 
-\newline
+Projeket inleddes med en vision där användaren skulle använda programmet i ett grafiskt användargränssnitt. Flera olika tekniker diskuterades innan det fastställdes att HTML skulle användas för att representera datan grafiskt. Denna vision ändrades dock tidigt under projektets gång och istället för ett grafiskt användargränssnitt så exekveras programmet direkt i terminalen. Anledningen till detta var främst tidsbrist, men även att den grafiska delen inte var en del av kursens lärandemål.
+
+
 Ett annat val som gjordes tidigt in i projektet var hurvida datan som skulle användas var riktig data eller om den skulle ha varit syntetisk data. Det beslutades om att använda riktig data som hämtades från Nationsguiden, detta för att det skulle vara mer realistiskt och för att det skulle vara mer intressant att arbeta med riktig data. Detta ledde fram till nästa problem, hur skulle datan hämtas? 
-\newline
-Där tog beslutet att huvudfokuset med projektet är inte att implementera en form av web scraper, utan mer att hantera den inhämtade datan. Så därav blev det att låta en ai-assisten skriva funktionen som hämtar datan ifrån Nationsguiden och parsar den till ett format som lättare kan hanteras.
-\newline
-LÄGG TILL OM ÖVERGÅNGEN FRÅN HASHTABELLER TILL GRAFER.
+
+
+Där togs beslutet att huvudfokuset med projektet är inte att implementera en form of web scraper, utan mer att hantera den inhämtade datan. Därför valdes att använda en AI-assistet för att generera funktionen som hämtar datan från nationsguiden.se och parsar den till ett format som enklare kan hanteras.
+
+
+Det sista stora beslutet som togs var att övergå från den ursprungliga visionen av att programmet skulle spara datan för varje nation i hashtabeller, till att istället representera nationerna som noder i en viktad graf. För att sedan med hjälp av en grafalgoritm hitta den kortaste vägen mellan norderna. Detta beslut togs eftersom relationerna mellan nationerna bättre kan beskrivas som ett nätverk. En graf gör det möjligt att representera nationerna som noder och avstånden mellan dem som vikter på kanterna. 
 
 \subsection{svagheter}
+Programmets främsta svaghet finns redan innan inhämtningen av datan, för att hämta datan så måste funktionen uppdateras med en nonce värde, en sträng med nummer som uppdateras 2 gånger under dagen som hämtas från nationsguiden.se. 
+
 \subsection{Framtida projekt}
+Hade det funnits mer tid så hade det varit intreesant att få implemetera det grafiska användargränssnittet som nämndes under. Det hade bidragit till användaupplevelsen och gjort det mer tillgängligt för användare som inte är bekväma med att använda terminalen.
+
+
+Det hade också varit bra att hitta en metod så nonce värdet inte behöver uppdateras manuellt varje gång datan ska hämtas. Det diskuterades olika ideer för att lösa detta. Bland annat genom att använda TypeScript kompatibla playwright, som hade kunnat användas för att spela in stegen som behövs för att hämta nonce värdet. För att därefter köra den delen av programmet innan datan hämtas.
+
+
 \small (fler valmöjligheter, en slutdestination, mer information om evenemang, möjlighet att spara sina rutter - inloggning eller .txt eller .pdf - grafiskt gränssnitt, mobilanpassning, förslag på slutdestinationer utifrån klubbar, etc.)
 
 \section{Sammanfattning, kan slås ihop med diskussionen, eller subsection}

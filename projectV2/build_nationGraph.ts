@@ -35,6 +35,7 @@ export function build_nation_index(nations_of_selected_date: Array<NationNode>):
  * @returns {NationMatrix} A weighted 2D-matrix.
  */
 export function build_nation_distance_matrix(nation_nodes: Array<NationNode>): NationMatrix {
+
     const matrix: NationMatrix = [];
 
     for (let i: number = 0; i < nation_nodes.length; i++) {
