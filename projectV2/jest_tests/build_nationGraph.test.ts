@@ -1,5 +1,5 @@
 import { type NationNode, type NationMatrix } from "../../lib/nation";
-import { get_distance2, get_distance, 
+import { get_distance, 
          build_nation_index, build_nation_distance_matrix 
        } from "../build_nationGraph";
 
@@ -38,7 +38,7 @@ const nodeInvalid: NationNode = {
 // --------------------
 describe("get_distance", () => {
     test("distance between a nation and itself should be 0", () => {
-        const dist = get_distance2(node1.coordinate, node1.coordinate);
+        const dist = get_distance(node1.coordinate, node1.coordinate);
         expect(dist).toBe(0);
     });
 

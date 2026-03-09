@@ -2,18 +2,16 @@ import { type Coordinates, coordinates_of_nations, type NationIndex,
          type NationMatrix, type NationNode
         } from "../lib/nation"
 
-function get_distance(n1: Coordinates, n2: Coordinates): number {
+export function get_distance(n1: Coordinates, n2: Coordinates): number {
+    const n1Valid = coordinates_of_nations.some(n => n.name === n1.name);
+    const n2Valid = coordinates_of_nations.some(n => n.name === n2.name);
 
-    for (const nation of coordinates_of_nations) {
-        if (n1.name === nation.name) {
-            const dx: number = Math.abs(n1.lat - n2.lat);
-            const dy: number = Math.abs(n1.lng - n2.lng);
-            const distance: number = Math.sqrt((dx * dx) + (dy * dy));
-            return distance;
-        }
-    }
-    //should return undefined otherwise, and avoid using promises (!).
-    return NaN;
+    // returns NaN if n1 or n2 are not known nations
+    if (!n1Valid || !n2Valid) { return NaN; }
+
+    const dx = Math.abs(n1.lat - n2.lat);
+    const dy = Math.abs(n1.lng - n2.lng);
+    return Math.sqrt(dx * dx + dy * dy);
 }
 
 /**
