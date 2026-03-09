@@ -57,6 +57,7 @@
 \section{Introduktion}
     Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihop om att öka användarvänligheten för studenter på Uppsala Universitet.
 
+
     Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppna, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationser evenemang och planera pubrundor.
 
 % Guide
@@ -66,9 +67,7 @@
 \section{Programdokumentation}
 
     \subsection{Allmän design på programmet}
-        Nationskompassen är en pubrundsplanerare för Uppsalas studentnationer. Den låter användaren välja startpub och längden på rutten Därefter hämtar den data från hemsidan nationsguiden.se och genererar den geografiskt sett kortaste pubrundan baserat på användarens val.
-
-        Programmet Nationskompassen är uppdelat i sex moduler med olika ansvarsområden:
+        Nationskompassen är en pubrundsplanerare för Uppsalas studentnationer. Den låter användaren välja startpub och längden på rutten Därefter hämtar den data från hemsidan nationsguiden.se och genererar den geografiskt sett kortaste pubrundan baserat på användarens val. Programmet Nationskompassen är uppdelat i sex moduler med olika ansvarsområden:
         \begin{itemize}
             \item \textbf{\texttt{collect\_data}} - Hämtar information från nationsguiden.se
             \item \textbf{\texttt{extract\_essential\_data}} - Extraherar relevant information från collect\_data
@@ -99,47 +98,36 @@
                 används för att ta emot användarens val: startpub och antal nationer.
 
         \subsubsection{Algoritmer}
-            Programmet använder två viktiga algoritmer som återfinns i \texttt{get\_distance} och \texttt{nearest\_nation}.
-
-            \texttt{get\_distance} utnyttjar Pythagoras sats för att beräkna avståndet mellan två nationer med hjälp av deras latitud- och longitudkoordinater.
-
-            \texttt{nearest\_nation} är en så kallad girig närmaste-granne-algoritm. Det innebär att den vid varje nytt steg under sökningen gör valet enbart baserat på vad som är bäst i stunden. I \texttt{nearest\_nation} innebär det att den alltid väljer den nation som ligger närmast den nation den befinner sig på just nu.
+            Programmet använder två viktiga algoritmer som återfinns i \texttt{get\_distance} och \texttt{nearest\_nation}. \texttt{get\_distance} utnyttjar Pythagoras sats för att beräkna avståndet mellan två nationer med hjälp av deras latitud- och longitudkoordinater. \texttt{nearest\_nation} är en så kallad girig närmaste-granne-algoritm. Det innebär att den vid varje nytt steg under sökningen gör valet enbart baserat på vad som är bäst i stunden. I \texttt{nearest\_nation} innebär det att den alltid väljer den nation som ligger närmast den nation den befinner sig på just nu.
 
     \subsection{Moduler och bibliotek}
-        Nationskompassen importerar fyra bibliotek: \texttt{nation}, \texttt{list}, \texttt{hashtables} och \texttt{graphs}.
-
-        Från \texttt{list}-biblioteket hämtas typen \texttt{Pair} och konstruktorfunktionen \texttt{pair}, som används för att representera användarens val som ett par av startnation och antal stopp.
-
-        \texttt{nation}-biblioteket innehåller alla relevanta typer för programmet, beskrivna i avsnitt 3.2, samt en statisk array som håller koordinaterna till alla nationer.
+        Nationskompassen importerar fyra bibliotek: \texttt{nation}, \texttt{list}, \texttt{hashtables} och \texttt{graphs}. Från \texttt{list}-biblioteket hämtas typen \texttt{Pair} och konstruktorfunktionen \texttt{pair}, som används för att representera användarens val som ett par av startnation och antal stopp. \texttt{nation}-biblioteket innehåller alla relevanta typer för programmet, beskrivna i avsnitt 3.2, samt en statisk array som håller koordinaterna till alla nationer.
 
     \subsection{Viktiga funktioner}
-        \textbf{main()} är startpunkten för hela programmet. Anropar relevanta funktioner för datainsamling och bearbetning samt hanterar eventuella fel med try/catch.
-
-        \textbf{getEvents()} skickar ett anrop till nationsguiden.se och returnerar en array av typen \texttt{NationGuideCategory}.
-
-        \textbf{get\_open\_pubs(json\_parsed)} filtrerar en array av typen \texttt{Array\textless{}NationGuideCategory\textgreater{}} baserat på
-        event som tillhör kategorin ''pub'' och returnerar en array med \texttt{NationGuideEvent}.
-
-        \textbf{extract\_essentials()} omvandlar en array av typen \texttt{Array\textless{}NationGuideEvent\textgreater{}} till en array av \texttt{NationNode} genom att extrahera relevant information från varje instans av \texttt{NationGuideEvent}. Använder hjälpfunktionen
-        \texttt{get\_organiser\_coordinates()} för att hämta nationens koordinater från koordinatarrayen i nationsbiblioteket. Returnerar en array av \texttt{NationNode}.
-
-        \textbf{build\_nation\_distance\_matrix()} bygger en viktad tvådimensionell matris av typen \texttt{NationMatrix} baserat på en array av \texttt{NationNode}. Bestämmer vikten med hjälp av \texttt{get\_distance()} som beräknar avståndet mellan två nationer med hjälp av Pythagoras sats.
-
-        \textbf{build\_nation\_index()} kopplar varje nationnamn till ett index med den inbyggda Map-funktionen. Används för att snabbt slå upp ett nationsindex.
-
-        \textbf{nearest\_nation()} hittar den närmaste, ej besökta nationen som inte är den nuvarande. Returnerar den närmast tillgängliga nationen.
-
-        \textbf{create\_route()} tar emot användarens val av startnation samt antal pubar som önskas besökas. Skapar pubrundan med hjälp av repetitiva anrop till \texttt{nearest\_nation()} tills pubrundan uppfyller användarens krav eller tills det inte finns fler pubar att besöka.
+        \begin{itemize}
+            \item \texttt{main()} är startpunkten för hela programmet. Anropar relevanta funktioner för datainsamling och bearbetning samt hanterar eventuella fel med try/catch.
+            \item \texttt{getEvents()} skickar ett anrop till nationsguiden.se och returnerar en array av typen \texttt{NationGuideCategory}.
+            \item \texttt{get\_open\_pubs(json\_parsed)} filtrerar en array av typen \texttt{Array\textless{}NationGuideCategory\textgreater{}} baserat på event som tillhör kategorin ''pub'' och returnerar en array med \texttt{NationGuideEvent}.
+            \item \texttt{extract\_essentials()} omvandlar en array av typen \texttt{Array\textless{}NationGuideEvent\textgreater{}} till en array av \texttt{NationNode} genom att extrahera relevant information från varje instans av \texttt{NationGuideEvent}. Använder hjälpfunktionen \texttt{get\_organiser\_coordinates()} för att hämta nationens koordinater från koordinatarrayen i nationsbiblioteket. Returnerar en array av \texttt{NationNode}.
+            \item \texttt{build\_nation\_distance\_matrix()} bygger en viktad tvådimensionell matris av typen \texttt{NationMatrix} baserat på en array av \texttt{NationNode}. Bestämmer vikten med hjälp av \texttt{get\_distance()} som beräknar avståndet mellan två nationer med hjälp av Pythagoras sats.
+            \item \texttt{build\_nation\_index()} kopplar varje nationnamn till ett index med den inbyggda Map-funktionen. Används för att snabbt slå upp ett nationsindex.
+            \item \texttt{nearest\_nation()} hittar den närmaste, ej besökta nationen som inte är den nuvarande. Returnerar den närmast tillgängliga nationen.
+            \item \texttt{create\_route()} tar emot användarens val av startnation samt antal pubar som önskas besökas. Skapar pubrundan med hjälp av repetitiva anrop till \texttt{nearest\_nation()} tills pubrundan uppfyller användarens krav eller tills det inte finns fler pubar att besöka.
+        \end{itemize}
 
     \subsection{Kontrollflöde och hjälpfunktioner}
 
         Programmet börjar i \texttt{main()}, som koordinerar samtliga anrop under programmets körning. Det första steget är att hämta data, vilket sker genom ett anrop till \texttt{getEvents()}. Den funktionen skickar gör anrop till nationsguiden.se och returnerar rådatan som en array av \texttt{NationGuideCategory}.
 
+
         Rådatan skickas vidare till \texttt{get\_open\_pubs()}, som filtrerar bort alla evenemang som inte tillhör kategorin ''pub'' och returnerar en renare array av \texttt{NationGuideEvent}. Denna array skickas i sin tur till \texttt{extract\_essentials()}, som omvandlar varje event till en \texttt{NationNode}. För att göra det anropar \texttt{extract\_essentials()} sin privata hjälpfunktion \texttt{get\_organiser\_coordinates()}, vilken slår upp nationens GPS-koordinater i den statiska koordinatarrayen från nationsbiblioteket. Koordinaterna läggs sedan in i \texttt{NationNode}-objektet.
+
 
         Den resulterande arrayen av \texttt{NationNode} skickas slutligen till \texttt{create\_route()} tillsammans med användarens val av startnation och antal stopp. Inuti \texttt{create\_route()} sker en intern kedja av anrop: först byggs distansmatrisen upp via \texttt{build\_nation\_distance\_matrix()}, som internt anropar sin hjälpfunktion \texttt{get\_distance()} för att beräknar avståndet mellan varje nationpar. Därefter anropas \texttt{build\_nation\_index()} för att kunna slå upp startnationers index i matrisen. Sedan itererar \texttt{create\_route()} och anropar \texttt{nearest\_nation()} upprepade gånger tills pubrundan uppfyller det antal stopp som användaren angett.
 
+
         Hjälpfunktionerna \texttt{get\_organiser\_coordinates()} och \texttt{get\_distance()} är båda privata, det vill säga de är definierade inuti sina respektive föräldrafunktioner och anropas aldrig direkt utifrån. De används enbart för att hålla föräldrafunktionernas logik läsbar och välstrukturerad.
+
 
         Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som en array av strängar, vilken \texttt{main()} skriver ut till konsolen.
 
@@ -160,10 +148,13 @@
     \subsection{Val under projektets gång}
         Projeket inleddes med en vision där användaren skulle använda programmet i ett grafiskt användargränssnitt. Flera olika tekniker diskuterades innan det fastställdes att HTML skulle användas för att representera datan grafiskt. Denna vision ändrades dock tidigt under projektets gång och istället för ett grafiskt användargränssnitt så exekveras programmet direkt i terminalen. Anledningen till detta var främst tidsbrist, men även att den grafiska delen inte var en del av kursens lärandemål.
 
+
         Ett annat val som gjordes tidigt in i projektet var hurvida datan som skulle användas var riktig data eller om den skulle ha varit syntetisk data. Det beslutades om att använda riktig data som hämtades från Nationsguiden, detta för att det skulle vara mer realistiskt och för att det skulle vara mer intressant att arbeta med riktig data. Detta ledde fram till nästa problem, hur skulle datan hämtas? 
+
 
         Där togs beslutet att huvudfokuset med projektet är inte att implementera en form of web scraper, utan mer att hantera den inhämtade datan. Därför valdes att använda en AI-assistet för att generera funktionen som hämtar datan från nationsguiden.se och parsar den till ett format som enklare kan hanteras.
 
+        
         Det sista stora beslutet som togs var att övergå från den ursprungliga visionen av att programmet skulle spara datan för varje nation i hashtabeller, till att istället representera nationerna som noder i en viktad graf. För att sedan med hjälp av en grafalgoritm hitta den kortaste vägen mellan norderna. Detta beslut togs eftersom relationerna mellan nationerna bättre kan beskrivas som ett nätverk. En graf gör det möjligt att representera nationerna som noder och avstånden mellan dem som vikter på kanterna. 
 
     \subsection{svagheter}
