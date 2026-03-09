@@ -45,6 +45,11 @@ var readline = require("readline");
 var build_nationGraph_1 = require("./build_nationGraph");
 //Creates an interface for typescript to read the terminal
 exports.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+/**
+ * Wraps rl.question in a Promise to allow async/await usage.
+ * @param question - The question to display to the user.
+ * @returns The userinput as a string
+ */
 function ask(question) {
     return new Promise(function (resolve) {
         exports.rl.question(question, function (answer) {
@@ -52,6 +57,13 @@ function ask(question) {
         });
     });
 }
+/**
+ * Displays all open nations with their index and pub name, then prompts
+ * the user to choose a starting pub and how many pubs to visit.
+ * Reprompts if the chosen index is out of range.
+ * @param openNations - Array of currently open NationNodes to choose from.
+ * @returns A pair with starting pubname and nr of pubs to visit
+ */
 function choice(openNations) {
     return __awaiter(this, void 0, void 0, function () {
         var currentNations, _i, openNations_1, nat, pubnameIndex, _a, _b, nrOfPubs, _c, pubname;
@@ -87,6 +99,10 @@ function choice(openNations) {
         });
     });
 }
+/**
+ * Asks the user if they want to plan a new pub route.
+ * @returns A promise either true or false based on user input
+ */
 function newRoute() {
     return __awaiter(this, void 0, void 0, function () {
         var answer;
@@ -107,6 +123,10 @@ function newRoute() {
         });
     });
 }
+/**
+ * Asks the user if they want contact information for the pubs in their route.
+ * @returns A promise either true or false based on user input
+ */
 function nationInformation() {
     return __awaiter(this, void 0, void 0, function () {
         var answer;
