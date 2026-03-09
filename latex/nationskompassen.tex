@@ -101,8 +101,8 @@
             Programmet använder två viktiga algoritmer som återfinns i \texttt{get\_distance} och \texttt{nearest\_nation}. \texttt{get\_distance} utnyttjar Pythagoras sats för att beräkna avståndet mellan två nationer med hjälp av deras latitud- och longitudkoordinater. \texttt{nearest\_nation} är en så kallad girig närmaste-granne-algoritm. Det innebär att den vid varje nytt steg under sökningen gör valet enbart baserat på vad som är bäst i stunden. I \texttt{nearest\_nation} innebär det att den alltid väljer den nation som ligger närmast den nation den befinner sig på just nu.
 
     \subsection{Moduler och bibliotek}
-        Nationskompassen importerar fyra bibliotek: \texttt{nation}, \texttt{list}, \texttt{hashtables} och \texttt{graphs}. Från \texttt{list}-biblioteket hämtas typen \texttt{Pair} och konstruktorfunktionen \texttt{pair}, som används för att representera användarens val som ett par av startnation och antal stopp. \texttt{nation}-biblioteket innehåller alla relevanta typer för programmet, beskrivna i avsnitt 3.2, samt en statisk array som håller koordinaterna till alla nationer.
-
+        Nationskompassen importerar två bibliotek: \texttt{nation.ts} samt \texttt{list.ts}. \texttt{list}-biblioteket är taget från det bibliotek kursen tillhandahåller och därifrån hämtas typen \texttt{Pair} och konstruktorfunktionen \texttt{pair}, som används för att representera användarens val som ett par av startnation och antal stopp. Dessutom hämtas välj-funktionerna \texttt{head()} samt \texttt{tail()}. \texttt{nation}-biblioteket innehåller alla relevanta typer för programmet, beskrivna i avsnitt \textit{3.2 Viktiga datastrukturer och algoritmer}, samt en statisk array som håller koordinaterna till alla nationer. Modulen \texttt{readline} har användes för att möjliggöra inläsning av indata från användaren i terminalen.
+        
     \subsection{Viktiga funktioner}
         \begin{itemize}
             \item \texttt{main()} är startpunkten för hela programmet. Anropar relevanta funktioner för datainsamling och bearbetning samt hanterar eventuella fel med try/catch.
