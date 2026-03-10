@@ -55,12 +55,7 @@
 \newpage
 % Introduktion
 \section{Introduktion}
-<<<<<<< HEAD
     Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden \cite{Nationsguiden} är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihop om att öka användarvänligheten för studenter på Uppsala Universitet.
-=======
-\label{sec: intro}
-    Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihop om att öka användarvänligheten för studenter på Uppsala Universitet.
->>>>>>> 36b54e4fcfa56523e65008106b74df28bc602904
 
 
     Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppna, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationser evenemang och planera pubrundor.
@@ -68,6 +63,67 @@
 % Guide
 \section{Guide till Nationskompassen}
 \label{sec: guide}
+
+    Det här avsnittet beskriver hur du installerar och använder Nationskompassen steg för steg, från installation till en färdig pubrunda.
+
+    \subsection{Förutsättningar}
+
+        Innan du kan köra Nationskompassen behöver följande vara installerat på din dator:
+
+        \begin{itemize}
+            \item \textbf{Node.js} (version 18 eller senare) -- används för att köra TypeScript-projekt.
+            \item \textbf{npm} -- pakethanterare som följer med Node.js.
+            \item \textbf{ts-node} -- används för att köra \texttt{.ts}-filer direkt utan att kompilera dem manuellt.
+        \end{itemize}
+
+        Kontrollera att Node.js och npm är installerade genom att köra följande kommandon i terminalen (se \hyperref[fig:guide-versions]{Bilaga~\ref*{fig:guide-versions}}).
+
+    \subsection{Installation}
+
+        \begin{enumerate}
+            \item Ladda ner eller klona projektmappen till din dator.
+            \item Navigera till projektets rotmapp i terminalen.
+            \item Installera projektets beroenden med \texttt{npm} (se \hyperref[fig:guide-npm-install]{Bilaga~\ref*{fig:guide-npm-install}}).
+        \end{enumerate}
+
+        Projektets mappstruktur bör se ut ungefär som i \hyperref[fig:guide-folder-structure]{Bilaga~\ref*{fig:guide-folder-structure}}.
+
+    \subsection{Starta programmet}
+
+        Kör programmet från projektets rotmapp med kommandot \texttt{node main.js} (se \hyperref[fig:guide-start-cmd]{Bilaga~\ref*{fig:guide-start-cmd}}).
+        När programmet startar hämtas aktuell data från nationsguiden.se och du möts av startmenyn (se \hyperref[fig:guide-main-menu]{Bilaga~\ref*{fig:guide-main-menu}}).
+
+    \subsection{Visa öppna pubbar}
+
+        Välj alternativ \textbf{2} för att se en lista över alla nationspubbar som är öppna just nu. För varje pub visas organisation, pubnamn, kontaktinformation och öppettider (se \hyperref[fig:guide-open-pubs]{Bilaga~\ref*{fig:guide-open-pubs}}).
+
+    \subsection{Skapa en pubrunda}
+
+        Välj alternativ \textbf{1} för att skapa en pubrunda. Programmet visar de tillgängliga pubarna numrerade och ber dig välja en startpub och hur många stopp du vill göra.
+
+        \subsubsection*{Steg 1 -- Välj startpub}
+
+        En numrerad lista visas med alla öppna pubbar. Ange numret för den pub du vill börja på (se \hyperref[fig:guide-choose-start]{Bilaga~\ref*{fig:guide-choose-start}} och \hyperref[fig:guide-startpub-exempel]{Bilaga~\ref*{fig:guide-startpub-exempel}}).
+
+        \subsubsection*{Steg 2 -- Välj antal stopp}
+
+        Ange hur många pubbar du vill besöka totalt under rundan (se \hyperref[fig:guide-choose-stops]{Bilaga~\ref*{fig:guide-choose-stops}}).
+
+        \subsubsection*{Steg 3 -- Din färdiga pubrunda}
+
+        Programmet beräknar den kortaste möjliga rundan och presenterar resultatet (se \hyperref[fig:guide-finished-route]{Bilaga~\ref*{fig:guide-finished-route}}). Ordningen på pubarna är beräknad geografiskt, så att du alltid tar det kortast möjliga steget till nästa pub. Du kan skapa hur många rundor som helst under samma session.
+
+    \subsection{Avsluta programmet}
+
+        Skriv \textbf{Q} (eller \textbf{q}) i huvudmenyn för att avsluta programmet (se \hyperref[fig:guide-quit]{Bilaga~\ref*{fig:guide-quit}}).
+
+    \subsection{Felhantering och vanliga problem}
+
+        \begin{itemize}
+            \item \textbf{Inga pubbar visas:} Det kan bero på att inga nationer har öppet det aktuella datumet, eller att nonce-värdet i \texttt{collect\_data.ts} behöver uppdateras. Se avsnitt \hyperref[subsec: svagheter]{\textit{5.2 Svagheter}} för mer information.
+            \item \textbf{Ogiltigt val i menyn:} Om du anger ett tal utanför det giltiga intervallet vid val av startpub, uppmanar programmet dig att försöka igen (se \hyperref[fig:guide-invalid-input]{Bilaga~\ref*{fig:guide-invalid-input}}).
+            \item \textbf{Färre stopp än önskat:} Om du begär fler stopp än det finns öppna pubbar avslutas rundan i förtid med ett meddelande (se \hyperref[fig:guide-too-few-pubs]{Bilaga~\ref*{fig:guide-too-few-pubs}}).
+        \end{itemize}
 
 % Dokumentation
 \section{Programdokumentation}
@@ -145,12 +201,7 @@
         Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som en array av strängar, vilket \texttt{main()} skriver ut i terminalen. För en grafisk representation av dataflödet, se \hyperref[fig:dataflöde]{Fig.1} under \hyperref[sec: bilagor]{\textit{Bilagor}}, notera att det som presenteras i figuren endast innefattar datahantering. Kopplingen mellan användare och Nationskompassen enkapsuleras istället av modulerna \texttt{main} och \texttt{user\_input}.
 
 \section{Testning}
-<<<<<<< HEAD
     Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest ("Jest är ett härligt JavaScript-testramverk med fokus på enkelhet". \cite{jest}). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en för varje modul av programmet. (skriv också --coverage grejer)
-=======
-\label{sec: test}
-    Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en del för modulen \texttt{extract\_essential\_data}, en för \texttt{build\_nation\_matrix} och en för \texttt{create\_route}. Se \hyperref[fig: jest_results]{Fig.2} under \hyperref[sec: bilagor]{\textit{Bilagor}} för överblick på resultat på testerna.
->>>>>>> 36b54e4fcfa56523e65008106b74df28bc602904
 
     \subsection{\texttt{extract\_essential\_data}}
     \label{subsec: extract_essential_data}
@@ -279,6 +330,119 @@
         \phantomsection
         \label{fig: example_tests}
 \end{figure}
+\newpage
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/version_control.png}
+    \caption{Kontroll av Node.js- och npm-version i terminalen.}
+    \phantomsection
+    \label{fig:guide-versions}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/npm_install.png}
+    \caption{Körning av \texttt{npm install} i projektmappen.}
+    \phantomsection
+    \label{fig:guide-npm-install}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{./guide_bilder/struktur.png}
+    \caption{Projektets mappstruktur i VS Code.}
+    \phantomsection
+    \label{fig:guide-folder-structure}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/kompilera.png}
+    \caption{Kompilering av projektet med \texttt{tsc main.ts}.}
+    \phantomsection
+    \label{fig:guide-compile}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/start.png}
+    \caption{Startkommando \texttt{node main.js} i terminalen.}
+    \phantomsection
+    \label{fig:guide-start-cmd}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/Startmeny.png}
+    \caption{Startmenyn i Nationskompassen.}
+    \phantomsection
+    \label{fig:guide-main-menu}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/visa_pubar.png}
+    \caption{Lista över öppna nationspubbar (alternativ 2).}
+    \phantomsection
+    \label{fig:guide-open-pubs}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/valja_startpub.png}
+    \caption{Val av startpub -- numrerad lista över tillgängliga pubbar.}
+    \phantomsection
+    \label{fig:guide-choose-start}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/startpub_exempel.png}
+    \caption{Exempel på inmatat svar vid val av startpub.}
+    \phantomsection
+    \label{fig:guide-startpub-exempel}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/langd_exempel.png}
+    \caption{Val av antal stopp i pubrundan.}
+    \phantomsection
+    \label{fig:guide-choose-stops}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/fardig_runda.png}
+    \caption{Den färdiga pubrundan presenteras i terminalen.}
+    \phantomsection
+    \label{fig:guide-finished-route}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/quit.png}
+    \caption{Avslutning av programmet med kommandot Q.}
+    \phantomsection
+    \label{fig:guide-quit}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/fel_input_meny.png}
+    \caption{Felmeddelande vid ogiltigt menyval.}
+    \phantomsection
+    \label{fig:guide-invalid-input}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/for_lang.png}
+    \caption{Meddelande när önskat antal stopp överstiger tillgängliga pubbar.}
+    \phantomsection
+    \label{fig:guide-too-few-pubs}
+\end{figure}
+
 
 \bibliographystyle{plain}
 \bibliography{referenser}
