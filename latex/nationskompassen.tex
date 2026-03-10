@@ -55,15 +55,75 @@
 \newpage
 % Introduktion
 \section{Introduktion}
-\label{sec: intro}
-    Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihop om att öka användarvänligheten för studenter på Uppsala Universitet.
+    Uppsala som studentstad präglas av dess nationer och de aktiviteter som med nationerna kommer till. Nationsguiden \cite{Nationsguiden} är en webbplats som samlar in och tillhandahåller information om de olika nationerna i Uppsala, inklusive deras evenemang, öppettider och kontaktinformation. Denna webbplats är avsedd att hjälpa både nya och befintliga studenter att navigera i det rika utbuted av nationer i Uppsala. Detta arbete menar dock att webplatsen saknar viss funktionallitet. Möjligheten att kombinera nationers aktiviteter och evenemang är något som Nationsguiden inte själva implementerat, det initiativet står istället användaren för och kan vara tidskrävande. Nationskompassen som program ses kunna komplettera denna brist i funktionallitet hos Nationsguiden, ihopp om att öka användarvänligheten för studenter på Uppsala Universitet.
 
 
-    Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppna, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationser evenemang och planera pubrundor.
+    Nationskompassen är ett program som utnyttjar den information som Nationsguiden tillhandahåller för att skapa den kortaste pubrundan möjlig utfirån de nationspubar som för ett givet datum är öppna, vart användaren vill påbörja sin pubrunda samt hur många nationspubbar som rundan ska innehålla. Genom detta erbjuder Nationskompassen en effektiv lösning på att slå samman nationers evenemang och planera pubrundor.
 
 % Guide
 \section{Guide till Nationskompassen}
 \label{sec: guide}
+
+    Det här avsnittet beskriver hur du installerar och använder Nationskompassen steg för steg, från installation till en färdig pubrunda.
+
+    \subsection{Förutsättningar}
+
+        Innan du kan köra Nationskompassen behöver följande vara installerat på din dator:
+
+        \begin{itemize}
+            \item \textbf{Node.js} (version 18 eller senare) -- används för att köra TypeScript-projekt.
+            \item \textbf{npm} -- pakethanterare som följer med Node.js.
+            \item \textbf{ts-node} -- används för att köra \texttt{.ts}-filer direkt utan att kompilera dem manuellt.
+        \end{itemize}
+
+        Kontrollera att Node.js och npm är installerade genom att köra följande kommandon i terminalen (se \hyperref[fig:guide-versions]{Bilaga~\ref*{fig:guide-versions}}).
+
+    \subsection{Installation}
+
+        \begin{enumerate}
+            \item Ladda ner eller klona projektmappen till din dator.
+            \item Navigera till projektets rotmapp i terminalen.
+            \item Installera projektets beroenden med \texttt{npm} (se \hyperref[fig:guide-npm-install]{Bilaga~\ref*{fig:guide-npm-install}}).
+        \end{enumerate}
+
+        Projektets mappstruktur bör se ut ungefär som i \hyperref[fig:guide-folder-structure]{Bilaga~\ref*{fig:guide-folder-structure}}.
+
+    \subsection{Starta programmet}
+
+        Kör programmet från projektets rotmapp med kommandot \texttt{node main.js} (se \hyperref[fig:guide-start-cmd]{Bilaga~\ref*{fig:guide-start-cmd}}).
+        När programmet startar hämtas aktuell data från nationsguiden.se och du möts av startmenyn (se \hyperref[fig:guide-main-menu]{Bilaga~\ref*{fig:guide-main-menu}}).
+
+    \subsection{Visa öppna pubbar}
+
+        Välj alternativ \textbf{2} för att se en lista över alla nationspubbar som är öppna just nu. För varje pub visas organisation, pubnamn, kontaktinformation och öppettider (se \hyperref[fig:guide-open-pubs]{Bilaga~\ref*{fig:guide-open-pubs}}).
+
+    \subsection{Skapa en pubrunda}
+
+        Välj alternativ \textbf{1} för att skapa en pubrunda. Programmet visar de tillgängliga pubarna numrerade och ber dig välja en startpub och hur många stopp du vill göra.
+
+        \subsubsection*{Steg 1 -- Välj startpub}
+
+        En numrerad lista visas med alla öppna pubbar. Ange numret för den pub du vill börja på (se \hyperref[fig:guide-choose-start]{Bilaga~\ref*{fig:guide-choose-start}} och \hyperref[fig:guide-startpub-exempel]{Bilaga~\ref*{fig:guide-startpub-exempel}}).
+
+        \subsubsection*{Steg 2 -- Välj antal stopp}
+
+        Ange hur många pubbar du vill besöka totalt under rundan (se \hyperref[fig:guide-choose-stops]{Bilaga~\ref*{fig:guide-choose-stops}}).
+
+        \subsubsection*{Steg 3 -- Din färdiga pubrunda}
+
+        Programmet beräknar den kortaste möjliga rundan och presenterar resultatet (se \hyperref[fig:guide-finished-route]{Bilaga~\ref*{fig:guide-finished-route}}). Ordningen på pubarna är beräknad geografiskt, så att du alltid tar det kortast möjliga steget till nästa pub. Du kan skapa hur många rundor som helst under samma session.
+
+    \subsection{Avsluta programmet}
+
+        Skriv \textbf{Q} (eller \textbf{q}) i huvudmenyn för att avsluta programmet (se \hyperref[fig:guide-quit]{Bilaga~\ref*{fig:guide-quit}}).
+
+    \subsection{Felhantering och vanliga problem}
+
+        \begin{itemize}
+            \item \textbf{Inga pubbar visas:} Det kan bero på att inga nationer har öppet det aktuella datumet, eller att nonce-värdet i \texttt{collect\_data.ts} behöver uppdateras. Se avsnitt \hyperref[subsec: svagheter]{\textit{5.2 Svagheter}} för mer information.
+            \item \textbf{Ogiltigt val i menyn:} Om du anger ett tal utanför det giltiga intervallet vid val av startpub, uppmanar programmet dig att försöka igen (se \hyperref[fig:guide-invalid-input]{Bilaga~\ref*{fig:guide-invalid-input}}).
+            \item \textbf{Färre stopp än önskat:} Om du begär fler stopp än det finns öppna pubbar avslutas rundan i förtid med ett meddelande (se \hyperref[fig:guide-too-few-pubs]{Bilaga~\ref*{fig:guide-too-few-pubs}}).
+        \end{itemize}
 
 % Dokumentation
 \section{Programdokumentation}
@@ -71,7 +131,7 @@
 
     \subsection{Allmän design på programmet}
     \label{subsec: design}
-        Nationskompassen är en pubrundsplanerare för Uppsalas studentnationer. Den låter användaren välja startpub och längden på rutten Därefter hämtar den data från hemsidan nationsguiden.se och genererar den geografiskt sett kortaste pubrundan baserat på användarens val. Programmet Nationskompassen är uppdelat i sex moduler med olika ansvarsområden:
+        Nationskompassen är en pubrundsplanerare för Uppsalas studentnationer. Den låter användaren välja startpub och längden på rutten. Därefter hämtar den data från hemsidan nationsguiden.se och genererar den geografiskt sett kortaste pubrundan baserat på användarens val. Programmet Nationskompassen är uppdelat i sex moduler med olika ansvarsområden:
         \begin{itemize}
             \item \textbf{\texttt{collect\_data}} - Hämtar information från nationsguiden.se
             \item \textbf{\texttt{extract\_essential\_data}} - Extraherar relevant information från collect\_data
@@ -80,7 +140,7 @@
             \item \textbf{\texttt{user\_input}} - Möjliggör för användaren att interagera med programet
             \item \textbf{\texttt{main}} - Den drivande modulen som kordinerar de andra modulerna
         \end{itemize}
-        Strukturen i programmet är sekventiell. Under \hyperref[subsec: flöde]{\textit{3.5 Kontrollflöde och hjälpfunktioner}} finns det en mer djupgående förklaring på hur programets olika moduler samspelar samt en grafisk visualisation. 
+        Strukturen i programmet är sekventiell. Under \hyperref[subsec: flöde]{\textit{3.5 Kontrollflöde och hjälpfunktioner}} finns det en mer djupgående förklaring på hur programets olika moduler samspelar samt en grafisk visualisering. 
 
     \subsection{Viktiga datastrukturer och algoritmer}
     \label{subsec: DSAL}
@@ -135,14 +195,13 @@
         Den resulterande arrayen av \texttt{NationNode} skickas slutligen till \texttt{create\_route()} tillsammans med användarens val av startnation och antal stopp. Inuti \texttt{create\_route()} sker en intern kedja av anrop: först byggs distansmatrisen upp via \texttt{build\_nation\_distance\_matrix()}, som internt anropar sin hjälpfunktion \texttt{get\_distance()} för att beräkna det relativa avståndet mellan varje nation och dess grannar. Därefter anropas \texttt{build\_nation\_index()} för att kunna slå upp startnationers index i matrisen. Sedan itererar \texttt{create\_route()} och anropar \texttt{nearest\_nation()} upprepade gånger tills pubrundan uppfyller det antal stopp som användaren angett eller tills dess att inga fler tillgängliga nationer finns.
 
 
-        Hjälpfunktionen \texttt{get\_organiser\_coordinates()} är privat, funktionen är definierad inuti sin föräldrarfunktion och anropas aldrig direkt utifrån. Den används enbart för att hålla föräldrarfunktionens logik läsbar och välstrukturerad. Hjälpfunktionen \texttt{get\_distance()} är global, men kallas enbart av \texttt{build\_nation\_distance\_matrix()}. Anledningen till detta är att kunna exportera funktionen enskilt, vilket möjliggör testning av avståndslogik.
+        Hjälpfunktionen \texttt{get\_organiser\_coordinates()} är privat, funktionen är definierad inuti sin föräldrarfunktion och anropas aldrig direkt utifrån. Den används enbart för att hålla föräldrarfunktionens logik läsbar och välstrukturerad. Hjälpfunktionen \texttt{get\_distance()} är global, men anropas enbart av \texttt{build\_nation\_distance\_matrix()}. Anledningen till detta är att kunna exportera funktionen enskilt, vilket möjliggör testning av avståndslogik.
 
 
         Slutligen returnerar \texttt{create\_route()} den färdiga pubrundan som en array av strängar, vilket \texttt{main()} skriver ut i terminalen. För en grafisk representation av dataflödet, se \hyperref[fig:dataflöde]{Fig.1} under \hyperref[sec: bilagor]{\textit{Bilagor}}, notera att det som presenteras i figuren endast innefattar datahantering. Kopplingen mellan användare och Nationskompassen enkapsuleras istället av modulerna \texttt{main} och \texttt{user\_input}.
 
 \section{Testning}
-\label{sec: test}
-    Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ref här och förklaring). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en del för modulen \texttt{extract\_essential\_data}, en för \texttt{build\_nation\_matrix} och en för \texttt{create\_route}. Se \hyperref[fig: jest_results]{Fig.2} under \hyperref[sec: bilagor]{\textit{Bilagor}} för överblick på resultat på testerna.
+    Testning är en central del av mjukvareutveckling som syftar till att säkerställa en programvaras pålitlighet, funktionalitet och kvalitet. Som en del av detta projektarbete och utvecklingen av Nationskompassen användes testning för att verifiera att de olika komponenterna i programmet fungerar och samverkar som tänkt. Eftersom den data som tillhandahåls av nationsguiden.se kan variera, är det avgörande att programet kan hantera dessa variationer korrekt. Testningen utfördes på två nivåer: enhetstestning och integrationstestning. Enhetstestning fokuserade på att testa individuella funktioner och moduler i isolering, medan integrationstestningen syftade till att säkerställa huruvida data flödar genom programets olika komponenter som tänkt. Testningen utfördest med Jest (ett enkelt JavaScript-testramverk \cite{jest}.). All testning genomfördes med syntetisk data och är uppdelad i tre delar, en del för modulen \texttt{extract\_essential\_data}, en för \texttt{build\_nation\_matrix} och slutligen en för \texttt{create\_route}. För en överblick på testernas resultat, se \hyperref[fig: jest_results]{Figur 2}.
 
     \subsection{\texttt{extract\_essential\_data}}
     \label{subsec: extract_essential_data}
@@ -150,7 +209,7 @@
 
     \subsection{\texttt{build\_nation\_matrix}}
     \label{subsec: build_nation_matrix}
-        I denna del av testningen säkerställndes att steget mellan skapandet av en \texttt{NationNode} till en \texttt{NationMatrix} var korrek genom funktionerna \texttt{get\_distance()}, \texttt{build\_nation\_index()} samt \texttt{build\_nation\_distance\_matrix()}. Testerna säkerställer bland annat att \texttt{get\_distance()} korrekt beräknar avstånd mellan två \texttt{NationNode}, att \texttt{build\_nation\_index()} korrekt tillger en \texttt{NationNode} ett index och att \texttt{build\_nation\_distance\_matrix()} returnerar en pålitlig struktur av en \texttt{NationMatrix}. Därefter säkerställdes även att funktionerna fungerade som tänkt i ett integrationstest, där en \texttt{NationMatrix} skapades och vardera \texttt{NationNode} tilldelades ett giltigt index.
+        I denna del av testningen säkerställdes att skapandet av en en \texttt{NationMatrix} var korrek genom funktionerna \texttt{get\_distance()}, \texttt{build\_nation\_index()} samt \texttt{build\_nation\_distance\_matrix()}. Testerna säkerställde bland annat att \texttt{get\_distance()} korrekt beräknar de relativa avståndet mellan två \texttt{NationNode}, att \texttt{build\_nation\_index()} korrekt tillger en \texttt{NationNode} ett index och att \texttt{build\_nation\_distance\_matrix()} returnerar en pålitlig struktur av en \texttt{NationMatrix}. Därefter säkerställdes även att funktionerna fungerade som tänkt i ett integrationstest, där en \texttt{NationMatrix} skapades och vardera \texttt{NationNode} tilldelades ett giltigt index.
 
     \subsection{\texttt{create\_route}}
     \label{subsec: create_route}
@@ -166,24 +225,25 @@
         Ett annat val som gjordes tidigt in i projektet var hurvida datan som skulle användas var riktig data eller om den skulle ha varit syntetisk data. Det beslutades om att använda riktig data som hämtades från Nationsguiden, detta för att det skulle vara mer realistiskt och för att det skulle vara mer intressant att arbeta med riktig data. Detta ledde fram till nästa problem, hur skulle datan hämtas? 
 
 
-        Där togs beslutet att huvudfokuset med projektet är inte att implementera en form of web scraper, utan mer att hantera den inhämtade datan. Därför valdes att använda en AI-assistet för att generera funktionen som hämtar datan från nationsguiden.se och parsar den till ett format som enklare kan hanteras.
+        Där togs beslutet att huvudfokuset med projektet är inte att implementera en form of web scraper, utan mer att hantera den inhämtade datan. Därför valdes att använda en AI-assistent för att generera funktionen som hämtar datan från Nationsguiden och parsar den till ett format som enklare kan hanteras.
 
         
         Det sista stora beslutet som togs var att övergå från den ursprungliga visionen av att programmet skulle spara datan för varje nation i hashtabeller, till att istället representera nationerna som noder i en viktad graf. För att sedan med hjälp av en grafalgoritm hitta den kortaste vägen mellan norderna. Detta beslut togs eftersom relationerna mellan nationerna bättre kan beskrivas som ett nätverk. En graf gör det möjligt att representera nationerna som noder och avstånden mellan dem som vikter på kanterna. 
 
     \subsection{svagheter}
     \label{subsec: svagheter}
-        Programmets främsta svaghet finns redan innan inhämtningen av datan, för att hämta datan så måste funktionen uppdateras med en nonce värde, en sträng med nummer som uppdateras 2 gånger under dagen som hämtas från nationsguiden.se. 
+        Programmets främsta svaghet finns redan innan inhämtningen av datan, för att hämta datan så måste funktionen uppdateras med en nonce värde, en sträng med nummer som uppdateras två gånger under dagen som hämtas från Nationsguiden. I denna verision av Nationskompassen saknas giltig kontaktinformation till varje nation, istället har det fältet för varje nation fyllts med \texttt{[N\textbackslash A, N\textbackslash A]}.
 
     \subsection{Framtida projekt}
     \label{subsec: framtid}
-        Hade det funnits mer tid så hade det varit intreesant att få implemetera det grafiska användargränssnittet som nämndes under. Det hade bidragit till användaupplevelsen och gjort det mer tillgängligt för användare som inte är bekväma med att använda terminalen.
+        Hade det funnits mer tid så hade det varit intreesant att få implemetera det grafiska användargränssnittet som nämndes ovan. Det hade bidragit till användaupplevelsen och gjort det mer tillgängligt för användare som inte är bekväma med att använda terminalen.
 
 
-        Det hade också varit bra att hitta en metod så nonce värdet inte behöver uppdateras manuellt varje gång datan ska hämtas. Det diskuterades olika ideer för att lösa detta. Bland annat genom att använda TypeScript kompatibla playwright, som hade kunnat användas för att spela in stegen som behövs för att hämta nonce värdet. För att därefter köra den delen av programmet innan datan hämtas.
+        Det hade också varit bra att hitta en metod så nonce värdet inte behöver uppdateras manuellt varje gång datan ska hämtas. Det diskuterades olika ideer för att lösa detta. Bland annat genom att använda det TypeScript kompatibla verktyget Playwright, som hade kunnat användas för att spela in stegen som behövs för att hämta nonce värdet. För att därefter köra den delen av programmet innan datan hämtas.
 
+        Som ovan nämnts saknar vardera nation giltig kontaktinformation. Programmet har därför konstruerats modulärt, där kontaktinformationen lagras i ett separat fält för varje nation. Detta gör det möjligt att komplettera med korrekt information i ett senare skede utan att påverka övriga delar av systemet.
 
-        \small (fler valmöjligheter, en slutdestination, mer information om evenemang, möjlighet att spara sina rutter - inloggning eller .txt eller .pdf - grafiskt gränssnitt, mobilanpassning, förslag på slutdestinationer utifrån klubbar, etc.)
+        Det hade även varit intressant att implementera funktionallitet som exmeplevis möjlighet att spara sina rutter, haft en mobilanpassning, ge förslag på slutdestinationer utefter andra evenemang, storlek på sällskap, m.m. 
 
 \section{Sammanfattning, kan slås ihop med diskussionen, eller subsection}
 \label{sec: sammanfattning}
@@ -271,5 +331,121 @@
         \phantomsection
         \label{fig: example_tests}
 \end{figure}
+\newpage
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/version_control.png}
+    \caption{Kontroll av Node.js- och npm-version i terminalen.}
+    \phantomsection
+    \label{fig:guide-versions}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/npm_install.png}
+    \caption{Körning av \texttt{npm install} i projektmappen.}
+    \phantomsection
+    \label{fig:guide-npm-install}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{./guide_bilder/struktur.png}
+    \caption{Projektets mappstruktur i VS Code.}
+    \phantomsection
+    \label{fig:guide-folder-structure}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/kompilera.png}
+    \caption{Kompilering av projektet med \texttt{tsc main.ts}.}
+    \phantomsection
+    \label{fig:guide-compile}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/start.png}
+    \caption{Startkommando \texttt{node main.js} i terminalen.}
+    \phantomsection
+    \label{fig:guide-start-cmd}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/Startmeny.png}
+    \caption{Startmenyn i Nationskompassen.}
+    \phantomsection
+    \label{fig:guide-main-menu}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/visa_pubar.png}
+    \caption{Lista över öppna nationspubbar (alternativ 2).}
+    \phantomsection
+    \label{fig:guide-open-pubs}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/valja_startpub.png}
+    \caption{Val av startpub -- numrerad lista över tillgängliga pubbar.}
+    \phantomsection
+    \label{fig:guide-choose-start}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/startpub_exempel.png}
+    \caption{Exempel på inmatat svar vid val av startpub.}
+    \phantomsection
+    \label{fig:guide-startpub-exempel}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/langd_exempel.png}
+    \caption{Val av antal stopp i pubrundan.}
+    \phantomsection
+    \label{fig:guide-choose-stops}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/fardig_runda.png}
+    \caption{Den färdiga pubrundan presenteras i terminalen.}
+    \phantomsection
+    \label{fig:guide-finished-route}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/quit.png}
+    \caption{Avslutning av programmet med kommandot Q.}
+    \phantomsection
+    \label{fig:guide-quit}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/fel_input_meny.png}
+    \caption{Felmeddelande vid ogiltigt menyval.}
+    \phantomsection
+    \label{fig:guide-invalid-input}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{./guide_bilder/for_lang.png}
+    \caption{Meddelande när önskat antal stopp överstiger tillgängliga pubbar.}
+    \phantomsection
+    \label{fig:guide-too-few-pubs}
+\end{figure}
+
+
+\bibliographystyle{plain}
+\bibliography{referenser}
 
 \end{document}
