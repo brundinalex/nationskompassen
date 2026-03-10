@@ -245,8 +245,13 @@
 
         Det hade även varit intressant att implementera funktionalitet som exempelvis möjlighet att spara sina rutter, haft en mobilanpassning, ge förslag på slutdestinationer utefter andra evenemang, storlek på sällskap, m.m. 
 
-\section{Sammanfattning, kan slås ihop med diskussionen, eller subsection}
+\section{Sammanfattning}
 \label{sec: sammanfattning}
+Nationskompassen är ett terminalbaserat program som hjälper studenter i Uppsala att planera pubrundor bland stadens nationer. Programmet hämtar realtidsdata från nationsguiden.se och genererar, utifrån användarens val av startpub och antal stopp, den geografiskt kortaste möjliga pubrundan med hjälp av en girig närmaste-granne-algoritm över en viktad graf.
+
+Programmet är uppdelat i sex moduler med tydliga ansvarsområden, från datainsamling och bearbetning till ruttgenerering och användarinteraktion. Testning genomfördes med Jest på enhetsnivå och integrationsnivå för att säkerställa programmets tillförlitlighet.
+
+Projektet resulterade i ett fungerande program som uppfyller sitt syfte, men har identifierade svagheter -- framför allt kravet på manuell uppdatering av ett nonce-värde vid datahämtning. Framtida förbättringar skulle kunna inkludera ett grafiskt användargränssnitt, automatiserad datahämtning samt utökad funktionalitet som sparade rutter och mobilanpassning.
 
 \newpage
 \bibliographystyle{plain}
