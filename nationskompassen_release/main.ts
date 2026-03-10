@@ -1,4 +1,4 @@
-import { getEvents } from "./collect_data";
+import { get_events } from "./collect_data";
 import { type Pair } from "../lib/list";
 import { create_route } from "./create_route";
 import { get_open_pubs, extract_essentials } from "./extract_essential_data";
@@ -11,7 +11,7 @@ import { build_nation_index } from "./build_nation_matrix";
  */
 async function main() {
     try {
-        const categories = await getEvents();
+        const categories = await get_events();
         let openPubs = extract_essentials(get_open_pubs(categories))!
         driver_loop(openPubs)
     } catch (err) {

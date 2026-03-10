@@ -6,7 +6,7 @@ import { AJAXresponse, NationGuideCategory } from "../lib/nation";
  * @returns {Primise<NationGuideCategory>} a parsed version of the JSON formated AJAX-response.
  * @precondition - the used URL for nationsguiden is online and all headers and payload for nationsguiden are valid.
  */
-export async function getEvents(): Promise<NationGuideCategory[]> {
+export async function get_events(): Promise<NationGuideCategory[]> {
 
 
     const res = await fetch(
@@ -18,7 +18,7 @@ export async function getEvents(): Promise<NationGuideCategory[]> {
         },
         body: new URLSearchParams({
             action: "di_filter_events",
-            nonce: "d59f3f40bf",
+            nonce: "7f3bb4d8e6",
             selected_date: new Date().toISOString().split('T')[0],  //Gets the current date.
             only_load_dates: "false"
         })

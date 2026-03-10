@@ -74,6 +74,7 @@
             \item \textbf{Node.js} (version 18 eller senare) -- används för att köra TypeScript-projekt.
             \item \textbf{npm} -- pakethanterare som följer med Node.js.
             \item \textbf{ts-node} -- används för att köra \texttt{.ts}-filer direkt utan att kompilera dem manuellt.
+            \item \textbf{nonce} -- nyckel för att hämta data från Nationsguiden behöver uppdateras senast 12 timmar innan körning (se \hyperref[subsec: felhantering]{\textit{2.7 Felhantering och vanliga problem}}).
         \end{itemize}
 
         Kontrollera att Node.js och npm är installerade genom att köra följande kommandon i terminalen (se \hyperref[fig:guide-versions]{Figur~\ref*{fig:guide-versions}}).
@@ -118,7 +119,7 @@
         Skriv \textbf{Q} (eller \textbf{q}) i huvudmenyn för att avsluta programmet (se \hyperref[fig:guide-quit]{Figur~\ref*{fig:guide-quit}}).
 
     \subsection{Felhantering och vanliga problem}
-
+    \label{subsec: felhantering}
         \begin{itemize}
             \item \textbf{Inga pubbar visas:} Det kan bero på att inga nationer har öppet det aktuella datumet, eller att nonce-värdet i \texttt{collect\_data.ts} behöver uppdateras. Se avsnitt \hyperref[subsec: svagheter]{\textit{5.2 Svagheter}} för mer information.
             \item \textbf{Ogiltigt val i menyn:} Om du anger ett tal utanför det giltiga intervallet i startmenyn, uppmanar programmet dig att försöka igen (se \hyperref[fig:guide-invalid-input]{Figur~\ref*{fig:guide-invalid-input}}).
